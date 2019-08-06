@@ -5,32 +5,15 @@ import 'package:wetonomy/repositories/strongforce_api_client_mock.dart';
 import 'package:wetonomy/repositories/strongforce_repository.dart';
 import 'package:wetonomy/widgets/app.dart';
 
-import 'blocs/StrongForceBloc.dart';
-
-class LoggingBlockDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
+import 'blocs/strong_force_bloc.dart';
+import 'logging_bloc_delegate.dart';
 
 void main() {
   final StrongForceRepository repository =
       StrongForceRepository(StrongForceApiClientMock());
-  BlocSupervisor.delegate = LoggingBlockDelegate();
+
+  BlocSupervisor.delegate = LoggingBlocDelegate();
+
   runApp(BlocProvider<StrongForceBloc>(
     builder: (context) => StrongForceBloc(repository),
     child: MyApp(),

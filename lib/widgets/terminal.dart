@@ -2,20 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wetonomy/blocs/StrongForceBloc.dart';
-import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/blocs/strong_force_bloc.dart';
+import 'package:wetonomy/blocs/strong_force_event.dart';
+import 'package:wetonomy/blocs/strong_force_state.dart';
+import 'package:wetonomy/models/contract_action.dart';
 
-// TODO: Remove dummy code.
 class Terminal extends StatefulWidget {
-  final String _terminalUrl;
+  final String _url;
   final StrongForceBloc _bloc;
 
-  Terminal(this._terminalUrl, this._bloc)
-      : assert(_terminalUrl != null),
+  Terminal(this._url, this._bloc)
+      : assert(_url != null),
         assert(_bloc != null);
 
   @override
-  State<StatefulWidget> createState() => _TerminalState(_terminalUrl, _bloc);
+  State<StatefulWidget> createState() => _TerminalState(_url, _bloc);
 }
 
 class _TerminalState extends State<Terminal> {
@@ -41,14 +42,14 @@ class _TerminalState extends State<Terminal> {
 
   void _listenBlocChanges() {
     _bloc.state.listen((newState) async {
-      if (newState is QueryApplied) {
+      if (newState is ActionApplied) {
         (await _controller.future)
-            .evaluateJavascript(_getJavascriptSendMessage('Query success'));
+            .evaluateJavascript(_getJavascriptSendMessage('Action success'));
       }
 
-      if (newState is QueryLoading) {
+      if (newState is ActionLoading) {
         (await _controller.future)
-            .evaluateJavascript(_getJavascriptSendMessage('Query loading...'));
+            .evaluateJavascript(_getJavascriptSendMessage('Action loading...'));
       }
     });
   }
@@ -69,8 +70,10 @@ class _TerminalState extends State<Terminal> {
     return JavascriptChannel(
         name: STRONGFORCE_CHANNEL_NAME,
         onMessageReceived: (JavascriptMessage message) {
+          String msg = message.message;
+
           // TODO: Determine message type and dispatch correct event.
-          _bloc.dispatch(SendQueryEvent(query: Query()));
+          _bloc.dispatch(SendActionEvent(action: ContractAction()));
         });
   }
 
