@@ -1,6 +1,7 @@
+
 import 'package:bloc/bloc.dart';
-import 'package:wetonomy/blocs/strong_force_event.dart';
-import 'package:wetonomy/blocs/strong_force_state.dart';
+import 'package:wetonomy/bloc/strong_force_event.dart';
+import 'package:wetonomy/bloc/strong_force_state.dart';
 import 'package:wetonomy/models/result.dart';
 import 'package:wetonomy/repositories/strongforce_repository.dart';
 

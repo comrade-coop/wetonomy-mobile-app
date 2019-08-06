@@ -5,7 +5,7 @@ import 'package:wetonomy/repositories/strongforce_api_client_mock.dart';
 import 'package:wetonomy/repositories/strongforce_repository.dart';
 import 'package:wetonomy/widgets/app.dart';
 
-import 'blocs/strong_force_bloc.dart';
+import 'bloc/contracts_bloc.dart';
 import 'logging_bloc_delegate.dart';
 
 void main() {
@@ -14,8 +14,8 @@ void main() {
 
   BlocSupervisor.delegate = LoggingBlocDelegate();
 
-  runApp(BlocProvider<StrongForceBloc>(
-    builder: (context) => StrongForceBloc(repository),
+  runApp(BlocProvider<ContractsBloc>(
+    builder: (context) => ContractsBloc(repository),
     child: MyApp(),
   ));
 }

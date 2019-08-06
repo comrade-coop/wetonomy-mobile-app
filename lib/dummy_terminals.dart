@@ -20,7 +20,12 @@ const String dummyQueryTerminalContent = '''
   <script>
 
     function sendMessageToNative() {
-      StrongForce.postMessage("New action");
+      const action = {
+        target: '0x00000000000000000000',
+        actionName: 'CreateAchievement',
+        parameters: []
+      };
+      StrongForce.postMessage(JSON.stringify(action));
     }
     
     function receiveMessageFromNative(msg) {

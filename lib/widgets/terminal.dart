@@ -1,15 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wetonomy/blocs/strong_force_bloc.dart';
-import 'package:wetonomy/blocs/strong_force_event.dart';
-import 'package:wetonomy/blocs/strong_force_state.dart';
+import 'package:wetonomy/bloc/bloc.dart';
+import 'package:wetonomy/bloc/contracts_event.dart';
 import 'package:wetonomy/models/contract_action.dart';
 
 class Terminal extends StatefulWidget {
   final String _url;
-  final StrongForceBloc _bloc;
+  final ContractsBloc _bloc;
 
   Terminal(this._url, this._bloc)
       : assert(_url != null),
@@ -26,7 +26,7 @@ class _TerminalState extends State<Terminal> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   final String _terminalUrl;
-  final StrongForceBloc _bloc;
+  final ContractsBloc _bloc;
 
   Set<JavascriptChannel> _channels;
 
@@ -37,21 +37,7 @@ class _TerminalState extends State<Terminal> {
   @override
   void initState() {
     super.initState();
-    _listenBlocChanges();
-  }
-
-  void _listenBlocChanges() {
-    _bloc.state.listen((newState) async {
-      if (newState is ActionApplied) {
-        (await _controller.future)
-            .evaluateJavascript(_getJavascriptSendMessage('Action success'));
-      }
-
-      if (newState is ActionLoading) {
-        (await _controller.future)
-            .evaluateJavascript(_getJavascriptSendMessage('Action loading...'));
-      }
-    });
+    _bloc.state.listen(_onStateChanged);
   }
 
   @override
@@ -68,13 +54,26 @@ class _TerminalState extends State<Terminal> {
 
   JavascriptChannel _strongForceChannel(BuildContext context) {
     return JavascriptChannel(
-        name: STRONGFORCE_CHANNEL_NAME,
-        onMessageReceived: (JavascriptMessage message) {
-          String msg = message.message;
+        name: STRONGFORCE_CHANNEL_NAME, onMessageReceived: _onMessageReceived);
+  }
 
-          // TODO: Determine message type and dispatch correct event.
-          _bloc.dispatch(SendActionEvent(action: ContractAction()));
-        });
+  void _onMessageReceived(JavascriptMessage message) {
+    Map<String, dynamic> actionJson = jsonDecode(message.message);
+    ContractAction action = ContractAction.fromJson(actionJson);
+
+    _bloc.dispatch(SendActionEvent(action));
+  }
+
+  void _onStateChanged(ContractsState state) async {
+    if (state is LoadingContractsState) {
+      (await _controller.future)
+          .evaluateJavascript(_getJavascriptSendMessage('Action loading...'));
+    }
+
+    if (state is LoadedContractsState) {
+      (await _controller.future)
+          .evaluateJavascript(_getJavascriptSendMessage('Action applied!'));
+    }
   }
 
   static String _getJavascriptSendMessage(String message) {

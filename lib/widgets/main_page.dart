@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wetonomy/blocs/strong_force_bloc.dart';
+import 'package:wetonomy/bloc/contracts_bloc.dart';
 import 'package:wetonomy/widgets/drawer.dart';
 import 'package:wetonomy/widgets/terminal.dart';
 
@@ -18,7 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    StrongForceBloc bloc = BlocProvider.of<StrongForceBloc>(context);
+    ContractsBloc bloc = BlocProvider.of<ContractsBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
