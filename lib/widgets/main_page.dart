@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/contracts_bloc.dart';
+import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/widgets/drawer.dart';
 import 'package:wetonomy/widgets/terminal.dart';
 
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('Example Terminal'),
       ),
-      body: Terminal(dummyQueryTerminalUrl, bloc),
+      body: Terminal(TerminalData(dummyQueryTerminalUrl), bloc),
       drawer: AppDrawer(),
     );
   }

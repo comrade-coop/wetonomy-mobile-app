@@ -10,12 +10,11 @@ import 'package:wetonomy/widgets/app.dart';
 import 'bloc/contracts_bloc.dart';
 import 'logging_bloc_delegate.dart';
 
-//TODO: Add a DI Container
 void main() async {
-  SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-  final StrongForceRepository repository = StrongForceRepository(
-      StrongForceApiClientMock(),
-      SharedPreferencesTerminalManager(sharedPrefs));
+  final sharedPrefs = await SharedPreferences.getInstance();
+  final apiClient = StrongForceApiClientMock();
+  final terminalManager = SharedPreferencesTerminalManager(sharedPrefs);
+  final repository = StrongForceRepository(apiClient, terminalManager);
 
   BlocSupervisor.delegate = LoggingBlocDelegate();
 

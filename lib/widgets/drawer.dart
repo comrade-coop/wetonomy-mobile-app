@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/widgets/dao_drawer_section.dart';
 
-import 'dao_search_section.dart';
+import 'dao_drawer_section.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Row(
         children: <Widget>[
-          DaoSearchSection(),
+          DaoDrawerSection(),
         ],
       ),
     );

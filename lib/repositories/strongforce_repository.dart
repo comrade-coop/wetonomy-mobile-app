@@ -1,6 +1,6 @@
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
-import 'package:wetonomy/models/terminal.dart';
+import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/strongforce_api_client.dart';
 import 'package:wetonomy/repositories/terminal_manager.dart';
 
@@ -22,15 +22,15 @@ class StrongForceRepository {
     return result;
   }
 
-  Future<bool> addTerminal(Terminal terminal) {
+  Future<bool> addTerminal(TerminalData terminal) {
     return _terminalManager.addTerminal(terminal);
   }
 
-  Future<bool> removeTerminal(Terminal terminal) {
+  Future<bool> removeTerminal(TerminalData terminal) {
     return _terminalManager.removeTerminal(terminal);
   }
 
-  Future<Set<Terminal>> getAllTerminals() {
+  Future<Set<TerminalData>> getAllTerminals() {
     return _terminalManager.getAllTerminals();
   }
 }

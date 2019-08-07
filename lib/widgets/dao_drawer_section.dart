@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DaoSearchSection extends StatelessWidget {
+class DaoDrawerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,7 +10,7 @@ class DaoSearchSection extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.search,
+                Icons.add,
                 color: Colors.white,
               ),
               tooltip: 'Search',

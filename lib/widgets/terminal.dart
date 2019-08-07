@@ -6,46 +6,48 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/contracts_event.dart';
 import 'package:wetonomy/models/contract_action.dart';
+import 'package:wetonomy/models/models.dart';
 
 class Terminal extends StatefulWidget {
-  final String _url;
+  final TerminalData _terminalData;
   final ContractsBloc _bloc;
 
-  Terminal(this._url, this._bloc)
-      : assert(_url != null),
+  Terminal(this._terminalData, this._bloc)
+      : assert(_terminalData != null),
         assert(_bloc != null);
 
   @override
-  State<StatefulWidget> createState() => _TerminalState(_url, _bloc);
+  State<StatefulWidget> createState() => _TerminalState(_terminalData, _bloc);
 }
 
 class _TerminalState extends State<Terminal> {
-  // TODO: Remove hard-coded channgels and method name
   static const String STRONGFORCE_CHANNEL_NAME = 'StrongForceChannel';
   static const String STRONGFORCE_RECEIVE_MSG =
       'StrongForce__receiveMessageFromNative';
 
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-  final String _terminalUrl;
+  final TerminalData _terminalData;
   final ContractsBloc _bloc;
-
   Set<JavascriptChannel> _channels;
 
-  _TerminalState(this._terminalUrl, this._bloc) {
-    this._channels = Set.from([_strongForceChannel(context)]);
-  }
+  _TerminalState(this._terminalData, this._bloc);
 
   @override
   void initState() {
     super.initState();
     _bloc.state.listen(_onStateChanged);
+
+    this._channels = Set.from([
+      JavascriptChannel(
+          name: STRONGFORCE_CHANNEL_NAME, onMessageReceived: _onMessageReceived)
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: this._terminalUrl,
+      initialUrl: this._terminalData.url,
       javascriptMode: JavascriptMode.unrestricted,
       javascriptChannels: this._channels,
       onWebViewCreated: (WebViewController webViewController) {
@@ -54,17 +56,13 @@ class _TerminalState extends State<Terminal> {
     );
   }
 
-  JavascriptChannel _strongForceChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: STRONGFORCE_CHANNEL_NAME, onMessageReceived: _onMessageReceived);
-  }
-
   void _onMessageReceived(JavascriptMessage message) {
-    //TODO: Validate received message
-    Map<String, dynamic> actionJson = jsonDecode(message.message);
-    ContractAction action = ContractAction.fromJson(actionJson);
-
-    _bloc.dispatch(SendActionEvent(action));
+    try {
+      ContractAction action = ContractAction.fromJsonString(message.message);
+      _bloc.dispatch(SendActionEvent(action));
+    } on FormatException catch (e) {
+      print('Invalid action: ${e.source}');
+    }
   }
 
   void _onStateChanged(ContractsState state) {

@@ -1,12 +1,12 @@
-import 'package:wetonomy/models/terminal.dart';
+import 'package:wetonomy/models/terminal_data.dart';
 
 abstract class TerminalManager {
   // ignore: missing_return
-  Future<bool> addTerminal(Terminal terminal);
+  Future<bool> addTerminal(TerminalData terminal);
 
   // ignore: missing_return
-  Future<bool> removeTerminal(Terminal terminal);
+  Future<bool> removeTerminal(TerminalData terminal);
 
   // ignore: missing_return
-  Future<Set<Terminal>> getAllTerminals();
+  Future<Set<TerminalData>> getAllTerminals();
 }
