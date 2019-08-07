@@ -1,1 +1,0 @@
-enum Result { Success, Failure }

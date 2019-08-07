@@ -22,9 +22,9 @@ class SharedPreferencesTerminalManager implements TerminalManager {
   Future<Set<Terminal>> getAllTerminals() async {
     List<String> terminalStrings =
         sharedPrefs.getStringList(TERMINAL_SHARED_PREFS_KEY);
-    Set<Terminal> terminals = terminalStrings.map((s) {
-      return Terminal(s);
-    }).toSet();
+    Set<Terminal> terminals = terminalStrings != null
+        ? terminalStrings.map((url) => Terminal(url)).toSet()
+        : new Set<Terminal>();
     return terminals;
   }
 
@@ -36,11 +36,9 @@ class SharedPreferencesTerminalManager implements TerminalManager {
   }
 
   Future<bool> _setTerminals(Set<Terminal> terminals) async {
-    sharedPrefs.setStringList(
-        TERMINAL_SHARED_PREFS_KEY,
-        terminals.map((t) {
-          return t.toString();
-        }).toList());
-    return true;
+    List<String> terminalUrls = terminals.map((t) {
+      return t.url;
+    }).toList();
+    return sharedPrefs.setStringList(TERMINAL_SHARED_PREFS_KEY, terminalUrls);
   }
 }

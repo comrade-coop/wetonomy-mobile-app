@@ -7,10 +7,6 @@ import 'package:wetonomy/widgets/terminal.dart';
 import '../dummy_terminals.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -22,7 +18,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Example Terminal'),
       ),
       body: Terminal(dummyQueryTerminalUrl, bloc),
       drawer: AppDrawer(),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:wetonomy/models/result.dart';
 import 'package:wetonomy/repositories/strongforce_repository.dart';
 import './bloc.dart';
 
@@ -18,7 +17,7 @@ class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
   ) async* {
     if (event is SendActionEvent) {
       yield LoadingContractsState();
-      Result result = await repository.sendAction(event.action);
+      bool result = await repository.sendAction(event.action);
       yield LoadedContractsState([]);
     }
   }

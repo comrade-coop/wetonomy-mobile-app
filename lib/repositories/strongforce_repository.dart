@@ -1,6 +1,5 @@
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
-import 'package:wetonomy/models/result.dart';
 import 'package:wetonomy/models/terminal.dart';
 import 'package:wetonomy/repositories/strongforce_api_client.dart';
 import 'package:wetonomy/repositories/terminal_manager.dart';
@@ -13,13 +12,13 @@ class StrongForceRepository {
       : assert(_client != null),
         assert(_terminalManager != null);
 
-  Future<Result> sendAction(ContractAction action) async {
-    final Result result = await _client.sendAction(action);
+  Future<bool> sendAction(ContractAction action) async {
+    final bool result = await _client.sendAction(action);
     return result;
   }
 
-  Future<Result> sendQuery(Query query) async {
-    final Result result = await _client.sendQuery(query);
+  Future<bool> sendQuery(Query query) async {
+    final bool result = await _client.sendQuery(query);
     return result;
   }
 
