@@ -20,8 +20,10 @@ class Terminal extends StatefulWidget {
 }
 
 class _TerminalState extends State<Terminal> {
-  static const String STRONGFORCE_CHANNEL_NAME = 'StrongForce';
-  static const String STRONGFORCE_RECEIVE_MSG = 'receiveMessageFromNative';
+  // TODO: Remove hard-coded channgels and method name
+  static const String STRONGFORCE_CHANNEL_NAME = 'StrongForceChannel';
+  static const String STRONGFORCE_RECEIVE_MSG =
+      'StrongForce__receiveMessageFromNative';
 
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
@@ -58,25 +60,30 @@ class _TerminalState extends State<Terminal> {
   }
 
   void _onMessageReceived(JavascriptMessage message) {
+    //TODO: Validate received message
     Map<String, dynamic> actionJson = jsonDecode(message.message);
     ContractAction action = ContractAction.fromJson(actionJson);
 
     _bloc.dispatch(SendActionEvent(action));
   }
 
-  void _onStateChanged(ContractsState state) async {
+  void _onStateChanged(ContractsState state) {
+    if (state is InitialContractsState) {
+      sendMessageToWebView('{}');
+    }
+
     if (state is LoadingContractsState) {
-      (await _controller.future)
-          .evaluateJavascript(_getJavascriptSendMessage('Action loading...'));
+      sendMessageToWebView('{ state: \'Loading\' }');
     }
 
     if (state is LoadedContractsState) {
-      (await _controller.future)
-          .evaluateJavascript(_getJavascriptSendMessage('Action applied!'));
+      String contractsState = state.contracts.map((c) => c.state).toString();
+      sendMessageToWebView(contractsState);
     }
   }
 
-  static String _getJavascriptSendMessage(String message) {
-    return STRONGFORCE_RECEIVE_MSG + '("$message");';
+  void sendMessageToWebView(String message) async {
+    WebViewController controller = await _controller.future;
+    controller.evaluateJavascript(STRONGFORCE_RECEIVE_MSG + '("$message");');
   }
 }

@@ -25,10 +25,10 @@ const String dummyQueryTerminalContent = '''
         actionName: 'CreateAchievement',
         parameters: []
       };
-      StrongForce.postMessage(JSON.stringify(action));
+      \StrongForceChannel.postMessage(JSON.stringify(action));
     }
     
-    function receiveMessageFromNative(msg) {
+    function StrongForce__receiveMessageFromNative(msg) {
       document.body.innerHTML +='<p>Message received from native code: ' + msg + '</p>';
     }
 
