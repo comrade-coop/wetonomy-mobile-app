@@ -20,6 +20,14 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Example Terminal'),
+        elevation: 1,
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search), onPressed: null),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0, left: 8.0),
+            child: CircleAvatar(),
+          )
+        ],
       ),
       body: Terminal(TerminalData(dummyQueryTerminalUrl, ['']), bloc),
       drawer: AppDrawer(),

@@ -7,7 +7,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wetonomy',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+        primaryColor: Colors.white
       ),
       home: MainPage(),
     );
