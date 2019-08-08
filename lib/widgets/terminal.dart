@@ -57,31 +57,28 @@ class _TerminalState extends State<Terminal> {
   }
 
   void _onMessageReceived(JavascriptMessage message) {
+    String extractedMsg = message.message;
     try {
-      ContractAction action = ContractAction.fromJsonString(message.message);
-      _bloc.dispatch(SendActionEvent(action));
+      ContractAction action = ContractAction.fromJsonString(extractedMsg);
+      _bloc.dispatch(SendActionEvent(this._terminalData, action));
     } on FormatException catch (e) {
-      print('Invalid action: ${e.source}');
+      _showInvalidActionSnackBar(extractedMsg);
     }
   }
 
-  void _onStateChanged(ContractsState state) {
-    if (state is InitialContractsState) {
-      sendMessageToWebView('{}');
-    }
-
-    if (state is LoadingContractsState) {
-      sendMessageToWebView('{ state: \'Loading\' }');
-    }
-
-    if (state is LoadedContractsState) {
-      String contractsState = state.contracts.map((c) => c.state).toString();
-      sendMessageToWebView(contractsState);
-    }
+  void _onStateChanged(ContractsState newState) {
+    String contractsStateJson = newState.toJson().toString();
+    sendMessageToWebView(contractsStateJson);
   }
 
   void sendMessageToWebView(String message) async {
     WebViewController controller = await _controller.future;
     controller.evaluateJavascript(STRONGFORCE_RECEIVE_MSG + '("$message");');
+  }
+
+  void _showInvalidActionSnackBar(String message) {
+    final snackBar =
+        SnackBar(content: Text('Terminal sent an invalid action.'));
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

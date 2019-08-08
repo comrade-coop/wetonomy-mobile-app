@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/shared_preferences_terminal_manager.dart';
 
-class MockSharedPreferences extends Mock implements SharedPreferences {}
+import 'mocks/mock_shared_preferences.dart';
 
 void main() {
   group('TerminalManager', () {
@@ -13,10 +12,19 @@ void main() {
       final sharedPrefs = MockSharedPreferences();
       final terminalManager = SharedPreferencesTerminalManager(sharedPrefs);
       final term = TerminalData('test');
-
-      when(sharedPrefs.getStringList('terminals_key')).thenReturn([term.url]);
+      final String terminalKey =
+          SharedPreferencesTerminalManager.TERMINAL_SHARED_PREFS_KEY;
 
       await terminalManager.addTerminal(term);
+
+      Map<String, List<String>> stringLists;
+      when(sharedPrefs.setStringList(terminalKey, [term.url]))
+          .thenAnswer((_) async {
+        stringLists[terminalKey] = [term.url];
+        return true;
+      });
+      when(sharedPrefs.getStringList(terminalKey))
+          .thenAnswer((_) => [term.url]);
 
       Set<TerminalData> terminals = await terminalManager.getAllTerminals();
 

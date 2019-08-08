@@ -1,18 +1,20 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:wetonomy/models/contract.dart';
+import 'package:wetonomy/models/models.dart';
+
+part 'contracts_state.g.dart';
 
 @immutable
-abstract class ContractsState extends Equatable {
-  ContractsState([List props = const []]) : super(props);
-}
-
-class InitialContractsState extends ContractsState {}
-
-class LoadingContractsState extends ContractsState {}
-
-class LoadedContractsState extends ContractsState {
+@JsonSerializable(nullable: false)
+class ContractsState extends Equatable {
   final List<Contract> contracts;
 
-  LoadedContractsState(this.contracts) : super(contracts);
+  ContractsState([this.contracts = const []]) : super(contracts);
+
+  factory ContractsState.fromJson(Map<String, dynamic> json) =>
+      _$ContractsStateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContractsStateToJson(this);
 }

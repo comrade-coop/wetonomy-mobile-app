@@ -8,5 +8,5 @@ abstract class TerminalManager {
   Future<bool> removeTerminal(TerminalData terminal);
 
   // ignore: missing_return
-  Future<Set<TerminalData>> getAllTerminals();
+  Future<List<TerminalData>> getAllTerminals();
 }

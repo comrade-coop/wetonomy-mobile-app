@@ -16,6 +16,10 @@ const String dummyQueryTerminalContent = '''
     Send Action
   </button>
 
+  <button onclick="sendInvalidMessage()">
+    Send Invalid Action
+  </button>
+
 
   <script>
 
@@ -25,7 +29,10 @@ const String dummyQueryTerminalContent = '''
         actionName: 'CreateAchievement',
         parameters: []
       };
-      //StrongForceChannel.postMessage(JSON.stringify(action));
+      StrongForceChannel.postMessage(JSON.stringify(action));      
+    }
+
+    function sendInvalidMessage() {
       StrongForceChannel.postMessage('Hello world');
     }
     

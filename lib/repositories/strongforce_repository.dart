@@ -1,3 +1,4 @@
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/terminal_data.dart';
@@ -30,7 +31,14 @@ class StrongForceRepository {
     return _terminalManager.removeTerminal(terminal);
   }
 
-  Future<Set<TerminalData>> getAllTerminals() {
+  Future<List<TerminalData>> getAllTerminals() {
     return _terminalManager.getAllTerminals();
+  }
+
+  Future<List<Contract>> getContractStateForTerminal(
+      TerminalData terminal) async {
+    List<String> contractAddresses = terminal.contractAddresses;
+    return await Future.wait(
+        contractAddresses.map((c) => _client.getContractState(c)));
   }
 }

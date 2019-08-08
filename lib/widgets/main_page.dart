@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('Example Terminal'),
       ),
-      body: Terminal(TerminalData(dummyQueryTerminalUrl), bloc),
+      body: Terminal(TerminalData(dummyQueryTerminalUrl, ['']), bloc),
       drawer: AppDrawer(),
     );
   }

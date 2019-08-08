@@ -13,32 +13,32 @@ class SharedPreferencesTerminalManager implements TerminalManager {
 
   @override
   Future<bool> addTerminal(TerminalData terminal) async {
-    Set<TerminalData> terminals = await getAllTerminals();
+    List<TerminalData> terminals = await getAllTerminals();
     terminals.add(terminal);
     return _setTerminals(terminals);
   }
 
   @override
-  Future<Set<TerminalData>> getAllTerminals() async {
+  Future<List<TerminalData>> getAllTerminals() async {
     List<String> terminalStrings =
         sharedPrefs.getStringList(TERMINAL_SHARED_PREFS_KEY);
-    Set<TerminalData> terminals = terminalStrings != null
-        ? terminalStrings.map((url) => TerminalData(url)).toSet()
-        : new Set<TerminalData>();
+    List<TerminalData> terminals = terminalStrings != null
+        ? terminalStrings.map((url) => TerminalData(url, []))
+        : new List<TerminalData>();
     return terminals;
   }
 
   @override
   Future<bool> removeTerminal(TerminalData terminal) async {
-    Set<TerminalData> terminals = await getAllTerminals();
+    List<TerminalData> terminals = await getAllTerminals();
     terminals.remove(terminal);
     return _setTerminals(terminals);
   }
 
-  Future<bool> _setTerminals(Set<TerminalData> terminals) async {
+  Future<bool> _setTerminals(List<TerminalData> terminals) async {
     List<String> terminalUrls = terminals.map((t) {
       return t.url;
-    }).toList();
+    });
     return sharedPrefs.setStringList(TERMINAL_SHARED_PREFS_KEY, terminalUrls);
   }
 }
