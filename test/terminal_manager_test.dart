@@ -11,7 +11,7 @@ void main() {
         () async {
       final sharedPrefs = MockSharedPreferences();
       final terminalManager = SharedPreferencesTerminalManager(sharedPrefs);
-      final term = TerminalData('test');
+      final term = TerminalData('test', []);
       final String terminalKey =
           SharedPreferencesTerminalManager.TERMINAL_SHARED_PREFS_KEY;
 
@@ -26,7 +26,7 @@ void main() {
       when(sharedPrefs.getStringList(terminalKey))
           .thenAnswer((_) => [term.url]);
 
-      Set<TerminalData> terminals = await terminalManager.getAllTerminals();
+      List<TerminalData> terminals = await terminalManager.getAllTerminals();
 
       expect(1, terminals.length);
       expect(term.url, terminals.toList()[0].url);
