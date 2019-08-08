@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -17,4 +19,6 @@ class ContractsState extends Equatable {
       _$ContractsStateFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContractsStateToJson(this);
+
+  String toEncodedJson() => jsonEncode(this.toJson());
 }

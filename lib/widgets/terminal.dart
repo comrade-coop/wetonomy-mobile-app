@@ -67,13 +67,13 @@ class _TerminalState extends State<Terminal> {
   }
 
   void _onStateChanged(ContractsState newState) {
-    String contractsStateJson = newState.toJson().toString();
+    String contractsStateJson = newState.toEncodedJson();
     sendMessageToWebView(contractsStateJson);
   }
 
   void sendMessageToWebView(String message) async {
     WebViewController controller = await _controller.future;
-    controller.evaluateJavascript(STRONGFORCE_RECEIVE_MSG + '("$message");');
+    controller.evaluateJavascript(STRONGFORCE_RECEIVE_MSG + '(\'$message\');');
   }
 
   void _showInvalidActionSnackBar(String message) {
