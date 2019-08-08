@@ -25,7 +25,14 @@ class _MainPageState extends State<MainPage> {
           IconButton(icon: Icon(Icons.search), onPressed: null),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 8.0),
-            child: CircleAvatar(),
+            child: CircleAvatar(
+              backgroundColor: Colors.grey.withAlpha(50),
+              child: Icon(
+                Icons.person,
+                size: 32,
+                color: Colors.grey,
+              ),
+            ),
           )
         ],
       ),

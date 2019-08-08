@@ -6,10 +6,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wetonomy',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.white
-      ),
+      theme:
+          ThemeData(brightness: Brightness.light, primaryColor: Colors.white),
       home: MainPage(),
     );
   }
