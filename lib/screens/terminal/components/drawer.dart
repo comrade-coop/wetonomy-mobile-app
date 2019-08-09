@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/widgets/AccountInfoSection.dart';
-import 'package:wetonomy/widgets/DaoInfoSection.dart';
-import 'package:wetonomy/widgets/daos_section.dart';
-import 'package:wetonomy/widgets/terminals_section.dart';
+import 'package:wetonomy/screens/terminal/components/account_info_section.dart';
+import 'package:wetonomy/screens/terminal/components/dao_info_section.dart';
+import 'package:wetonomy/screens/terminal/components/daos_section.dart';
+import 'package:wetonomy/screens/terminal/components/terminals_section.dart';
 
 class AppDrawer extends StatelessWidget {
   @override

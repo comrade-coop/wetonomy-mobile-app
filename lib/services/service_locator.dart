@@ -7,10 +7,10 @@ import 'package:wetonomy/repositories/strongforce_repository.dart';
 GetIt locator = GetIt();
 
 void setupLocator() async {
-  _setupRepository();
+  await _setupRepository();
 }
 
-void _setupRepository() async {
+Future<void> _setupRepository() async {
   final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
   final apiClient = StrongForceApiClientMock();
   final terminalManager = SharedPreferencesTerminalManager(sharedPrefs);

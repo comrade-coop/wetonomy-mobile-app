@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/widgets/TerminalsList.dart';
+import 'package:wetonomy/screens/terminal/components/terminals_list.dart';
 
 class TerminalsSection extends StatelessWidget {
   @override

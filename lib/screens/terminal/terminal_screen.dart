@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/contracts_bloc.dart';
+import 'package:wetonomy/dummy_terminals.dart';
 import 'package:wetonomy/models/models.dart';
-import 'package:wetonomy/widgets/drawer.dart';
-import 'package:wetonomy/widgets/terminal.dart';
+import 'package:wetonomy/screens/terminal/components/drawer.dart';
+import 'package:wetonomy/screens/terminal/components/terminal.dart';
 
-import '../dummy_terminals.dart';
-
-class MainPage extends StatefulWidget {
+class TerminalScreen extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _TerminalScreenState createState() => _TerminalScreenState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _TerminalScreenState extends State<TerminalScreen> {
   @override
   Widget build(BuildContext context) {
     ContractsBloc bloc = BlocProvider.of<ContractsBloc>(context);
