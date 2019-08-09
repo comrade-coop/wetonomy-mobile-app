@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/contracts_bloc.dart';
-import 'package:wetonomy/dummy_terminals.dart';
+import 'package:wetonomy/services/dummy_terminals.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/screens/terminal/components/drawer.dart';
 import 'package:wetonomy/screens/terminal/components/terminal.dart';
