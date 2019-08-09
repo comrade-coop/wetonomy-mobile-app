@@ -1,7 +1,7 @@
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
-import 'package:wetonomy/repositories/strongforce_api_client.dart';
+import 'package:wetonomy/services/strongforce_api_client.dart';
 
 class StrongForceApiClientMock implements StrongForceApiClient {
   static int count = 0;

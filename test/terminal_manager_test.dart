@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/repositories/shared_preferences_terminal_manager.dart';
+import 'package:wetonomy/services/shared_preferences_terminal_manager.dart';
 
 import 'mocks/mock_shared_preferences.dart';
 

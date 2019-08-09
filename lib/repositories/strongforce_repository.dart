@@ -2,8 +2,8 @@ import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/repositories/strongforce_api_client.dart';
-import 'package:wetonomy/repositories/terminal_manager.dart';
+import 'package:wetonomy/services/strongforce_api_client.dart';
+import 'package:wetonomy/services/terminal_manager.dart';
 
 class StrongForceRepository {
   final StrongForceApiClient _client;

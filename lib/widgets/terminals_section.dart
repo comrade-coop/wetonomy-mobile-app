@@ -14,16 +14,17 @@ class TerminalsSection extends StatelessWidget {
             child: Text('Installed Terminals'),
           ),
           Expanded(child: TerminalsList()),
-          _buildNewTerminalButton(Theme.of(context).primaryColorDark)
+          _buildNewTerminalButton(Theme.of(context).primaryColorDark, () {})
         ],
       ),
     );
   }
 
-  Widget _buildNewTerminalButton(Color iconColor) => Padding(
+  Widget _buildNewTerminalButton(Color iconColor, Function onPressed) =>
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: OutlineButton.icon(
-          onPressed: () {},
+          onPressed: onPressed,
           label: Text('Add a new Terminal'),
           icon: Icon(Icons.add, color: iconColor),
         ),
