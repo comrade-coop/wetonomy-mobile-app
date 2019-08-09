@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/widgets/TerminalsList.dart';
 
-// backing data
-final europeanCountries = [
-  'Albania',
-  'Andorra',
-  'Armenia',
-  'Austria',
-  'Azerbaijan',
-  'Belarus',
-  'Belgium',
-  'Bosnia and Herzegovina',
-  'Bulgaria'
-];
-
-class TerminalsSection extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _TerminalsSectionState();
-}
-
-class _TerminalsSectionState extends State<TerminalsSection> {
+class TerminalsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SizedBox(
-        width: 200,
-        child: ListView(
-          children:
-              europeanCountries.map((c) => ListTile(title: Text(c))).toList(),
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Text('Installed Terminals'),
+          ),
+          Expanded(child: TerminalsList()),
+          _buildNewTerminalButton(Theme.of(context).primaryColorDark)
+        ],
       ),
     );
   }
+
+  Widget _buildNewTerminalButton(Color iconColor) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: OutlineButton.icon(
+          onPressed: () {},
+          label: Text('Add a new Terminal'),
+          icon: Icon(Icons.add, color: iconColor),
+        ),
+      );
 }
