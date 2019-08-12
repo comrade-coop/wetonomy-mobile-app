@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-
-//dummy data
-final europeanCountries = [
-  'Albania',
-  'Azerbaijan',
-  'Belarus',
-  'Bosnia and Herzegovina',
-  'Bulgaria'
-];
+import 'package:wetonomy/models/terminal_data.dart';
+import 'package:wetonomy/screens/terminal/components/icon_list_tile.dart';
 
 class TerminalsList extends StatelessWidget {
+  final List<TerminalData> terminals;
+  final Function(int) onTerminalSelected;
+  final int selectedTerminalIndex;
+
+  const TerminalsList(
+      {Key key,
+      @required this.terminals,
+      @required this.onTerminalSelected,
+      this.selectedTerminalIndex = 0})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,62 +24,15 @@ class TerminalsList extends StatelessWidget {
     );
   }
 
-  _buildTerminalTiles(Color iconColor) => europeanCountries
-      .map((c) => _buildTerminalTile(Icons.home, c, iconColor, c == 'Albania'))
+  _buildTerminalTiles(Color selectedColor) => terminals
+      .map((t) => TerminalListTile(
+          title: t.url,
+          icon: t.icon,
+          selected: terminals.indexOf(t) == selectedTerminalIndex,
+          color: Colors.black54,
+          selectedColor: selectedColor,
+          backgroundColor: Colors.transparent,
+          selectedBackgroundColor: Colors.grey.withAlpha(30),
+          onPressed: () => this.onTerminalSelected(terminals.indexOf(t))))
       .toList();
-
-  Widget _buildTerminalTile(
-      IconData icon, String title, Color iconColor, bool selected) {
-    if (selected) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-            color: Colors.grey.withAlpha(30),
-            borderRadius: BorderRadius.circular(4)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
-                color: iconColor,
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                title,
-                style: TextStyle(color: iconColor),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return DecoratedBox(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(4),
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
-                color: Colors.black54,
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                title,
-                style: TextStyle(color: Colors.black54),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

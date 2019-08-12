@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wetonomy/screens/terminal/components/account_info_section.dart';
 import 'package:wetonomy/screens/terminal/components/dao_info_section.dart';
 import 'package:wetonomy/screens/terminal/components/daos_section.dart';
-import 'package:wetonomy/screens/terminal/components/terminals_section.dart';
+import 'package:wetonomy/screens/terminal/components/terminals_section_container.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -24,14 +24,16 @@ class AppDrawer extends StatelessWidget {
                     children: <Widget>[
                       DaoInfoSection(),
                       Divider(),
-                      Expanded(child: TerminalsSection())
+                      Expanded(child: TerminalsSectionContainer())
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          Divider(height: 1,),
+          Divider(
+            height: 1,
+          ),
           AccountInfoSection(),
         ],
       ),

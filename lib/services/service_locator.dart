@@ -6,7 +6,7 @@ import 'package:wetonomy/repositories/strongforce_repository.dart';
 
 GetIt locator = GetIt();
 
-void setupLocator() async {
+Future<void> setupLocator() async {
   await _setupRepository();
 }
 

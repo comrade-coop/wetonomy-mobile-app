@@ -1,6 +1,6 @@
-export 'terminal_bloc.dart';
-export 'terminal_event.dart';
-export 'terminal_state.dart';
+export 'terminals_bloc.dart';
+export 'terminals_event.dart';
+export 'terminals_state.dart';
 
 export 'contracts_bloc.dart';
 export 'contracts_event.dart';
