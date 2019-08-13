@@ -24,7 +24,7 @@ class AppDrawer extends StatelessWidget {
                     children: <Widget>[
                       DaoInfoSection(),
                       Divider(),
-                      Expanded(child: TerminalsSectionContainer())
+                      Expanded(child: TerminalsListSectionContainer())
                     ],
                   ),
                 ),

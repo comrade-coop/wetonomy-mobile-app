@@ -13,7 +13,7 @@ part 'contracts_state.g.dart';
 class ContractsState extends Equatable {
   final List<Contract> contracts;
 
-  ContractsState([this.contracts = const []]) : super(contracts);
+  ContractsState([this.contracts = const <Contract>[]]) : super(contracts);
 
   factory ContractsState.fromJson(Map<String, dynamic> json) =>
       _$ContractsStateFromJson(json);

@@ -4,7 +4,7 @@ import 'package:wetonomy/screens/terminal/components/icon_list_tile.dart';
 
 class TerminalsList extends StatelessWidget {
   final List<TerminalData> terminals;
-  final Function(int) onTerminalSelected;
+  final Function(TerminalData) onTerminalSelected;
   final int selectedTerminalIndex;
 
   const TerminalsList(
@@ -33,6 +33,6 @@ class TerminalsList extends StatelessWidget {
           selectedColor: selectedColor,
           backgroundColor: Colors.transparent,
           selectedBackgroundColor: Colors.grey.withAlpha(30),
-          onPressed: () => this.onTerminalSelected(terminals.indexOf(t))))
+          onPressed: () => this.onTerminalSelected(t)))
       .toList();
 }

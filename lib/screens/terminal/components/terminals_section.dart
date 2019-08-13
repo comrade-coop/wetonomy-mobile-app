@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminals_list.dart';
 
-class TerminalsSection extends StatelessWidget {
+class TerminalsListSection extends StatelessWidget {
   final List<TerminalData> terminals;
-  final Function(int) onTerminalSelected;
+  final Function(TerminalData) onTerminalSelected;
   final int selectedTerminalIndex;
 
-  const TerminalsSection(
+  const TerminalsListSection(
       {Key key,
-      @required this.terminals,
-      @required this.onTerminalSelected,
+      this.terminals,
+      this.onTerminalSelected,
       this.selectedTerminalIndex})
       : super(key: key);
 
@@ -46,9 +46,9 @@ class TerminalsSection extends StatelessWidget {
     if (this.terminals.length == 0) {
       return Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text('You don\'t have any terminals installed currently.'),
-          ));
+        padding: const EdgeInsets.all(16.0),
+        child: Text('You don\'t have any terminals installed currently.'),
+      ));
     }
 
     return Expanded(

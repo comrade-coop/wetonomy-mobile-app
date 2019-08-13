@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
-class AddDaoButton extends StatelessWidget {
-  final Function _onAddNewDao;
+class RoundSearchButton extends StatelessWidget {
+  final Function onPressed;
 
-  AddDaoButton(this._onAddNewDao);
+  RoundSearchButton({@required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: Icon(
-        Icons.add,
-        color: Colors.blue,
-        size: 32,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Icon(
+          Icons.search,
+          color: Colors.blue,
+        ),
       ),
       color: Colors.black.withAlpha(10),
       padding: EdgeInsets.all(8),
       shape: CircleBorder(),
       splashColor: Colors.grey,
-      onPressed: _onAddNewDao,
+      onPressed: onPressed,
     );
   }
 }

@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:wetonomy/models/contract.dart';
-import 'package:wetonomy/repositories/strongforce_repository.dart';
+import 'package:wetonomy/repositories/contracts_repository.dart';
 import './bloc.dart';
 
 class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
-  final StrongForceRepository repository;
+  final ContractsRepository repository;
 
   ContractsBloc(this.repository) : assert(repository != null);
 
@@ -23,8 +22,8 @@ class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
 
   Future<ContractsState> _handleSendActionEvent(SendActionEvent event) async {
     await repository.sendAction(event.action);
-    List<Contract> contracts =
-        await repository.getContractStateForTerminal(event.terminal);
-    return ContractsState(contracts);
+//    List<Contract> contracts =
+//        await repository.getContractState(event);
+    return ContractsState([]);
   }
 }

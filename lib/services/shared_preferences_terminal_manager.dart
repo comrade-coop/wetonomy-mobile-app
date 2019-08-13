@@ -20,6 +20,7 @@ class SharedPreferencesTerminalManager implements TerminalManager {
 
   @override
   Future<List<TerminalData>> getAllTerminals() async {
+    await Future.delayed(Duration(milliseconds: 500));
     List<String> terminalStrings =
         sharedPrefs.getStringList(TERMINAL_SHARED_PREFS_KEY);
     List<TerminalData> terminals = terminalStrings != null
