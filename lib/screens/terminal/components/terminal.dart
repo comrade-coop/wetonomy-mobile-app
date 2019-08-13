@@ -27,7 +27,7 @@ class _State extends State<Terminal> {
   @override
   void initState() {
     super.initState();
-
+    
     setState(() {
       _contractsBloc = BlocProvider.of<ContractsBloc>(context);
       _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);

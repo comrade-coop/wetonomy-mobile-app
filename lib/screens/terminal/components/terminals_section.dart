@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/models/terminal_data.dart';
+import 'package:wetonomy/screens/terminal/components/add_terminal_dialog.dart';
 import 'package:wetonomy/screens/terminal/components/terminals_list.dart';
 
 class TerminalsListSection extends StatelessWidget {
@@ -26,13 +27,19 @@ class TerminalsListSection extends StatelessWidget {
             child: Text('Installed Terminals'),
           ),
           _buildTerminalsListOrEmptyView(),
-          _buildNewTerminalButton(Theme.of(context).primaryColorDark, () {})
+          _buildNewTerminalButton(
+              iconColor: Theme.of(context).primaryColorDark,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AddTerminalDialog());
+              })
         ],
       ),
     );
   }
 
-  Widget _buildNewTerminalButton(Color iconColor, Function onPressed) =>
+  Widget _buildNewTerminalButton({Color iconColor, Function onPressed}) =>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: OutlineButton.icon(

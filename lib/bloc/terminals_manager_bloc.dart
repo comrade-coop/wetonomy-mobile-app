@@ -12,10 +12,7 @@ class TerminalsManagerBloc
       : assert(_terminalsRepository != null);
 
   @override
-  TerminalsManagerState get initialState => LoadedTerminalsManagerState([
-        TerminalData('https://google.com', []),
-        TerminalData('https://youtube.com', [])
-      ], TerminalData('https://google.com', []));
+  TerminalsManagerState get initialState => InitialTerminalsManagerState();
 
   @override
   Stream<TerminalsManagerState> mapEventToState(
