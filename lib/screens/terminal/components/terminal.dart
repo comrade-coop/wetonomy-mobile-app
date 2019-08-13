@@ -9,12 +9,8 @@ import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/models.dart';
 
 class Terminal extends StatefulWidget {
-  final TerminalData currentTerminal;
-
-  const Terminal({Key key, this.currentTerminal}) : super(key: key);
-
   @override
-  State<StatefulWidget> createState() => _State(currentTerminal);
+  State<StatefulWidget> createState() => _State();
 }
 
 class _State extends State<Terminal> {
@@ -22,36 +18,42 @@ class _State extends State<Terminal> {
   static const String strongForceReceiveMessage =
       'StrongForce__receiveMessageFromNative';
 
-  TerminalData currentTerminal;
-
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  TerminalsManagerBloc _terminalsBloc;
   Set<JavascriptChannel> _channels;
   ContractsBloc _contractsBloc;
-
-  _State(this.currentTerminal);
 
   @override
   void initState() {
     super.initState();
-    _contractsBloc = BlocProvider.of<ContractsBloc>(context);
 
-    _contractsBloc.state.listen((ContractsState state) {
-      String contractsStateJson = state.toEncodedJson();
-      _sendMessageToWebView(contractsStateJson);
+    setState(() {
+      _contractsBloc = BlocProvider.of<ContractsBloc>(context);
+      _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
+
+      _contractsBloc.state.listen((ContractsState state) {
+        String contractsStateJson = state.toEncodedJson();
+        _sendMessageToWebView(contractsStateJson);
+      });
+
+      _terminalsBloc.state.listen((TerminalsManagerState state) async {
+        if (state is LoadedTerminalsManagerState) {
+          (await _controller.future).loadUrl(state.currentTerminal.url);
+        }
+      });
+
+      this._channels = [
+        JavascriptChannel(
+            name: strongForceChannelName,
+            onMessageReceived: _onMessageReceivedFromWebView)
+      ].toSet();
     });
-
-    this._channels = [
-      JavascriptChannel(
-          name: strongForceChannelName,
-          onMessageReceived: _onMessageReceivedFromWebView)
-    ].toSet();
   }
 
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: currentTerminal.url,
       javascriptMode: JavascriptMode.unrestricted,
       javascriptChannels: this._channels,
       onWebViewCreated: (WebViewController webViewController) {

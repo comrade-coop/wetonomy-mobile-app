@@ -60,6 +60,7 @@ class TerminalListTile extends StatelessWidget {
         color: this.selected ? this.selectedColor : this.color,
       );
     }
-    return null;
+
+    return SizedBox.shrink();
   }
 }

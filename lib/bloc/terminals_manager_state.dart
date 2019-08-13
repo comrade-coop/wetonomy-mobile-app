@@ -19,5 +19,6 @@ class LoadedTerminalsManagerState extends TerminalsManagerState {
 
   LoadedTerminalsManagerState(this.terminals, this.currentTerminal)
       : assert(terminals != null),
-        assert(terminals.length > 0 && terminals.contains(currentTerminal));
+        assert(terminals.length > 0 && terminals.contains(currentTerminal)),
+        super([terminals, currentTerminal]);
 }

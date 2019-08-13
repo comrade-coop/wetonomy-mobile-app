@@ -24,9 +24,7 @@ class TerminalScreen extends StatelessWidget {
                 _buildProfileAvatar(),
               ],
             ),
-            body: Terminal(
-              currentTerminal: state.currentTerminal,
-            ),
+            body: Terminal(),
             drawer: AppDrawer(),
           );
         }

@@ -12,19 +12,20 @@ class TerminalsManagerBloc
       : assert(_terminalsRepository != null);
 
   @override
-  TerminalsManagerState get initialState => InitialTerminalsManagerState();
+  TerminalsManagerState get initialState => LoadedTerminalsManagerState([
+        TerminalData('https://google.com', []),
+        TerminalData('https://youtube.com', [])
+      ], TerminalData('https://google.com', []));
 
   @override
   Stream<TerminalsManagerState> mapEventToState(
     TerminalsManagerEvent event,
   ) async* {
     if (event is AddTerminalEvent) {
-      yield LoadingTerminalsManagerState();
       yield await _handleAddTerminal(event.terminal);
     }
 
     if (event is RemoveTerminalEvent) {
-      yield LoadingTerminalsManagerState();
       yield await _handleRemoveTerminal(event.terminal);
     }
 
@@ -34,7 +35,6 @@ class TerminalsManagerBloc
     }
 
     if (event is SelectTerminalEvent) {
-      yield LoadingTerminalsManagerState();
       yield await _handleSelectTerminal(event.terminal);
     }
   }

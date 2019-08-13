@@ -17,8 +17,12 @@ class TerminalsListSectionContainer extends StatelessWidget {
         if (state is LoadedTerminalsManagerState) {
           return TerminalsListSection(
               terminals: state.terminals,
-              onTerminalSelected: (TerminalData terminal) =>
-                  bloc.dispatch(SelectTerminalEvent(terminal)),
+              onTerminalSelected: (TerminalData terminal) {
+                if (terminal != state.currentTerminal) {
+                  bloc.dispatch(SelectTerminalEvent(terminal));
+                  Navigator.of(context).pop();
+                }
+              },
               selectedTerminalIndex:
                   state.terminals.indexOf(state.currentTerminal));
         }
