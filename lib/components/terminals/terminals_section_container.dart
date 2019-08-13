@@ -4,7 +4,7 @@ import 'package:wetonomy/bloc/terminals_manager_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager_state.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/screens/terminal/components/terminals_section.dart';
+import 'package:wetonomy/components/terminals/terminals_section.dart';
 
 class TerminalsListSectionContainer extends StatelessWidget {
   @override
@@ -27,13 +27,9 @@ class TerminalsListSectionContainer extends StatelessWidget {
                   state.terminals.indexOf(state.currentTerminal));
         }
 
-        if (state is InitialTerminalsManagerState) {
-          bloc.dispatch(LoadTerminalsEvent());
-          return Text('Loading terminals...');
-        }
-
-        if (state is LoadingTerminalsManagerState) {
-          return Text('Loading terminals...');
+        if (state is InitialTerminalsManagerState ||
+            state is LoadingTerminalsManagerState) {
+          return Center(child: CircularProgressIndicator());
         }
 
         return TerminalsListSection(

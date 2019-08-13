@@ -14,6 +14,9 @@ class SharedPreferencesTerminalManager implements TerminalManager {
   @override
   Future<bool> addTerminal(TerminalData terminal) async {
     List<TerminalData> terminals = await getAllTerminals();
+    if (terminals.contains(terminal)) {
+      return false;
+    }
     terminals.add(terminal);
     return _setTerminals(terminals);
   }

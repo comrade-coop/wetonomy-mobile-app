@@ -34,7 +34,7 @@ class TerminalListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         onTap: this.onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
           child: Row(
             children: <Widget>[
               _buildIcon(),
@@ -43,8 +43,6 @@ class TerminalListTile extends StatelessWidget {
               ),
               Text(
                 this.title,
-                style: TextStyle(
-                    color: this.selected ? this.selectedColor : this.color),
               )
             ],
           ),

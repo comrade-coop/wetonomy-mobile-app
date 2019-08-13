@@ -20,6 +20,7 @@ class StrongForceApiClientMock implements StrongForceApiClient {
 
   @override
   Future<Contract> getContractState(String address) async {
+    await Future.delayed(Duration(milliseconds: 500));
     return Contract('0x0', {'count': count++});
   }
 }

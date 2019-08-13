@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/contracts_bloc.dart';
 import 'package:wetonomy/bloc/logging_bloc_delegate.dart';
 import 'package:wetonomy/bloc/terminals_manager_bloc.dart';
+import 'package:wetonomy/bloc/terminals_manager_event.dart';
 import 'package:wetonomy/repositories/contracts_repository.dart';
 import 'package:wetonomy/repositories/terminals_repository.dart';
 import 'package:wetonomy/screens/terminal/terminal_screen.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
           builder: (context) => ContractsBloc(contractsRepo),
         ),
         BlocProvider<TerminalsManagerBloc>(
-          builder: (context) => TerminalsManagerBloc(terminalsRepo),
+          builder: (context) => TerminalsManagerBloc(terminalsRepo)
+            ..dispatch(LoadTerminalsEvent()),
         )
       ],
       child: MaterialApp(

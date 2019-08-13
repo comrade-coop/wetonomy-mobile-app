@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/repositories/contracts_repository.dart';
 import './bloc.dart';
 
@@ -22,8 +23,7 @@ class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
 
   Future<ContractsState> _handleSendActionEvent(SendActionEvent event) async {
     await repository.sendAction(event.action);
-//    List<Contract> contracts =
-//        await repository.getContractState(event);
-    return ContractsState([]);
+    Contract contract = await repository.getContractState(event.action.target);
+    return ContractsState([contract]);
   }
 }

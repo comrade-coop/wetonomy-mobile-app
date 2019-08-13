@@ -27,28 +27,26 @@ class _State extends State<Terminal> {
   @override
   void initState() {
     super.initState();
-    
-    setState(() {
-      _contractsBloc = BlocProvider.of<ContractsBloc>(context);
-      _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
 
-      _contractsBloc.state.listen((ContractsState state) {
-        String contractsStateJson = state.toEncodedJson();
-        _sendMessageToWebView(contractsStateJson);
-      });
+    _contractsBloc = BlocProvider.of<ContractsBloc>(context);
+    _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
 
-      _terminalsBloc.state.listen((TerminalsManagerState state) async {
-        if (state is LoadedTerminalsManagerState) {
-          (await _controller.future).loadUrl(state.currentTerminal.url);
-        }
-      });
-
-      this._channels = [
-        JavascriptChannel(
-            name: strongForceChannelName,
-            onMessageReceived: _onMessageReceivedFromWebView)
-      ].toSet();
+    _contractsBloc.state.listen((ContractsState state) {
+      String contractsStateJson = state.toEncodedJson();
+      _sendMessageToWebView(contractsStateJson);
     });
+
+    _terminalsBloc.state.listen((TerminalsManagerState state) async {
+      if (state is LoadedTerminalsManagerState) {
+        (await _controller.future).loadUrl(state.currentTerminal.url);
+      }
+    });
+
+    this._channels = [
+      JavascriptChannel(
+          name: strongForceChannelName,
+          onMessageReceived: _onMessageReceivedFromWebView)
+    ].toSet();
   }
 
   @override
