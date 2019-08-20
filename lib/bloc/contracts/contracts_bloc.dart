@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:wetonomy/bloc/contracts/contracts_event.dart';
+import 'package:wetonomy/bloc/contracts/contracts_state.dart';
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/repositories/contracts_repository.dart';
-import './bloc.dart';
 
 class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
   final ContractsRepository repository;

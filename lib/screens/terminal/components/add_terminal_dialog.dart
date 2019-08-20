@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart' as Validator;
-import 'package:wetonomy/bloc/terminals_manager_bloc.dart';
-import 'package:wetonomy/bloc/terminals_manager_event.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
 class AddTerminalDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _State();
+  State<StatefulWidget> createState() => _AddTerminalDialogState();
 }
 
-class _State extends State<AddTerminalDialog> {
+class _AddTerminalDialogState extends State<AddTerminalDialog> {
   final TextEditingController _terminalUrlController = TextEditingController();
   String _error;
 

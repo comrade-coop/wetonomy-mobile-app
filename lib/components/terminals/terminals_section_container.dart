@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wetonomy/bloc/terminals_manager_bloc.dart';
-import 'package:wetonomy/bloc/terminals_manager_event.dart';
-import 'package:wetonomy/bloc/terminals_manager_state.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
+import 'package:wetonomy/bloc/ui/ui_bloc.dart';
+import 'package:wetonomy/bloc/ui/ui_event.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/components/terminals/terminals_section.dart';
 
 class TerminalsListSectionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TerminalsManagerBloc bloc =
+    final TerminalsManagerBloc terminalsBloc =
         BlocProvider.of<TerminalsManagerBloc>(context);
+    final UiBloc uiBloc = BlocProvider.of<UiBloc>(context);
 
     return BlocBuilder<TerminalsManagerEvent, TerminalsManagerState>(
       builder: (context, state) {
@@ -19,8 +22,8 @@ class TerminalsListSectionContainer extends StatelessWidget {
               terminals: state.terminals,
               onTerminalSelected: (TerminalData terminal) {
                 if (terminal != state.currentTerminal) {
-                  bloc.dispatch(SelectTerminalEvent(terminal));
-                  Navigator.of(context).pop();
+                  terminalsBloc.dispatch(SelectTerminalEvent(terminal));
+                  uiBloc.dispatch(CloseLeftDrawerUiEvent());
                 }
               },
               selectedTerminalIndex:
@@ -36,7 +39,7 @@ class TerminalsListSectionContainer extends StatelessWidget {
           terminals: [],
         );
       },
-      bloc: bloc,
+      bloc: terminalsBloc,
     );
   }
 }

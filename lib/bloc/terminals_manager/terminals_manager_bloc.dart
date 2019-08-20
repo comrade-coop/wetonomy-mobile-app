@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
+import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/repositories.dart';
-import './bloc.dart';
 
 class TerminalsManagerBloc
     extends Bloc<TerminalsManagerEvent, TerminalsManagerState> {

@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/models.dart';
 
-part 'contracts_state.g.dart';
+part 'package:wetonomy/bloc/contracts/contracts_state.g.dart';
 
 @immutable
 @JsonSerializable(nullable: false)

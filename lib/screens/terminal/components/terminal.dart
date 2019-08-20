@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wetonomy/bloc/bloc.dart';
-import 'package:wetonomy/bloc/contracts_event.dart';
+import 'package:wetonomy/bloc/contracts/contracts_event.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/models.dart';
 
 class Terminal extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _State();
+  State<StatefulWidget> createState() => _TerminalState();
 }
 
-class _State extends State<Terminal> {
+class _TerminalState extends State<Terminal> {
   static const String strongForceChannelName = 'StrongForceChannel';
   static const String strongForceReceiveMessage =
       'StrongForce__receiveMessageFromNative';
@@ -38,7 +38,12 @@ class _State extends State<Terminal> {
 
     _terminalsBloc.state.listen((TerminalsManagerState state) async {
       if (state is LoadedTerminalsManagerState) {
-        (await _controller.future).loadUrl(state.currentTerminal.url);
+        print(state.currentTerminal.url);
+        WebViewController controller = await _controller.future;
+        setState(() {
+          print(state.currentTerminal.url);
+          controller.loadUrl(state.currentTerminal.url);
+        });
       }
     });
 
