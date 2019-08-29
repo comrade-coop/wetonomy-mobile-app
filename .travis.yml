@@ -12,6 +12,13 @@ addons:
 before_script:
   - git clone https://github.com/flutter/flutter.git -b beta
   - ./flutter/bin/flutter doctor
+
+  # TODO: Remove when flutter_webview_plugin with drawers and js channels gets merged to master
+  - cd vendor
+  - git clone https://github.com/ivanasen/flutter_webview_plugin.git
+  - cd flutter_webview_plugin
+  - git checkout javascript-channels-drawers-merge
+  - cd ../../
 script:
   - ./flutter/bin/flutter test
 cache:
