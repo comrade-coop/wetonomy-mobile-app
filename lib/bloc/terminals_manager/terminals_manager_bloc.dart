@@ -41,14 +41,8 @@ class TerminalsManagerBloc
       TerminalData terminal) async {
     await _terminalsRepository.addTerminal(terminal);
     List<TerminalData> terminals = await _terminalsRepository.getAllTerminals();
-
-    TerminalsManagerState previousState = this.currentState;
-    if (previousState is LoadedTerminalsManagerState) {
-      return SelectedTerminalsManagerState(
-          terminals, previousState.currentTerminal);
-    }
-
-    return SelectedTerminalsManagerState(terminals, terminals[0]);
+    return SelectedTerminalsManagerState(
+        terminals, terminals[terminals.length - 1]);
   }
 
   Future<TerminalsManagerState> _handleRemoveTerminal(

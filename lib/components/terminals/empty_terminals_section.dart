@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/terminal/components/add_terminal_dialog.dart';
 
 class EmptyTerminalsSection extends StatelessWidget {
   @override
@@ -35,8 +34,6 @@ class EmptyTerminalsSection extends StatelessWidget {
   }
 
   void _handleAddTerminalPressed(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => AddTerminalDialog());
+    Navigator.pushNamed(context, 'add_new_terminal');
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/screens/terminal/components/add_terminal_dialog.dart';
 import 'package:wetonomy/components/terminals/terminals_list.dart';
 
 class TerminalsListSection extends StatelessWidget {
@@ -30,9 +29,7 @@ class TerminalsListSection extends StatelessWidget {
           _buildNewTerminalButton(
               iconColor: Theme.of(context).primaryColorDark,
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => AddTerminalDialog());
+                Navigator.pushNamed(context, '/add_new_terminal');
               })
         ],
       ),
