@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wetonomy/mocks/dummy_terminals.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
 import './terminal_manager.dart';
