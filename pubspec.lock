@@ -192,7 +192,7 @@ packages:
       path: "vendor/flutter_webview_plugin"
       relative: true
     source: path
-    version: "0.3.5"
+    version: "0.3.7"
   front_end:
     dependency: transitive
     description:

@@ -22,3 +22,9 @@ class LoadedTerminalsManagerState extends TerminalsManagerState {
         assert(terminals.length > 0 && terminals.contains(currentTerminal)),
         super([terminals, currentTerminal]);
 }
+
+class SelectedTerminalsManagerState extends LoadedTerminalsManagerState {
+  SelectedTerminalsManagerState(
+      List<TerminalData> terminals, TerminalData currentTerminal)
+      : super(terminals, currentTerminal);
+}

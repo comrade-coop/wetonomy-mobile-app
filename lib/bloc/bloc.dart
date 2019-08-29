@@ -6,8 +6,4 @@ export 'package:wetonomy/bloc/contracts/contracts_bloc.dart';
 export 'package:wetonomy/bloc/contracts/contracts_event.dart';
 export 'package:wetonomy/bloc/contracts/contracts_state.dart';
 
-export 'ui/ui_bloc.dart';
-export 'ui/ui_event.dart';
-export 'ui/ui_state.dart';
-
 export 'logging_bloc_delegate.dart';

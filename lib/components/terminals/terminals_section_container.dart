@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
-import 'package:wetonomy/bloc/ui/ui_bloc.dart';
-import 'package:wetonomy/bloc/ui/ui_event.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/components/terminals/terminals_section.dart';
 
@@ -13,7 +11,6 @@ class TerminalsListSectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final TerminalsManagerBloc terminalsBloc =
         BlocProvider.of<TerminalsManagerBloc>(context);
-    final UiBloc uiBloc = BlocProvider.of<UiBloc>(context);
 
     return BlocBuilder<TerminalsManagerEvent, TerminalsManagerState>(
       builder: (context, state) {
@@ -23,7 +20,6 @@ class TerminalsListSectionContainer extends StatelessWidget {
               onTerminalSelected: (TerminalData terminal) {
                 if (terminal != state.currentTerminal) {
                   terminalsBloc.dispatch(SelectTerminalEvent(terminal));
-                  uiBloc.dispatch(CloseLeftDrawerUiEvent());
                 }
               },
               selectedTerminalIndex:

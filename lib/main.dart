@@ -8,10 +8,8 @@ import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/repositories/contracts_repository.dart';
 import 'package:wetonomy/repositories/terminals_repository.dart';
-import 'package:wetonomy/screens/home/home_screen.dart';
+import 'package:wetonomy/screens/terminal/terminal_screen.dart';
 import 'package:wetonomy/services/service_locator.dart';
-
-import 'bloc/ui/ui_bloc.dart';
 
 void main() async {
   await setupLocator();
@@ -37,15 +35,12 @@ class MyApp extends StatelessWidget {
           builder: (context) => TerminalsManagerBloc(terminalsRepo)
             ..dispatch(LoadTerminalsEvent()),
         ),
-        BlocProvider<UiBloc>(
-          builder: (context) => UiBloc(),
-        )
       ],
       child: MaterialApp(
         title: 'Wetonomy',
         theme:
             ThemeData(brightness: Brightness.light, primaryColor: Colors.white),
-        home: HomeScreen(),
+        home: TerminalScreen(),
       ),
     );
   }

@@ -44,11 +44,11 @@ class TerminalsManagerBloc
 
     TerminalsManagerState previousState = this.currentState;
     if (previousState is LoadedTerminalsManagerState) {
-      return LoadedTerminalsManagerState(
+      return SelectedTerminalsManagerState(
           terminals, previousState.currentTerminal);
     }
 
-    return LoadedTerminalsManagerState(terminals, terminals[0]);
+    return SelectedTerminalsManagerState(terminals, terminals[0]);
   }
 
   Future<TerminalsManagerState> _handleRemoveTerminal(
@@ -65,10 +65,10 @@ class TerminalsManagerBloc
     }
 
     if (terminals.contains(terminal)) {
-      return LoadedTerminalsManagerState(terminals, terminal);
+      return SelectedTerminalsManagerState(terminals, terminal);
     }
 
-    return LoadedTerminalsManagerState(terminals, terminals[0]);
+    return SelectedTerminalsManagerState(terminals, terminals[0]);
   }
 
   Future<TerminalsManagerState> _handleSelectTerminal(
@@ -78,7 +78,7 @@ class TerminalsManagerBloc
     if (previousState is LoadedTerminalsManagerState) {
       List<TerminalData> terminals = previousState.terminals;
       TerminalData selected = terminal;
-      return LoadedTerminalsManagerState(terminals, selected);
+      return SelectedTerminalsManagerState(terminals, selected);
     } else {
       throw FormatException();
     }
