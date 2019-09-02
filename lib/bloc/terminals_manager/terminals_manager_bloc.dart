@@ -1,16 +1,38 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
+import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/repositories.dart';
 
 class TerminalsManagerBloc
     extends Bloc<TerminalsManagerEvent, TerminalsManagerState> {
-  final TerminalsRepository _terminalsRepository;
+  static const String strongForceReceiveMethodName =
+      'StrongForce__receiveMessageFromNative';
 
-  TerminalsManagerBloc(this._terminalsRepository)
-      : assert(_terminalsRepository != null);
+  final TerminalsRepository _terminalsRepository;
+  final ContractsBloc _contractsBloc;
+  final FlutterWebviewPlugin _webViewPlugin;
+
+  TerminalsManagerBloc(
+      this._terminalsRepository, this._contractsBloc, this._webViewPlugin)
+      : assert(_terminalsRepository != null),
+        assert(_contractsBloc != null) {
+    _contractsBloc.state.listen(_handleContractsStateChange);
+  }
+
+  void _sendMessageToWebView(String message) {
+    _webViewPlugin
+        .evalJavascript(strongForceReceiveMethodName + '(\'$message\');');
+  }
+
+  void _handleContractsStateChange(ContractsState state) {
+    String contractsStateJson = state.toEncodedJson();
+    _sendMessageToWebView(contractsStateJson);
+  }
 
   @override
   TerminalsManagerState get initialState => InitialTerminalsManagerState();
@@ -34,6 +56,10 @@ class TerminalsManagerBloc
 
     if (event is SelectTerminalEvent) {
       yield await _handleSelectTerminal(event.terminal);
+    }
+
+    if (event is ReceiveMessageFromTerminalEvent) {
+      yield await _handleReceiveMessageFromTerminal(event);
     }
   }
 
@@ -72,6 +98,8 @@ class TerminalsManagerBloc
     if (previousState is LoadedTerminalsManagerState) {
       List<TerminalData> terminals = previousState.terminals;
       TerminalData selected = terminal;
+      _webViewPlugin.reloadUrl(selected.url);
+
       return SelectedTerminalsManagerState(terminals, selected);
     } else {
       throw FormatException();
@@ -85,6 +113,20 @@ class TerminalsManagerBloc
       return EmptyTerminalsManagerState();
     }
 
+    _webViewPlugin.reloadUrl(terminals[0].url);
+
     return LoadedTerminalsManagerState(terminals, terminals[0]);
+  }
+
+  Future<TerminalsManagerState> _handleReceiveMessageFromTerminal(
+      ReceiveMessageFromTerminalEvent event) async {
+    try {
+      ContractAction action = ContractAction.fromJsonString(event.message);
+      _contractsBloc.dispatch(SendActionEvent(action));
+    } on FormatException {
+      print('Terminal sent an invalid action:' + event.message);
+    }
+
+    return currentState;
   }
 }

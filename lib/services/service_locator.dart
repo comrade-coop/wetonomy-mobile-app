@@ -1,3 +1,4 @@
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/repositories/terminals_repository.dart';
@@ -10,6 +11,12 @@ GetIt locator = GetIt();
 Future<void> setupLocator() async {
   await _registerContractsRepository();
   await _registerTerminalsRepository();
+  await _registerFlutterWebViewPlugin();
+}
+
+Future<void> _registerFlutterWebViewPlugin() async {
+  final webViewPlugin = FlutterWebviewPlugin();
+  locator.registerSingleton<FlutterWebviewPlugin>(webViewPlugin);
 }
 
 Future<void> _registerContractsRepository() async {

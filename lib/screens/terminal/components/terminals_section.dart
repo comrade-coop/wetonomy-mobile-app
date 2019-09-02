@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/components/terminals/terminals_list.dart';
+import 'package:wetonomy/screens/terminal/components/terminals_list.dart';
 
 class TerminalsListSection extends StatelessWidget {
   final List<TerminalData> terminals;

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/bloc/contracts/contracts_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
@@ -15,16 +16,18 @@ List<BlocProvider> createBlocProviders() {
     BlocSupervisor.delegate = LoggingBlocDelegate();
   }
 
-  ContractsRepository contractsRepo = locator.get<ContractsRepository>();
-  TerminalsRepository terminalsRepo = locator.get<TerminalsRepository>();
+  final ContractsRepository contractsRepo = locator.get<ContractsRepository>();
+  final TerminalsRepository terminalsRepo = locator.get<TerminalsRepository>();
+  final contractsBloc = ContractsBloc(contractsRepo);
+  final terminalsManagerBloc = TerminalsManagerBloc(
+      terminalsRepo, contractsBloc, locator.get<FlutterWebviewPlugin>());
 
   return [
     BlocProvider<ContractsBloc>(
-      builder: (context) => ContractsBloc(contractsRepo),
+      builder: (_) => contractsBloc,
     ),
     BlocProvider<TerminalsManagerBloc>(
-      builder: (context) =>
-          TerminalsManagerBloc(terminalsRepo)..dispatch(LoadTerminalsEvent()),
+      builder: (_) => terminalsManagerBloc..dispatch(LoadTerminalsEvent()),
     ),
   ];
 }

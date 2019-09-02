@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
-import 'package:wetonomy/components/app_drawer.dart';
+import 'package:wetonomy/screens/terminal/components/terminal_drawer.dart';
 
-class AppDrawerContainer extends StatefulWidget {
+class TerminalDrawerContainer extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _AppDrawerContainerState();
+  State<StatefulWidget> createState() => _TerminalDrawerContainerState();
 }
 
-class _AppDrawerContainerState extends State<StatefulWidget> {
+class _TerminalDrawerContainerState extends State<StatefulWidget> {
   @override
   void initState() {
     super.initState();

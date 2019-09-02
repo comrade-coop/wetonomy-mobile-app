@@ -4,7 +4,7 @@ import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/components/terminals/terminals_section.dart';
+import 'package:wetonomy/screens/terminal/components/terminals_section.dart';
 
 class TerminalsListSectionContainer extends StatelessWidget {
   @override

@@ -40,3 +40,9 @@ class SendTerminalActionEvent extends TerminalsManagerEvent {
 
   SendTerminalActionEvent(this.terminal, this.action) : super([action]);
 }
+
+class ReceiveMessageFromTerminalEvent extends TerminalsManagerEvent {
+  final String message;
+
+  ReceiveMessageFromTerminalEvent(this.message) : super([message]);
+}
