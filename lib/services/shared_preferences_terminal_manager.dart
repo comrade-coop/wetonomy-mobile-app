@@ -34,8 +34,8 @@ class SharedPreferencesTerminalManager implements TerminalManager {
   @override
   Future<bool> removeTerminal(TerminalData terminal) async {
     List<TerminalData> terminals = await getAllTerminals();
-    terminals.remove(terminal);
-    return _setTerminals(terminals);
+    bool wasRemoved = terminals.remove(terminal);
+    return wasRemoved && await _setTerminals(terminals);
   }
 
   Future<bool> _setTerminals(List<TerminalData> terminals) async {

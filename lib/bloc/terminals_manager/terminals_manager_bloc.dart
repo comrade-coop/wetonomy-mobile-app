@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/bloc/bloc.dart';
@@ -65,30 +66,38 @@ class TerminalsManagerBloc
 
   Future<TerminalsManagerState> _handleAddTerminal(
       TerminalData terminal) async {
-    await _terminalsRepository.addTerminal(terminal);
-    List<TerminalData> terminals = await _terminalsRepository.getAllTerminals();
-    return SelectedTerminalsManagerState(
-        terminals, terminals[terminals.length - 1]);
+    bool wasAdded = await _terminalsRepository.addTerminal(terminal);
+    if (wasAdded) {
+      List<TerminalData> terminals =
+          await _terminalsRepository.getAllTerminals();
+      return SelectedTerminalsManagerState(
+          terminals, terminals[terminals.length - 1]);
+    }
+
+    return currentState;
   }
 
   Future<TerminalsManagerState> _handleRemoveTerminal(
       TerminalData terminal) async {
     if (!(currentState is LoadedTerminalsManagerState)) {
-      throw FormatException();
+      throw Exception(
+          'Can\'t remove a terminal if there are no loaded terminals.');
     }
 
-    await _terminalsRepository.removeTerminal(terminal);
-    List<TerminalData> terminals = await _terminalsRepository.getAllTerminals();
+    bool wasRemoved = await _terminalsRepository.removeTerminal(terminal);
 
-    if (terminals.length == 0) {
-      return EmptyTerminalsManagerState();
+    if (wasRemoved) {
+      List<TerminalData> terminals =
+          await _terminalsRepository.getAllTerminals();
+
+      if (terminals.length == 0) {
+        return EmptyTerminalsManagerState();
+      }
+
+      return SelectedTerminalsManagerState(terminals, terminals[0]);
     }
 
-    if (terminals.contains(terminal)) {
-      return SelectedTerminalsManagerState(terminals, terminal);
-    }
-
-    return SelectedTerminalsManagerState(terminals, terminals[0]);
+    return currentState;
   }
 
   Future<TerminalsManagerState> _handleSelectTerminal(
@@ -102,7 +111,7 @@ class TerminalsManagerBloc
 
       return SelectedTerminalsManagerState(terminals, selected);
     } else {
-      throw FormatException();
+      throw Exception('There are no terminals to select from.');
     }
   }
 
