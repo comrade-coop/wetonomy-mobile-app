@@ -1,9 +1,9 @@
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/services/terminal_facade.dart';
+import 'package:wetonomy/services/terminal_reference_provider.dart';
 
-class WebviewPluginTerminalFacade implements TerminalFacade {
+class WebviewPluginTerminalFacade implements TerminalReferenceProvider {
   static const String strongForceReceiveMethodName =
       'StrongForce__receiveMessageFromNative';
   final FlutterWebviewPlugin _webviewPlugin = FlutterWebviewPlugin();

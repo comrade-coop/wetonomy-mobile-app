@@ -4,9 +4,9 @@ import 'package:test_api/test_api.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/repositories/repositories.dart';
-import 'package:wetonomy/services/terminal_facade.dart';
-import 'package:wetonomy/services/webview_plugin_terminal_facade.dart';
-import 'package:wetonomy/services/strongforce_api_client_mock.dart';
+import 'package:wetonomy/services/terminal_reference_provider.dart';
+import 'package:wetonomy/services/webview_terminal_reference_provider.dart';
+import 'package:wetonomy/services/mock_strongforce_api_provider.dart';
 
 import 'mocks/mock_terminal_manager.dart';
 
@@ -14,7 +14,7 @@ class MockFlutterWebviewPlugin extends Mock implements FlutterWebviewPlugin {}
 
 class MockContractsBloc extends Mock implements ContractsBloc {}
 
-class MockTerminalFacade extends Mock implements TerminalFacade {}
+class MockTerminalFacade extends Mock implements TerminalReferenceProvider {}
 
 void main() {
   group('TerminalsManagerBloc', () {
@@ -24,7 +24,7 @@ void main() {
       final repository =
           TerminalsRepository(MockTerminalManager(), MockTerminalFacade());
       terminalsBloc = TerminalsManagerBloc(repository,
-          ContractsBloc(ContractsRepository(StrongForceApiClientMock())));
+          ContractsBloc(ContractsRepository(MockStrongForceApiProvider())));
     });
 
     test('Initial state is correct', () {

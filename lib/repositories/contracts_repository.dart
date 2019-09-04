@@ -1,10 +1,10 @@
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
-import 'package:wetonomy/services/strongforce_api_client.dart';
+import 'package:wetonomy/services/strongforce_api_provider.dart';
 
 class ContractsRepository {
-  final StrongForceApiClient _client;
+  final StrongForceApiProvider _client;
 
   ContractsRepository(this._client) : assert(_client != null);
 

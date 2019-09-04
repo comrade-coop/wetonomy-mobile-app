@@ -1,14 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
-import './terminal_manager.dart';
+import './terminal_storage_provider.dart';
 
-class SharedPreferencesTerminalManager implements TerminalStorageManager {
+class SharedPrefsTerminalStorageProvider
+    implements TerminalStorageProvider {
   static const String TERMINAL_SHARED_PREFS_KEY = "terminals_key";
 
   final SharedPreferences sharedPrefs;
 
-  SharedPreferencesTerminalManager(this.sharedPrefs)
+  SharedPrefsTerminalStorageProvider(this.sharedPrefs)
       : assert(sharedPrefs != null);
 
   @override

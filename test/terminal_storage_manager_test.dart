@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/services/shared_preferences_terminal_manager.dart';
+import 'package:wetonomy/services/shared_preferences_terminal_storage_provider.dart';
 
 import 'mocks/mock_shared_preferences.dart';
 
@@ -10,10 +10,10 @@ void main() {
     test('SharedPreferencesTerminalManager adds a new terminal successfully',
         () async {
       final sharedPrefs = MockSharedPreferences();
-      final terminalManager = SharedPreferencesTerminalManager(sharedPrefs);
+      final terminalManager = SharedPrefsTerminalStorageProvider(sharedPrefs);
       final term = TerminalData('test', []);
       final String terminalKey =
-          SharedPreferencesTerminalManager.TERMINAL_SHARED_PREFS_KEY;
+          SharedPrefsTerminalStorageProvider.TERMINAL_SHARED_PREFS_KEY;
 
       await terminalManager.addTerminal(term);
 
