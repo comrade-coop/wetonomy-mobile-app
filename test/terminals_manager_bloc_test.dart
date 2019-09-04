@@ -4,6 +4,7 @@ import 'package:test_api/test_api.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/repositories/repositories.dart';
+import 'package:wetonomy/services/terminal_facade.dart';
 import 'package:wetonomy/services/webview_plugin_terminal_facade.dart';
 import 'package:wetonomy/services/strongforce_api_client_mock.dart';
 
@@ -13,13 +14,15 @@ class MockFlutterWebviewPlugin extends Mock implements FlutterWebviewPlugin {}
 
 class MockContractsBloc extends Mock implements ContractsBloc {}
 
+class MockTerminalFacade extends Mock implements TerminalFacade {}
+
 void main() {
   group('TerminalsManagerBloc', () {
     TerminalsManagerBloc terminalsBloc;
 
     setUp(() {
-      final repository = TerminalsRepository(
-          MockTerminalManager(), WebviewPluginTerminalFacade());
+      final repository =
+          TerminalsRepository(MockTerminalManager(), MockTerminalFacade());
       terminalsBloc = TerminalsManagerBloc(repository,
           ContractsBloc(ContractsRepository(StrongForceApiClientMock())));
     });
@@ -44,8 +47,8 @@ void main() {
       final terminal2 = TerminalData('https://example1.com', []);
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
-        SelectedTerminalState([terminal1], terminal1),
-        SelectedTerminalState([terminal1, terminal2], terminal2),
+        AddedTerminalState([terminal1], terminal1),
+        AddedTerminalState([terminal1, terminal2], terminal2),
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
       terminalsBloc.dispatch(AddTerminalEvent(terminal1));
@@ -57,8 +60,8 @@ void main() {
       final terminal2 = TerminalData('https://example1.com', []);
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
-        SelectedTerminalState([terminal1], terminal1),
-        SelectedTerminalState([terminal1, terminal2], terminal2),
+        AddedTerminalState([terminal1], terminal1),
+        AddedTerminalState([terminal1, terminal2], terminal2),
         SelectedTerminalState([terminal1, terminal2], terminal1),
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
@@ -72,13 +75,15 @@ void main() {
       final terminal2 = TerminalData('https://example1.com', []);
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
-        SelectedTerminalState([terminal1], terminal1),
-        SelectedTerminalState([terminal1, terminal2], terminal2),
-        SelectedTerminalState([terminal1], terminal1),
+        AddedTerminalState([terminal1], terminal1),
+        AddedTerminalState([terminal1, terminal2], terminal2),
+        RemovedTerminalState([terminal2], terminal2),
+        EmptyTerminalsManagerState()
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
       terminalsBloc.dispatch(AddTerminalEvent(terminal1));
       terminalsBloc.dispatch(AddTerminalEvent(terminal2));
+      terminalsBloc.dispatch(RemoveTerminalEvent(terminal1));
       terminalsBloc.dispatch(RemoveTerminalEvent(terminal2));
     });
   });
