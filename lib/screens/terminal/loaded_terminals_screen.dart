@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -7,12 +9,9 @@ import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
 import 'package:wetonomy/screens/terminal/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
-import 'package:wetonomy/services/service_locator.dart';
 
 class LoadedTerminalScreen extends StatefulWidget {
   static const String strongForceChannelName = 'StrongForceChannel';
-  static const String strongForceReceiveMessage =
-      'StrongForce__receiveMessageFromNative';
 
   const LoadedTerminalScreen(this.initialTerminal);
 
@@ -23,12 +22,11 @@ class LoadedTerminalScreen extends StatefulWidget {
 }
 
 class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
-  final FlutterWebviewPlugin _webViewPlugin =
-      locator.get<FlutterWebviewPlugin>();
   TerminalsManagerBloc _terminalsBloc;
 
   Set<JavascriptChannel> _channels;
   TerminalData _currentTerminal;
+  StreamSubscription<TerminalsManagerState> _terminalsBlocSubscription;
 
   @override
   void initState() {
@@ -37,7 +35,8 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
     _currentTerminal = widget.initialTerminal;
 
     _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
-    _terminalsBloc.state.listen(_handleTerminalManagerStateChange);
+    _terminalsBlocSubscription =
+        _terminalsBloc.state.listen(_handleTerminalManagerStateChange);
 
     this._channels = [
       JavascriptChannel(
@@ -56,12 +55,17 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _terminalsBlocSubscription?.cancel();
+  }
+
   void _handleTerminalManagerStateChange(TerminalsManagerState state) {
-    if (state is LoadedTerminalsManagerState) {
+    if (state is LoadedTerminalsState) {
       setState(() {
         _currentTerminal = state.currentTerminal;
       });
-      _webViewPlugin.reloadUrl(_currentTerminal.url);
     }
   }
 

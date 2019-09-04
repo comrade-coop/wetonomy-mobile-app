@@ -1,7 +1,7 @@
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/services/terminal_manager.dart';
 
-class MockTerminalManager implements TerminalManager {
+class MockTerminalManager implements TerminalStorageManager {
   final _terminals = Set<TerminalData>();
 
   @override

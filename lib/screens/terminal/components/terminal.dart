@@ -24,6 +24,9 @@ class _TerminalState extends State<Terminal> {
   Set<JavascriptChannel> _channels;
   ContractsBloc _contractsBloc;
 
+  StreamSubscription<ContractsState> _contractsBlocSubscription;
+  StreamSubscription<TerminalsManagerState> _terminalsBlocSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -31,13 +34,15 @@ class _TerminalState extends State<Terminal> {
     _contractsBloc = BlocProvider.of<ContractsBloc>(context);
     _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
 
-    _contractsBloc.state.listen((ContractsState state) {
+    _contractsBlocSubscription =
+        _contractsBloc.state.listen((ContractsState state) {
       String contractsStateJson = state.toEncodedJson();
       _sendMessageToWebView(contractsStateJson);
     });
 
-    _terminalsBloc.state.listen((TerminalsManagerState state) async {
-      if (state is LoadedTerminalsManagerState) {
+    _terminalsBlocSubscription =
+        _terminalsBloc.state.listen((TerminalsManagerState state) async {
+      if (state is LoadedTerminalsState) {
         print(state.currentTerminal.url);
         WebViewController controller = await _controller.future;
         setState(() {
@@ -63,6 +68,13 @@ class _TerminalState extends State<Terminal> {
         _controller.complete(webViewController);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _contractsBlocSubscription?.cancel();
+    _terminalsBlocSubscription?.cancel();
   }
 
   void _onMessageReceivedFromWebView(JavascriptMessage message) {

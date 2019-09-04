@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/components/icon_list_tile.dart';
+import 'package:wetonomy/components/terminal_list_tile.dart';
 
 class TerminalsList extends StatelessWidget {
   final List<TerminalData> terminals;
   final Function(TerminalData) onTerminalSelected;
+  final Function(TerminalData) onTerminalRemoved;
   final int selectedTerminalIndex;
 
   const TerminalsList(
       {Key key,
       @required this.terminals,
       @required this.onTerminalSelected,
-      this.selectedTerminalIndex = 0})
+      this.selectedTerminalIndex = 0,
+      this.onTerminalRemoved})
       : super(key: key);
 
   @override
@@ -26,13 +28,16 @@ class TerminalsList extends StatelessWidget {
 
   _buildTerminalTiles(Color selectedColor) => terminals
       .map((t) => TerminalListTile(
-          title: t.url,
-          icon: t.icon,
-          selected: terminals.indexOf(t) == selectedTerminalIndex,
-          color: Colors.black54,
-          selectedColor: selectedColor,
-          backgroundColor: Colors.transparent,
-          selectedBackgroundColor: Colors.grey.withAlpha(30),
-          onPressed: () => this.onTerminalSelected(t)))
+            key: Key(t.url),
+            title: t.url,
+            icon: t.icon,
+            selected: terminals.indexOf(t) == selectedTerminalIndex,
+            color: Colors.black54,
+            selectedColor: selectedColor,
+            backgroundColor: Colors.transparent,
+            selectedBackgroundColor: Colors.grey.withAlpha(30),
+            onPressed: () => this.onTerminalSelected(t),
+            onRemovePress: () => this.onTerminalRemoved(t),
+          ))
       .toList();
 }

@@ -24,7 +24,7 @@ class TerminalScreen extends StatelessWidget {
           }
 
           TerminalData currentTerminal =
-              (state as LoadedTerminalsManagerState).currentTerminal;
+              (state as LoadedTerminalsState).currentTerminal;
           return LoadedTerminalScreen(currentTerminal);
         },
         bloc: BlocProvider.of<TerminalsManagerBloc>(context),

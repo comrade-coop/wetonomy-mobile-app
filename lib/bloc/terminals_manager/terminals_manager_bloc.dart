@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
@@ -11,28 +9,15 @@ import 'package:wetonomy/repositories/repositories.dart';
 
 class TerminalsManagerBloc
     extends Bloc<TerminalsManagerEvent, TerminalsManagerState> {
-  static const String strongForceReceiveMethodName =
-      'StrongForce__receiveMessageFromNative';
-
   final TerminalsRepository _terminalsRepository;
   final ContractsBloc _contractsBloc;
-  final FlutterWebviewPlugin _webViewPlugin;
+  StreamSubscription<ContractsState> _contractsBlocSubscription;
 
-  TerminalsManagerBloc(
-      this._terminalsRepository, this._contractsBloc, this._webViewPlugin)
+  TerminalsManagerBloc(this._terminalsRepository, this._contractsBloc)
       : assert(_terminalsRepository != null),
         assert(_contractsBloc != null) {
-    _contractsBloc.state.listen(_handleContractsStateChange);
-  }
-
-  void _sendMessageToWebView(String message) {
-    _webViewPlugin
-        .evalJavascript(strongForceReceiveMethodName + '(\'$message\');');
-  }
-
-  void _handleContractsStateChange(ContractsState state) {
-    String contractsStateJson = state.toEncodedJson();
-    _sendMessageToWebView(contractsStateJson);
+    _contractsBlocSubscription =
+        _contractsBloc.state.listen(_handleContractsStateChange);
   }
 
   @override
@@ -70,8 +55,8 @@ class TerminalsManagerBloc
     if (wasAdded) {
       List<TerminalData> terminals =
           await _terminalsRepository.getAllTerminals();
-      return SelectedTerminalsManagerState(
-          terminals, terminals[terminals.length - 1]);
+      _terminalsRepository.selectTerminal(terminal);
+      return AddedTerminalState(terminals, terminal);
     }
 
     return currentState;
@@ -79,7 +64,7 @@ class TerminalsManagerBloc
 
   Future<TerminalsManagerState> _handleRemoveTerminal(
       TerminalData terminal) async {
-    if (!(currentState is LoadedTerminalsManagerState)) {
+    if (!(currentState is LoadedTerminalsState)) {
       throw Exception(
           'Can\'t remove a terminal if there are no loaded terminals.');
     }
@@ -94,22 +79,22 @@ class TerminalsManagerBloc
         return EmptyTerminalsManagerState();
       }
 
-      return SelectedTerminalsManagerState(terminals, terminals[0]);
+      _terminalsRepository.selectTerminal(terminals[0]);
+      return RemovedTerminalState(terminals, terminals[0]);
     }
 
     return currentState;
   }
 
   Future<TerminalsManagerState> _handleSelectTerminal(
-      TerminalData terminal) async {
+      TerminalData selected) async {
     TerminalsManagerState previousState = currentState;
 
-    if (previousState is LoadedTerminalsManagerState) {
+    if (previousState is LoadedTerminalsState) {
       List<TerminalData> terminals = previousState.terminals;
-      TerminalData selected = terminal;
-      _webViewPlugin.reloadUrl(selected.url);
+      _terminalsRepository.selectTerminal(selected);
 
-      return SelectedTerminalsManagerState(terminals, selected);
+      return SelectedTerminalState(terminals, selected);
     } else {
       throw Exception('There are no terminals to select from.');
     }
@@ -122,9 +107,9 @@ class TerminalsManagerBloc
       return EmptyTerminalsManagerState();
     }
 
-    _webViewPlugin.reloadUrl(terminals[0].url);
+    _terminalsRepository.selectTerminal(terminals[0]);
 
-    return LoadedTerminalsManagerState(terminals, terminals[0]);
+    return LoadedTerminalsState(terminals, terminals[0]);
   }
 
   Future<TerminalsManagerState> _handleReceiveMessageFromTerminal(
@@ -137,5 +122,15 @@ class TerminalsManagerBloc
     }
 
     return currentState;
+  }
+
+  void _handleContractsStateChange(ContractsState state) {
+    _terminalsRepository.sendContractsStateToTerminal(state);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _contractsBlocSubscription?.cancel();
   }
 }

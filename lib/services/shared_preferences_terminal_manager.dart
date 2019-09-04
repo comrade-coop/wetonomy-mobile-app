@@ -3,7 +3,7 @@ import 'package:wetonomy/models/terminal_data.dart';
 
 import './terminal_manager.dart';
 
-class SharedPreferencesTerminalManager implements TerminalManager {
+class SharedPreferencesTerminalManager implements TerminalStorageManager {
   static const String TERMINAL_SHARED_PREFS_KEY = "terminals_key";
 
   final SharedPreferences sharedPrefs;

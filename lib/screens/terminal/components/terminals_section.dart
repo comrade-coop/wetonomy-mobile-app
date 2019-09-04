@@ -5,13 +5,15 @@ import 'package:wetonomy/screens/terminal/components/terminals_list.dart';
 class TerminalsListSection extends StatelessWidget {
   final List<TerminalData> terminals;
   final Function(TerminalData) onTerminalSelected;
+  final Function(TerminalData) onTerminalRemoved;
   final int selectedTerminalIndex;
 
   const TerminalsListSection(
       {Key key,
       this.terminals,
       this.onTerminalSelected,
-      this.selectedTerminalIndex})
+      this.selectedTerminalIndex,
+      this.onTerminalRemoved})
       : super(key: key);
 
   @override
@@ -57,8 +59,10 @@ class TerminalsListSection extends StatelessWidget {
 
     return Expanded(
         child: TerminalsList(
-            terminals: this.terminals,
-            onTerminalSelected: onTerminalSelected,
-            selectedTerminalIndex: selectedTerminalIndex));
+      terminals: this.terminals,
+      onTerminalSelected: onTerminalSelected,
+      selectedTerminalIndex: selectedTerminalIndex,
+      onTerminalRemoved: onTerminalRemoved,
+    ));
   }
 }

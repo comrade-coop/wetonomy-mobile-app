@@ -6,41 +6,49 @@ class EmptyTerminalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StackDrawerScaffold(
+      appBar: AppBar(
+        title: Text('Wetonomy'),
+        elevation: 0,
+      ),
       body: _buildBody(context),
       drawer: AppDrawer(),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Center(
-            child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Looks like you don\'t have any terminals installed currently.\n\n Press the button below to add one.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18),
+    return Card(
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Looks like you don\'t have any terminals installed currently.\n\n Press the button below to add one.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+            ),
+          )),
+          SizedBox(
+            height: 16.0,
           ),
-        )),
-        SizedBox(
-          height: 16.0,
-        ),
-        FloatingActionButton(
-          onPressed: () => _handleAddTerminalPressed(context),
-          child: Icon(
-            Icons.add,
-            size: 32,
-          ),
-        )
-      ],
+          FloatingActionButton(
+            onPressed: () => _handleAddTerminalPressed(context),
+            child: Icon(
+              Icons.add,
+              size: 32,
+            ),
+          )
+        ],
+      ),
     );
   }
 
   void _handleAddTerminalPressed(BuildContext context) {
-    Navigator.pushNamed(context, 'add_new_terminal');
+    Navigator.pushNamed(context, '/add_new_terminal');
   }
 }
