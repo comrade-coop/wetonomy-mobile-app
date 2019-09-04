@@ -1,11 +1,11 @@
 import 'package:wetonomy/bloc/contracts/contracts_state.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/services/terminal_reference_provider.dart';
+import 'package:wetonomy/services/terminal_facade.dart';
 import 'package:wetonomy/services/terminal_storage_provider.dart';
 
 class TerminalsRepository {
   final TerminalStorageProvider _storageProvider;
-  final TerminalReferenceProvider _terminalReferenceProvider;
+  final TerminalFacade _terminalReferenceProvider;
 
   TerminalsRepository(this._storageProvider, this._terminalReferenceProvider);
 
@@ -26,6 +26,6 @@ class TerminalsRepository {
   }
 
   void selectTerminal(TerminalData terminal) {
-    _terminalReferenceProvider.loadTerminal(terminal);
+    _terminalReferenceProvider.selectTerminal(terminal);
   }
 }

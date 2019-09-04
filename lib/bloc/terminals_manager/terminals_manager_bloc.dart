@@ -108,7 +108,6 @@ class TerminalsManagerBloc
     }
 
     _terminalsRepository.selectTerminal(terminals[0]);
-
     return LoadedTerminalsState(terminals, terminals[0]);
   }
 

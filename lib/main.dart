@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/bloc/app_bloc_providers.dart';
 import 'package:wetonomy/routes.dart';
 import 'package:wetonomy/services/service_locator.dart';
@@ -20,9 +19,6 @@ class MyApp extends StatelessWidget {
         title: 'Wetonomy',
         theme: createDefaultTheme(),
         routes: createRoutes(),
-        // Needed in order for the native WebView to hide itself
-        // when navigating between routes
-        navigatorObservers: [WebviewAutoHideNavigatorObserver()],
       ),
     );
   }

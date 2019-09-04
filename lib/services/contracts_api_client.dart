@@ -2,7 +2,7 @@ import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
 
-class StrongForceApiProvider {
+class ContractsApiClient {
   // ignore: missing_return
   Future<bool> sendAction(ContractAction action) async {}
 

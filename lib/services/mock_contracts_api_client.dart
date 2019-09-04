@@ -1,9 +1,9 @@
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
-import 'package:wetonomy/services/strongforce_api_provider.dart';
+import 'package:wetonomy/services/contracts_api_client.dart';
 
-class MockStrongForceApiProvider implements StrongForceApiProvider {
+class MockContractsApiClient implements ContractsApiClient {
   static int count = 0;
 
   @override
