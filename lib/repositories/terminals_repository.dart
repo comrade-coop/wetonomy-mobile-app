@@ -5,9 +5,12 @@ import 'package:wetonomy/services/terminal_storage_provider.dart';
 
 class TerminalsRepository {
   final TerminalStorageProvider _storageProvider;
-  final TerminalFacade _terminalReferenceProvider;
+  final TerminalFacade _terminalFacade;
 
-  TerminalsRepository(this._storageProvider, this._terminalReferenceProvider);
+  TerminalsRepository(this._storageProvider, this._terminalFacade);
+
+  Stream<TerminalLoadState> get onTerminalLoadStateChanged =>
+      _terminalFacade.onTerminalLoadStateChanged;
 
   Future<List<TerminalData>> getAllTerminals() {
     return _storageProvider.getAllTerminals();
@@ -22,10 +25,10 @@ class TerminalsRepository {
   }
 
   void sendContractsStateToTerminal(ContractsState state) {
-    _terminalReferenceProvider.receiveContractsState(state);
+    _terminalFacade.receiveContractsState(state);
   }
 
   void selectTerminal(TerminalData terminal) {
-    _terminalReferenceProvider.selectTerminal(terminal);
+    _terminalFacade.selectTerminal(terminal);
   }
 }

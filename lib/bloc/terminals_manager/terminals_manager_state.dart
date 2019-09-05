@@ -9,7 +9,7 @@ abstract class TerminalsManagerState extends Equatable {
 
 class InitialTerminalsManagerState extends TerminalsManagerState {}
 
-class LoadingTerminalsManagerState extends TerminalsManagerState {}
+class LoadingTerminalsState extends TerminalsManagerState {}
 
 class EmptyTerminalsManagerState extends TerminalsManagerState {}
 

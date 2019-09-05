@@ -6,6 +6,7 @@ import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/repositories.dart';
+import 'package:wetonomy/services/terminal_facade.dart';
 
 class TerminalsManagerBloc
     extends Bloc<TerminalsManagerEvent, TerminalsManagerState> {
@@ -18,6 +19,13 @@ class TerminalsManagerBloc
         assert(_contractsBloc != null) {
     _contractsBlocSubscription =
         _contractsBloc.state.listen(_handleContractsStateChange);
+
+    _terminalsRepository.onTerminalLoadStateChanged
+        .listen((TerminalLoadState state) {
+      if (state == TerminalLoadState.Loading) {
+        
+      } else if (state == TerminalLoadState.Loaded) {}
+    });
   }
 
   @override
@@ -36,7 +44,7 @@ class TerminalsManagerBloc
     }
 
     if (event is LoadTerminalsEvent) {
-      yield LoadingTerminalsManagerState();
+      yield LoadingTerminalsState();
       yield await _handleLoadTerminals();
     }
 

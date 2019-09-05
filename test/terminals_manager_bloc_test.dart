@@ -34,7 +34,7 @@ void main() {
     test('Loading of terminals is correct', () {
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
-        LoadingTerminalsManagerState(),
+        LoadingTerminalsState(),
         EmptyTerminalsManagerState()
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));

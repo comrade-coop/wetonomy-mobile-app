@@ -26,7 +26,7 @@ class TerminalsListSectionContainer extends StatelessWidget {
         }
 
         if (state is InitialTerminalsManagerState ||
-            state is LoadingTerminalsManagerState) {
+            state is LoadingTerminalsState) {
           return Center(child: CircularProgressIndicator());
         }
 

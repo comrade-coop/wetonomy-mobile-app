@@ -21,7 +21,7 @@ class TerminalScreen extends StatelessWidget {
             return LoadingTerminalsScreen();
           }
 
-          if (state is LoadingTerminalsManagerState) {
+          if (state is LoadingTerminalsState) {
             return LoadingTerminalsScreen();
           }
 

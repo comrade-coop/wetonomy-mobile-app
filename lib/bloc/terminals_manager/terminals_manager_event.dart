@@ -46,3 +46,7 @@ class ReceiveMessageFromTerminalEvent extends TerminalsManagerEvent {
 
   ReceiveMessageFromTerminalEvent(this.message) : super([message]);
 }
+
+class TerminalIsLoadingEvent extends TerminalsManagerEvent {}
+
+class TerminalHasLoadedEvent extends TerminalsManagerEvent {}
