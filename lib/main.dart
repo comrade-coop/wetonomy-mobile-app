@@ -1,38 +1,25 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wetonomy/repositories/strongforce_api_client_mock.dart';
-import 'package:wetonomy/repositories/strongforce_repository.dart';
-import 'package:wetonomy/widgets/app.dart';
+import 'package:wetonomy/bloc/app_bloc_providers.dart';
+import 'package:wetonomy/routes.dart';
+import 'package:wetonomy/services/service_locator.dart';
+import 'package:wetonomy/themes.dart';
 
-import 'blocs/StrongForceBloc.dart';
-
-class LoggingBlockDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
+void main() async {
+  await setupLocator();
+  runApp(MyApp());
 }
 
-void main() {
-  final StrongForceRepository repository =
-      StrongForceRepository(StrongForceApiClientMock());
-  BlocSupervisor.delegate = LoggingBlockDelegate();
-  runApp(BlocProvider<StrongForceBloc>(
-    builder: (context) => StrongForceBloc(repository),
-    child: MyApp(),
-  ));
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: createBlocProviders(),
+      child: MaterialApp(
+        title: 'Wetonomy',
+        theme: createDefaultTheme(),
+        routes: createRoutes(),
+      ),
+    );
+  }
 }
