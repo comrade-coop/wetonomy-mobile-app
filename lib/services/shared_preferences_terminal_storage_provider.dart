@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
 import './terminal_storage_provider.dart';
 
-class SharedPrefsTerminalStorageProvider
-    implements TerminalStorageProvider {
-  static const String TERMINAL_SHARED_PREFS_KEY = "terminals_key";
+class SharedPrefsTerminalStorageProvider implements TerminalStorageProvider {
+  static const String terminalsSharedPrefsKey = "terminals_key";
 
   final SharedPreferences sharedPrefs;
 
@@ -25,9 +26,11 @@ class SharedPrefsTerminalStorageProvider
   @override
   Future<List<TerminalData>> getAllTerminals() async {
     List<String> terminalStrings =
-        sharedPrefs.getStringList(TERMINAL_SHARED_PREFS_KEY);
+        sharedPrefs.getStringList(terminalsSharedPrefsKey);
+
     List<TerminalData> terminals = terminalStrings != null
-        ? terminalStrings.map((url) => TerminalData(url, [])).toList()
+        ? terminalStrings.map((String terminalJson) =>
+            TerminalData.fromJson(jsonDecode(terminalJson))).toList()
         : new List<TerminalData>();
     return terminals;
   }
@@ -40,9 +43,7 @@ class SharedPrefsTerminalStorageProvider
   }
 
   Future<bool> _setTerminals(List<TerminalData> terminals) async {
-    List<String> terminalUrls = terminals.map((t) {
-      return t.url;
-    }).toList();
-    return sharedPrefs.setStringList(TERMINAL_SHARED_PREFS_KEY, terminalUrls);
+    List<String> terminalsJson = terminals.map((t) => t.toEncodedJson()).toList();
+    return sharedPrefs.setStringList(terminalsSharedPrefsKey, terminalsJson);
   }
 }

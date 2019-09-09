@@ -15,7 +15,7 @@ class TerminalListTile extends StatefulWidget {
   const TerminalListTile(
       {Key key,
       @required this.title,
-      @required this.icon,
+      this.icon,
       this.selected,
       this.selectedColor,
       this.color,
@@ -51,19 +51,16 @@ class _TerminalListTileState extends State<TerminalListTile> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
-                  children: <Widget>[
-                    _buildIcon(),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      widget.title,
-                    ),
-                  ],
-                ),
+              Row(
+                children: <Widget>[
+                  _buildIcon(),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    widget.title,
+                  ),
+                ],
               ),
               _buildRemoveButton()
             ],

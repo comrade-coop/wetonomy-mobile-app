@@ -6,7 +6,7 @@ import 'package:wetonomy/screens/terminal/components/terminal_search.dart';
 Widget buildTerminalAppBar({TerminalData terminal}) {
   return AppBar(
     title: Text(
-      terminal != null ? terminal.url : '',
+      terminal != null ? terminal.name : '',
     ),
     actions: <Widget>[
       TerminalSearch(),

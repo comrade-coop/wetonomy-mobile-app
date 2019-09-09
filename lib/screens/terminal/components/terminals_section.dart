@@ -25,7 +25,10 @@ class TerminalsListSection extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Text('Installed Terminals'),
+            child: Text(
+              'Installed Terminals',
+              style: Theme.of(context).textTheme.caption,
+            ),
           ),
           _buildTerminalsListOrEmptyView(),
           _buildNewTerminalButton(
