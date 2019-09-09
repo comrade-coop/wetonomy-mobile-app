@@ -12,12 +12,17 @@ class AddNewTerminalSection extends StatefulWidget {
 }
 
 class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
-  final TextEditingController _terminalUrlController = TextEditingController();
-  String _error;
+  String _urlError;
+  String _nameError;
 
-  static const String errorInvalidUrl = 'Input should be a valid Web URL.';
+  String _terminalUrl;
+  String _terminalName;
+
+  static const String errorInvalidUrl =
+      'Terminal URL should be a valid Web URL.';
   static const String errorInvalidTerminal =
-      'Input should be a URL pointing to a valid Wetonomy Terminal.';
+      'Terminal URL should be pointing to a valid Wetonomy Terminal.';
+  static const String errorInvalidName = 'Terminal Name is invalid';
 
   TerminalsManagerBloc _bloc;
 
@@ -42,12 +47,36 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
             labelText: 'Terminal URL',
             border: OutlineInputBorder(),
             labelStyle: TextStyle(color: Colors.black54),
-            errorText: _error,
+            errorText: _urlError,
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).accentColor)),
             errorMaxLines: 2),
         autocorrect: false,
-        controller: _terminalUrlController,
+        onChanged: (String text) {
+          setState(() {
+            _terminalUrl = text;
+          });
+          _checkValidTerminal(text);
+        },
+      );
+
+  Widget _buildNameInput() => TextField(
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            labelText: 'Terminal Name',
+            border: OutlineInputBorder(),
+            labelStyle: TextStyle(color: Colors.black54),
+            errorText: _nameError,
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).accentColor)),
+            errorMaxLines: 2),
+        autocorrect: false,
+        onChanged: (String text) {
+          setState(() {
+            _terminalName = text;
+          });
+          _checkValidName(text);
+        },
       );
 
   Widget _buildContent() {
@@ -58,7 +87,15 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _buildUrlInput(),
+          Column(
+            children: <Widget>[
+              _buildUrlInput(),
+              SizedBox(
+                height: 16,
+              ),
+              _buildNameInput()
+            ],
+          ),
           _buildAddButton(),
         ],
       ),
@@ -66,28 +103,35 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
   }
 
   // TODO: Implement terminal validity checking
-  bool _isValidTerminal(String url) {
+  bool _checkValidTerminal(String url) {
+    if (!Validator.isURL(url)) {
+      setState(() {
+        _urlError = errorInvalidUrl;
+      });
+      return false;
+    }
+
+    setState(() {
+      _urlError = '';
+    });
+
+    return true;
+  }
+
+  bool _checkValidName(String name) {
+//    setState(() {
+//      _nameError = errorInvalidName;
+//    });
     return true;
   }
 
   void _handleAddPressed() {
-    String s = _terminalUrlController.text;
-
-    if (!Validator.isURL(s)) {
-      this.setState(() {
-        _error = errorInvalidUrl;
-      });
+    if (!_checkValidTerminal(_terminalUrl) || !_checkValidName(_terminalName)) {
       return;
     }
 
-    if (!_isValidTerminal(s)) {
-      this.setState(() {
-        _error = errorInvalidTerminal;
-      });
-      return;
-    }
-
-    _bloc.dispatch(AddTerminalEvent(TerminalData(s, [])));
+    _bloc.dispatch(
+        AddTerminalEvent(TerminalData(_terminalUrl, _terminalName)));
     Navigator.of(context).pop();
   }
 

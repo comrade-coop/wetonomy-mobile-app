@@ -16,5 +16,5 @@ ContractsState _$ContractsStateFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ContractsStateToJson(ContractsState instance) =>
     <String, dynamic>{
-      'contracts': instance.contracts.map((c) => c.toJson()).toList(),
+      'contracts': instance.contracts,
     };

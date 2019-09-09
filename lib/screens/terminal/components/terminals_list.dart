@@ -19,7 +19,7 @@ class TerminalsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: ListView(
           padding: EdgeInsets.zero,
           children: _buildTerminalTiles(Theme.of(context).accentColor)),
@@ -29,8 +29,7 @@ class TerminalsList extends StatelessWidget {
   _buildTerminalTiles(Color selectedColor) => terminals
       .map((t) => TerminalListTile(
             key: Key(t.url),
-            title: t.url,
-            icon: t.icon,
+            title: t.name,
             selected: terminals.indexOf(t) == selectedTerminalIndex,
             color: Colors.black54,
             selectedColor: selectedColor,

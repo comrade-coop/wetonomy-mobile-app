@@ -5,7 +5,6 @@ import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/repositories/repositories.dart';
 import 'package:wetonomy/services/terminal_facade.dart';
-import 'package:wetonomy/services/webview_terminal_facade.dart';
 import 'package:wetonomy/services/mock_contracts_api_client.dart';
 
 import 'mocks/mock_terminal_manager.dart';
@@ -43,8 +42,8 @@ void main() {
     });
 
     test('Adding of a terminal is correct', () {
-      final terminal1 = TerminalData('https://example.com', []);
-      final terminal2 = TerminalData('https://example1.com', []);
+      final terminal1 = TerminalData('https://example.com', '');
+      final terminal2 = TerminalData('https://example1.com', '');
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
         AddedTerminalState([terminal1], terminal1),
@@ -56,8 +55,8 @@ void main() {
     });
 
     test('Selecting of a terminal is correct', () {
-      final terminal1 = TerminalData('https://example.com', []);
-      final terminal2 = TerminalData('https://example1.com', []);
+      final terminal1 = TerminalData('https://example.com', '');
+      final terminal2 = TerminalData('https://example1.com', '');
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
         AddedTerminalState([terminal1], terminal1),
@@ -71,8 +70,8 @@ void main() {
     });
 
     test('Removing of a terminal is correct', () {
-      final terminal1 = TerminalData('https://example.com', []);
-      final terminal2 = TerminalData('https://example1.com', []);
+      final terminal1 = TerminalData('https://example.com', '');
+      final terminal2 = TerminalData('https://example1.com', '');
       final List<TerminalsManagerState> expected = [
         InitialTerminalsManagerState(),
         AddedTerminalState([terminal1], terminal1),
