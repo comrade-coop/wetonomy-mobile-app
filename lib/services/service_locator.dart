@@ -23,7 +23,7 @@ Future<void> _registerContractsRepository() async {
 Future<void> _registerTerminalsRepository() async {
   final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
   final terminalManager = SharedPrefsTerminalStorageProvider(sharedPrefs);
-  final terminalFacade = WebviewTerminalFacade(FlutterWebviewPlugin());
+  final terminalFacade = WebViewTerminalFacade(FlutterWebviewPlugin());
   locator.registerSingleton<TerminalsRepository>(
       TerminalsRepository(terminalManager, terminalFacade));
 }
