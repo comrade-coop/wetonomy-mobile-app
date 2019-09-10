@@ -3,30 +3,15 @@ import 'package:bloc/bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_event.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
-import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/repositories/repositories.dart';
-import 'package:wetonomy/services/terminal_facade.dart';
 
 class TerminalsManagerBloc
     extends Bloc<TerminalsManagerEvent, TerminalsManagerState> {
   final TerminalsRepository _terminalsRepository;
-  final ContractsBloc _contractsBloc;
-  StreamSubscription<ContractsState> _contractsBlocSubscription;
 
-  TerminalsManagerBloc(this._terminalsRepository, this._contractsBloc)
-      : assert(_terminalsRepository != null),
-        assert(_contractsBloc != null) {
-    _contractsBlocSubscription =
-        _contractsBloc.state.listen(_handleContractsStateChange);
-
-    _terminalsRepository.onTerminalLoadStateChanged
-        .listen((TerminalLoadState state) {
-      if (state == TerminalLoadState.Loading) {
-        
-      } else if (state == TerminalLoadState.Loaded) {}
-    });
-  }
+  TerminalsManagerBloc(this._terminalsRepository)
+      : assert(_terminalsRepository != null);
 
   @override
   TerminalsManagerState get initialState => InitialTerminalsManagerState();
@@ -35,25 +20,21 @@ class TerminalsManagerBloc
   Stream<TerminalsManagerState> mapEventToState(
     TerminalsManagerEvent event,
   ) async* {
-    if (event is AddTerminalEvent) {
+    if (event is AddTerminalsManagerEvent) {
       yield await _handleAddTerminal(event.terminal);
     }
 
-    if (event is RemoveTerminalEvent) {
+    if (event is RemoveTerminalsManagerEvent) {
       yield await _handleRemoveTerminal(event.terminal);
     }
 
-    if (event is LoadTerminalsEvent) {
+    if (event is LoadTerminalsManagerEvent) {
       yield LoadingTerminalsState();
       yield await _handleLoadTerminals();
     }
 
-    if (event is SelectTerminalEvent) {
+    if (event is SelectTerminalsManagerEvent) {
       yield await _handleSelectTerminal(event.terminal);
-    }
-
-    if (event is ReceiveMessageFromTerminalEvent) {
-      yield await _handleReceiveMessageFromTerminal(event);
     }
   }
 
@@ -119,25 +100,4 @@ class TerminalsManagerBloc
     return LoadedTerminalsState(terminals, terminals[0]);
   }
 
-  Future<TerminalsManagerState> _handleReceiveMessageFromTerminal(
-      ReceiveMessageFromTerminalEvent event) async {
-    try {
-      ContractAction action = ContractAction.fromJsonString(event.message);
-      _contractsBloc.dispatch(SendActionEvent(action));
-    } on FormatException {
-      print('Terminal sent an invalid action:' + event.message);
-    }
-
-    return currentState;
-  }
-
-  void _handleContractsStateChange(ContractsState state) {
-    _terminalsRepository.sendContractsStateToTerminal(state);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _contractsBlocSubscription?.cancel();
-  }
 }

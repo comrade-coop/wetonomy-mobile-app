@@ -40,11 +40,11 @@ class TerminalsListSectionContainer extends StatelessWidget {
 
   void _handleTerminalSelected(
       TerminalData terminal, TerminalsManagerBloc terminalsBloc) {
-    terminalsBloc.dispatch(SelectTerminalEvent(terminal));
+    terminalsBloc.dispatch(SelectTerminalsManagerEvent(terminal));
   }
 
   _handleTerminalRemoved(
       TerminalData terminal, TerminalsManagerBloc terminalsBloc) {
-    terminalsBloc.dispatch(RemoveTerminalEvent(terminal));
+    terminalsBloc.dispatch(RemoveTerminalsManagerEvent(terminal));
   }
 }

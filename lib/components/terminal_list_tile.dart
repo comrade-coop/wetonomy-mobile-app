@@ -59,8 +59,14 @@ class _TerminalListTileState extends State<TerminalListTile> {
                     SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      widget.title,
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 150),
+                      child: Text(
+                        widget.title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
                     ),
                   ],
                 ),

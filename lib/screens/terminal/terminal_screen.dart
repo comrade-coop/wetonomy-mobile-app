@@ -17,7 +17,7 @@ class TerminalScreen extends StatelessWidget {
       child: BlocBuilder<TerminalsManagerEvent, TerminalsManagerState>(
         builder: (BuildContext context, TerminalsManagerState state) {
           if (state is InitialTerminalsManagerState) {
-            bloc.dispatch(LoadTerminalsEvent());
+            bloc.dispatch(LoadTerminalsManagerEvent());
             return LoadingTerminalsScreen();
           }
 

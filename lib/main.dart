@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: createBlocProviders(),
+      providers: blocProviders,
       child: MaterialApp(
         title: 'Wetonomy',
-        theme: createDefaultTheme(),
-        routes: createRoutes(),
+        theme: defaultTheme,
+        routes: routes,
       ),
     );
   }

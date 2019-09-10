@@ -9,22 +9,18 @@ class WebviewTerminalFacade implements TerminalFacade {
       'StrongForce__receiveMessageFromNative';
 
   final FlutterWebviewPlugin _webviewPlugin;
-  final _terminalStateStream =
-      StreamController<TerminalLoadState>.broadcast();
+  final _terminalStateStream = StreamController<TerminalLoadState>.broadcast();
+
+  TerminalData _currentTerminal;
 
   WebviewTerminalFacade(this._webviewPlugin) : assert(_webviewPlugin != null) {
-    _webviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
-      if (state.type == WebViewState.finishLoad) {
-        _terminalStateStream.add(TerminalLoadState.Loaded);
-      }
-
-      _terminalStateStream.add(TerminalLoadState.Loading);
-    });
+    _broadcastWebViewChanges();
   }
 
   @override
   void selectTerminal(TerminalData terminal) {
     _webviewPlugin.reloadUrl(terminal.url);
+    _currentTerminal = terminal;
   }
 
   @override
@@ -37,4 +33,21 @@ class WebviewTerminalFacade implements TerminalFacade {
   @override
   Stream<TerminalLoadState> get onTerminalLoadStateChanged =>
       _terminalStateStream.stream;
+
+  void _broadcastWebViewChanges() {
+    TerminalLoadState currentState = LoadingTerminalState(_currentTerminal);
+
+    _webviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
+      if (state.type == WebViewState.finishLoad &&
+          currentState is LoadingTerminalState) {
+        currentState = LoadedTerminalState(_currentTerminal);
+        _terminalStateStream.sink.add(currentState);
+        FlutterWebviewPlugin().show();
+      } else if (currentState is LoadedTerminalState) {
+        currentState = LoadingTerminalState(_currentTerminal);
+        _terminalStateStream.sink.add(currentState);
+        FlutterWebviewPlugin().hide();
+      }
+    });
+  }
 }

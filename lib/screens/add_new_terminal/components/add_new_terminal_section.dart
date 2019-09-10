@@ -87,7 +87,7 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
       return;
     }
 
-    _bloc.dispatch(AddTerminalEvent(TerminalData(s, [])));
+    _bloc.dispatch(AddTerminalsManagerEvent(TerminalData(s, [])));
     Navigator.of(context).pop();
   }
 

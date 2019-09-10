@@ -39,7 +39,7 @@ void main() {
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
 
-      terminalsBloc.dispatch(LoadTerminalsEvent());
+      terminalsBloc.dispatch(LoadTerminalsManagerEvent());
     });
 
     test('Adding of a terminal is correct', () {
@@ -51,8 +51,8 @@ void main() {
         AddedTerminalState([terminal1, terminal2], terminal2),
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal1));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal2));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal1));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal2));
     });
 
     test('Selecting of a terminal is correct', () {
@@ -65,9 +65,9 @@ void main() {
         SelectedTerminalState([terminal1, terminal2], terminal1),
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal1));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal2));
-      terminalsBloc.dispatch(SelectTerminalEvent(terminal1));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal1));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal2));
+      terminalsBloc.dispatch(SelectTerminalsManagerEvent(terminal1));
     });
 
     test('Removing of a terminal is correct', () {
@@ -81,10 +81,10 @@ void main() {
         EmptyTerminalsManagerState()
       ];
       expectLater(terminalsBloc.state, emitsInOrder(expected));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal1));
-      terminalsBloc.dispatch(AddTerminalEvent(terminal2));
-      terminalsBloc.dispatch(RemoveTerminalEvent(terminal1));
-      terminalsBloc.dispatch(RemoveTerminalEvent(terminal2));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal1));
+      terminalsBloc.dispatch(AddTerminalsManagerEvent(terminal2));
+      terminalsBloc.dispatch(RemoveTerminalsManagerEvent(terminal1));
+      terminalsBloc.dispatch(RemoveTerminalsManagerEvent(terminal2));
     });
   });
 }
