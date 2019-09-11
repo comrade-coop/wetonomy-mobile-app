@@ -7,10 +7,16 @@ class DaosSection extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(color: Colors.black.withAlpha(10)),
         width: 64,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8),
+        child: SafeArea(
+          top: true,
+          left: false,
+          right: false,
+          bottom: false,
           child: ListView(
-            children: <Widget>[RoundSearchButton(onPressed: _handleAddNewDao)],
+            children: <Widget>[Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: RoundSearchButton(onPressed: _handleAddNewDao),
+            )],
           ),
         ));
   }

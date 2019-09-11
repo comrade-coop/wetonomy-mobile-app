@@ -19,14 +19,20 @@ class AppDrawer extends StatelessWidget {
               children: <Widget>[
                 DaosSection(),
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      DaoInfoSection(),
-                      Divider(),
-                      Expanded(child: TerminalsListSectionContainer())
-                    ],
+                  child: SafeArea(
+                    top: true,
+                    left: false,
+                    right: false,
+                    bottom: false,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        DaoInfoSection(),
+                        Divider(),
+                        Expanded(child: TerminalsListSectionContainer())
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -35,7 +41,12 @@ class AppDrawer extends StatelessWidget {
           Divider(
             height: 1,
           ),
-          AccountInfoSection(),
+          SafeArea(
+              top: false,
+              left: false,
+              right: false,
+              bottom: true,
+              child: AccountInfoSection()),
         ],
       ),
     );
