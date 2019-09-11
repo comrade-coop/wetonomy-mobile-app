@@ -9,18 +9,11 @@ class WebViewTerminalFacade implements TerminalFacade {
 
   final FlutterWebviewPlugin _webViewPlugin;
 
-  WebViewTerminalFacade(this._webViewPlugin) {
-    this._webViewPlugin.onStateChanged.listen((WebViewStateChanged state) {
-      if (state.type == WebViewState.finishLoad) {
-        _webViewPlugin.show();
-      } else {
-        _webViewPlugin.hide();
-      }
-    });
-  }
+  WebViewTerminalFacade(this._webViewPlugin) : assert(_webViewPlugin != null);
 
   @override
   void selectTerminal(TerminalData terminal) {
+    _hideAndShowWhenLoaded();
     _webViewPlugin.reloadUrl(terminal.url);
   }
 
@@ -29,5 +22,15 @@ class WebViewTerminalFacade implements TerminalFacade {
     String contractsStateJson = state.toEncodedJson();
     _webViewPlugin.evalJavascript(
         strongForceReceiveMethodName + '(\'$contractsStateJson\');');
+  }
+
+  void _hideAndShowWhenLoaded() async {
+    _webViewPlugin.hide();
+
+    await this._webViewPlugin.onStateChanged.firstWhere(
+        (WebViewStateChanged newState) =>
+            newState.type == WebViewState.finishLoad);
+
+    _webViewPlugin.show();
   }
 }

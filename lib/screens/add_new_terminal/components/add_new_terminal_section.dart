@@ -102,7 +102,7 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
     );
   }
 
-  // TODO: Implement terminal validity checking
+  // TODO: Implement terminal url validity checking
   bool _checkValidTerminal(String url) {
     if (!Validator.isURL(url)) {
       setState(() {
@@ -112,16 +112,18 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
     }
 
     setState(() {
-      _urlError = '';
+      _urlError = null;
     });
 
     return true;
   }
 
+  // TODO: Implement terminal name validity checking
   bool _checkValidName(String name) {
-//    setState(() {
-//      _nameError = errorInvalidName;
-//    });
+    if (name == null || name.isEmpty) {
+      return false;
+    }
+
     return true;
   }
 
@@ -130,8 +132,7 @@ class _AddNewTerminalSectionState extends State<AddNewTerminalSection> {
       return;
     }
 
-    _bloc.dispatch(
-        AddTerminalEvent(TerminalData(_terminalUrl, _terminalName)));
+    _bloc.dispatch(AddTerminalEvent(TerminalData(_terminalUrl, _terminalName)));
     Navigator.of(context).pop();
   }
 
