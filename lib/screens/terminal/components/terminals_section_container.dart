@@ -14,7 +14,7 @@ class TerminalsListSectionContainer extends StatelessWidget {
 
     return BlocBuilder<TerminalsManagerEvent, TerminalsManagerState>(
       builder: (context, state) {
-        if (state is LoadedTerminalsState) {
+        if (state is LoadedTerminalsManagerState) {
           return TerminalsListSection(
               terminals: state.terminals,
               onTerminalSelected: (TerminalData terminal) =>
@@ -40,11 +40,11 @@ class TerminalsListSectionContainer extends StatelessWidget {
 
   void _handleTerminalSelected(
       TerminalData terminal, TerminalsManagerBloc terminalsBloc) {
-    terminalsBloc.dispatch(SelectTerminalEvent(terminal));
+    terminalsBloc.dispatch(SelectTerminalsManagerEvent(terminal));
   }
 
   _handleTerminalRemoved(
       TerminalData terminal, TerminalsManagerBloc terminalsBloc) {
-    terminalsBloc.dispatch(RemoveTerminalEvent(terminal));
+    terminalsBloc.dispatch(RemoveTerminalsManagerEvent(terminal));
   }
 }

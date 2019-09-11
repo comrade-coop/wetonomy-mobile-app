@@ -11,12 +11,12 @@ class TerminalDrawerContainer extends StatelessWidget {
     return BlocListener<TerminalsManagerEvent, TerminalsManagerState>(
       bloc: BlocProvider.of<TerminalsManagerBloc>(context),
       listener: (BuildContext context, TerminalsManagerState state) {
-        if (state is SelectedTerminalState) {
+        if (state is SelectedTerminalsManagerState) {
           // If selected terminal close the drawer
           Navigator.of(context).pop();
         }
 
-        if (state is AddedTerminalState) {
+        if (state is AddedTerminalsManagerState) {
           // If added terminal close the drawer to open the new terminal
           Navigator.of(context).pop();
         }
