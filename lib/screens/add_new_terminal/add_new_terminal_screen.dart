@@ -10,7 +10,12 @@ class AddNewTerminalScreen extends StatelessWidget {
         elevation: 0,
         title: Text('Add a new Terminal'),
       ),
-      body: AddNewTerminalSection(),
+      body: SafeArea(
+          bottom: true,
+          left: false,
+          right: false,
+          top: false,
+          child: AddNewTerminalSection()),
     );
   }
 }
