@@ -17,12 +17,12 @@ class ContractsBloc extends Bloc<ContractsEvent, ContractsState> {
   Stream<ContractsState> mapEventToState(
     ContractsEvent event,
   ) async* {
-    if (event is SendActionEvent) {
+    if (event is SendActionContractsEvent) {
       yield await _handleSendActionEvent(event);
     }
   }
 
-  Future<ContractsState> _handleSendActionEvent(SendActionEvent event) async {
+  Future<ContractsState> _handleSendActionEvent(SendActionContractsEvent event) async {
     await repository.sendAction(event.action);
     Contract contract = await repository.getContractState(event.action.target);
     return ContractsState([contract]);

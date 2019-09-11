@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:wetonomy/bloc/bloc.dart';
-import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
-import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
+import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
+import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
+import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
@@ -13,30 +13,30 @@ import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
 class LoadedTerminalScreen extends StatefulWidget {
   static const String strongForceChannelName = 'StrongForceChannel';
 
-  const LoadedTerminalScreen(this.initialTerminal);
-
-  final TerminalData initialTerminal;
-
   @override
   _LoadedTerminalScreenState createState() => _LoadedTerminalScreenState();
 }
 
 class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
-  TerminalsManagerBloc _terminalsBloc;
+  TerminalInteractionBloc _terminalBloc;
 
   Set<JavascriptChannel> _channels;
   TerminalData _currentTerminal;
-  StreamSubscription<TerminalsManagerState> _terminalsBlocSubscription;
+  StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _currentTerminal = widget.initialTerminal;
+    _terminalBloc = BlocProvider.of<TerminalInteractionBloc>(context);
+    _terminalBlocSubscription =
+        _terminalBloc.state.listen(_handleTerminalStateChange);
 
-    _terminalsBloc = BlocProvider.of<TerminalsManagerBloc>(context);
-    _terminalsBlocSubscription =
-        _terminalsBloc.state.listen(_handleTerminalManagerStateChange);
+    if (_terminalBloc.currentState is ActiveTerminalInteractionState) {
+      _currentTerminal =
+          (_terminalBloc.currentState as ActiveTerminalInteractionState)
+              ?.terminal;
+    }
 
     this._channels = [
       JavascriptChannel(
@@ -48,7 +48,7 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   @override
   Widget build(BuildContext context) {
     return StackDrawerWebviewScaffold(
-      url: widget.initialTerminal.url,
+      url: _currentTerminal?.url,
       drawer: TerminalDrawerContainer(),
       appBar: buildTerminalAppBar(terminal: _currentTerminal),
       javascriptChannels: _channels,
@@ -58,18 +58,18 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   @override
   void dispose() {
     super.dispose();
-    _terminalsBlocSubscription?.cancel();
+    _terminalBlocSubscription?.cancel();
   }
 
-  void _handleTerminalManagerStateChange(TerminalsManagerState state) {
-    if (state is LoadedTerminalsState) {
+  void _handleTerminalStateChange(TerminalInteractionState state) {
+    if (state is ActiveTerminalInteractionState) {
       setState(() {
-        _currentTerminal = state.currentTerminal;
+        _currentTerminal = state.terminal;
       });
     }
   }
 
   void _onMessageReceivedFromWebView(JavascriptMessage message) {
-    _terminalsBloc.dispatch(ReceiveMessageFromTerminalEvent(message.message));
+    _terminalBloc.dispatch(ReceiveMessageTerminalInteractionEvent(message.message));
   }
 }

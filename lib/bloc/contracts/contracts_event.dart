@@ -7,8 +7,8 @@ abstract class ContractsEvent extends Equatable {
   ContractsEvent([List props = const []]) : super(props);
 }
 
-class SendActionEvent extends ContractsEvent {
+class SendActionContractsEvent extends ContractsEvent {
   final ContractAction action;
 
-  SendActionEvent(this.action) : super([action]);
+  SendActionContractsEvent(this.action) : super([action]);
 }
