@@ -9,7 +9,7 @@ Widget buildTerminalAppBar({TerminalData terminal}) {
       terminal != null ? terminal.name : '',
     ),
     actions: <Widget>[
-      TerminalSearch(),
+      TerminalSearchButton(),
       AccountAvatar(),
     ],
   );
