@@ -30,7 +30,7 @@ class AccountInfoSection extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Theme.of(context).primaryColorDark,
+                color: Theme.of(context).accentColor,
               ),
               onPressed: () {},
             ),

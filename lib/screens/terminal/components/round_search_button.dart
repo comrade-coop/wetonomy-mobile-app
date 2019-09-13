@@ -12,7 +12,7 @@ class RoundSearchButton extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: Icon(
           Icons.search,
-          color: Colors.blue,
+          color: Theme.of(context).accentColor,
         ),
       ),
       color: Colors.black.withAlpha(10),

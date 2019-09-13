@@ -32,7 +32,7 @@ class TerminalsListSection extends StatelessWidget {
           ),
           _buildTerminalsListOrEmptyView(),
           _buildNewTerminalButton(
-              iconColor: Theme.of(context).primaryColorDark,
+              iconColor: Theme.of(context).accentColor,
               onPressed: () {
                 Navigator.pushNamed(context, '/add_new_terminal');
               })

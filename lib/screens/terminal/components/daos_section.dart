@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/terminal/components/add_dao_button.dart';
+import 'package:wetonomy/screens/terminal/components/round_search_button.dart';
 
 class DaosSection extends StatelessWidget {
   @override
