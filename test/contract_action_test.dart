@@ -5,13 +5,13 @@ void main() {
   group('ContractAction', () {
     test('Creates correct action from json string', () {
       final String json = '''{
-        "target": "0x00000000000000000000",
+        "targets": ["0x00000000000000000000"],
         "actionName": "CreateAchievement",
-        "parameters": ["Title", "Description"]
+        "parameters": {"Title": "test", "Description": "x"}
       }''';
 
       final expected = ContractAction(['0x00000000000000000000'],
-          'CreateAchievement', {'Title': "", 'Description': ""});
+          'CreateAchievement', {'Title': "test", 'Description': "x"});
 
       final result = ContractAction.fromJsonString(json);
       expect(expected, result);
