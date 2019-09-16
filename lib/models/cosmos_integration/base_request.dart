@@ -6,9 +6,15 @@ part 'base_request.g.dart';
 class BaseRequest {
   final String from;
   final String sequence;
-  final String chain_id;
-  final String account_number;
-  BaseRequest(this.from, this.sequence, this.chain_id, this.account_number);
-  factory BaseRequest.fromJson(Map<String, dynamic> json) => _$BaseRequestFromJson(json);
+  @JsonKey(name: 'chain_id')
+  final String chainId;
+  @JsonKey(name: 'account_number')
+  final String accountNumber;
+
+  BaseRequest(this.from, this.sequence, this.chainId, this.accountNumber);
+
+  factory BaseRequest.fromJson(Map<String, dynamic> json) =>
+      _$BaseRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$BaseRequestToJson(this);
 }

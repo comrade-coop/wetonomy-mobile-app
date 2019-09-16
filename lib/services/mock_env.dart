@@ -8,4 +8,5 @@ const String webSocketUrl = "ws://ioan681.pagekite.me/websocket";
 
 const String lightClientUrl = "http://08aeedec.ngrok.io/";
 
-const TendermintSubscribeRequest subscribeMsg = TendermintSubscribeRequest("2.0", "subscribe","0", {"query": "tm.event = 'Tx'"}); 
+const TendermintSubscribeRequest subscribeMsg = TendermintSubscribeRequest(
+    "2.0", "subscribe", "0", {"query": "tm.event = 'Tx'"});

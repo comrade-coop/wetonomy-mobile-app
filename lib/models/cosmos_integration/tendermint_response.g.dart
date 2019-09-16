@@ -8,7 +8,7 @@ part of 'tendermint_response.dart';
 
 TendermintResponse _$TendermintResponseFromJson(Map<String, dynamic> json) {
   return TendermintResponse(
-    jsonrpc: json['jsonrpc'] as String,
+    jsonRpc: json['jsonrpc'] as String,
     id: json['id'] as String,
     result: TendermintResult.fromJson(json['result'] as Map<String, dynamic>),
   );
@@ -16,7 +16,7 @@ TendermintResponse _$TendermintResponseFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TendermintResponseToJson(TendermintResponse instance) =>
     <String, dynamic>{
-      'jsonrpc': instance.jsonrpc,
+      'jsonrpc': instance.jsonRpc,
       'id': instance.id,
       'result': instance.result,
     };

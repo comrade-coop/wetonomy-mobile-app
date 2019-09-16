@@ -1,17 +1,13 @@
 import 'dart:async';
 
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
 
+abstract class ContractsApiClient {
+  Future<Map<String, dynamic>> sendAction(ContractAction action);
 
-class ContractsApiClient {
-  // ignore: missing_return
-  Future<Map<String,dynamic>> sendAction(ContractAction action) async {}
+  Future<Map<String, dynamic>> sendQuery(Query query);
 
-  // ignore: missing_return
-  Future<Map<String,dynamic>> sendQuery(Query query) async {}
-
-  // ignore: missing_return
-  StreamController<ContractStateUpdateEvent> getContractsEventsStream() {}
+  Stream<Contract> get contractsEventsStream;
 }

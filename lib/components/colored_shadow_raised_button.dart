@@ -27,11 +27,10 @@ class ColoredShadowRaisedButton extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
-          color: shadowColor ?? color,
-          blurRadius: blurRadius,
-          spreadRadius: spreadRadius,
-          offset: shadowOffset ?? Offset.zero
-        )
+            color: shadowColor ?? color,
+            blurRadius: blurRadius,
+            spreadRadius: spreadRadius,
+            offset: shadowOffset ?? Offset.zero)
       ]),
       child: RaisedButton(
         padding: padding,

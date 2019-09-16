@@ -4,36 +4,37 @@ import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state_after_query.dart';
-import 'package:wetonomy/repositories/terminal_interaction_repository.dart';
-import 'package:wetonomy/services/webview_terminal_service.dart';
+import 'package:wetonomy/models/contract_action.dart';
+import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/repositories/repositories.dart';
+import 'package:wetonomy/services/webview_terminal_bridge.dart';
 
 import '../../models/contract.dart';
 
 class TerminalInteractionBloc
     extends Bloc<TerminalInteractionEvent, TerminalInteractionState> {
-  final WebViewTerminalService _service;
-  final TerminalInteractionRepository repository;
+  final TerminalBridge _webViewBridge;
+  final TerminalsRepository repository;
   final TerminalsManagerBloc _terminalsManagerBloc;
   StreamSubscription<TerminalsManagerState> _terminalsManagerSubscription;
-  StreamSubscription<ContractStateUpdateEvent> _contractStateUpdateSubscription;
+  StreamSubscription<Contract> _contractStateUpdateSubscription;
 
-  TerminalInteractionBloc(this.repository,
-      this._service, this._terminalsManagerBloc) {
-
+  TerminalInteractionBloc(
+      this.repository, this._webViewBridge, this._terminalsManagerBloc) {
     _terminalsManagerSubscription =
         _terminalsManagerBloc.state.listen((TerminalsManagerState state) {
       if (state is LoadedTerminalsManagerState) {
         dispatch(SelectedTerminalInteractionEvent(state.currentTerminal));
       }
     });
-    
 
-    _contractStateUpdateSubscription = repository.getContractsEventsStream().stream.listen((data) {
-      _handleContractsStateChange(data.contract);
+    _contractStateUpdateSubscription =
+        repository.contractsEventsStream.listen((Contract contract) {
+      _handleContractsStateChange(contract);
     }, onDone: () {
-      print("Task Done");
+      print('Task Done');
     }, onError: (error) {
-      throw(error);
+      throw (error);
     });
   }
 
@@ -47,11 +48,9 @@ class TerminalInteractionBloc
   ) async* {
     if (event is ReceiveActionFromTerminalEvent) {
       yield await _handleReceiveActionEvent(event);
-    } else 
-    if (event is ReceiveQueryFromTerminalEvent) {
+    } else if (event is ReceiveQueryFromTerminalEvent) {
       yield await _handleReceiveQueryEvent(event);
-    } else 
-    if (event is SelectedTerminalInteractionEvent) {
+    } else if (event is SelectedTerminalInteractionEvent) {
       yield await _handleTerminalSelectedEvent(event);
     }
   }
@@ -60,29 +59,50 @@ class TerminalInteractionBloc
   void dispose() {
     super.dispose();
     _terminalsManagerSubscription.cancel();
+    _contractStateUpdateSubscription.cancel();
   }
 
   void _handleContractsStateChange(Contract state) {
-    _service.handleContractsStateChange(state);
+    _webViewBridge.handleContractsStateChange(state);
   }
 
-  Future<TerminalInteractionState> _handleReceiveActionEvent(ReceiveActionFromTerminalEvent event) async {
-    Map<String,dynamic> actionResult = await repository.sendAction(event.action);
-    var response = TerminalInteractionStateAfterAction(actionResult, null);
-    _service.handleActionResponse(response);
-    return response;
+  Future<TerminalInteractionState> _handleReceiveActionEvent(
+      ReceiveActionFromTerminalEvent event) async {
+    try {
+      final ContractAction action =
+          ContractAction.fromJsonString(event.serialisedAction);
+
+      final Map<String, dynamic> actionResult =
+          await repository.sendAction(action);
+      final response = TerminalInteractionStateAfterAction(actionResult, null);
+      _webViewBridge.handleActionResponse(response);
+      return response;
+    } on FormatException {
+      print('Terminal sent an invalid action:' + event.serialisedAction);
+    }
+
+    return currentState;
   }
 
-  Future<TerminalInteractionState> _handleReceiveQueryEvent(ReceiveQueryFromTerminalEvent event) async {
-    Map<String,dynamic> queryResult = await repository.sendQuery(event.query);
-    var response = TerminalInteractionStateAfterQuery(queryResult, event.query);
-    _service.handleQueryResponse(response);
-    return response;
+  Future<TerminalInteractionState> _handleReceiveQueryEvent(
+      ReceiveQueryFromTerminalEvent event) async {
+    try {
+      final query = Query.fromJsonString(event.serialisedQuery);
+
+      Map<String, dynamic> queryResult = await repository.sendQuery(query);
+      final response = TerminalInteractionStateAfterQuery(queryResult, query);
+      _webViewBridge.handleQueryResponse(response);
+      return response;
+    } on FormatException {
+      print('Terminal sent an invalid action:' + event.serialisedQuery);
+    }
+
+    return currentState;
   }
 
   Future<TerminalInteractionState> _handleTerminalSelectedEvent(
       SelectedTerminalInteractionEvent event) async {
-    _service.selectTerminal(event.terminal);
+    _webViewBridge.selectTerminal(event.terminal);
     return ActiveTerminalInteractionState(event.terminal);
   }
 }

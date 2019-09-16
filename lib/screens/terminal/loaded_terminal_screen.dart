@@ -14,42 +14,43 @@ import '../../models/contract_action.dart';
 import '../../models/query.dart';
 
 class LoadedTerminalScreen extends StatefulWidget {
-  static const String strongForceActionChannelName = 'StrongForceActionChannel';
-
-  static const String strongForceQueryChannelName = 'StrongForceQueryChannel';
-
   @override
   _LoadedTerminalScreenState createState() => _LoadedTerminalScreenState();
 }
 
 class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
+  static const String strongForceActionChannelName = 'StrongForceActionChannel';
+  static const String strongForceQueryChannelName = 'StrongForceQueryChannel';
+
   TerminalInteractionBloc _terminalInteractionBloc;
 
   Set<JavascriptChannel> _channels;
   TerminalData _currentTerminal;
-  StreamSubscription<TerminalInteractionState> _terminalInteractionBlocSubscription;
+  StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _terminalInteractionBloc = BlocProvider.of<TerminalInteractionBloc>(context);
-    _terminalInteractionBlocSubscription =
+    _terminalInteractionBloc =
+        BlocProvider.of<TerminalInteractionBloc>(context);
+    _terminalBlocSubscription =
         _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
 
-    if (_terminalInteractionBloc.currentState is ActiveTerminalInteractionState) {
-      _currentTerminal =
-          (_terminalInteractionBloc.currentState as ActiveTerminalInteractionState)
-              ?.terminal;
+    if (_terminalInteractionBloc.currentState
+        is ActiveTerminalInteractionState) {
+      _currentTerminal = (_terminalInteractionBloc.currentState
+              as ActiveTerminalInteractionState)
+          ?.terminal;
     }
 
     this._channels = [
       JavascriptChannel(
-        name: LoadedTerminalScreen.strongForceActionChannelName,
-        onMessageReceived: _onActionReceivedFromWebView),
+          name: strongForceActionChannelName,
+          onMessageReceived: _onActionReceivedFromWebView),
       JavascriptChannel(
-        name: LoadedTerminalScreen.strongForceQueryChannelName,
-        onMessageReceived: _onQueryReceivedFromWebView)
+          name: strongForceQueryChannelName,
+          onMessageReceived: _onQueryReceivedFromWebView)
     ].toSet();
   }
 
@@ -66,7 +67,7 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   @override
   void dispose() {
     super.dispose();
-    _terminalInteractionBlocSubscription?.cancel();
+    _terminalBlocSubscription?.cancel();
   }
 
   void _handleTerminalStateChange(TerminalInteractionState state) {
@@ -78,21 +79,12 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   }
 
   void _onActionReceivedFromWebView(JavascriptMessage message) {
-    try {
-      ContractAction action = ContractAction.fromJsonString(message.message);
-      _terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(action));
-    } on FormatException {
-      print('Terminal sent an invalid action:' + message.message);
-    }
-    
+    _terminalInteractionBloc
+        .dispatch(ReceiveActionFromTerminalEvent(message.message));
   }
 
   void _onQueryReceivedFromWebView(JavascriptMessage message) {
-    try {
-      Query query = Query.fromJsonString(message.message);
-      _terminalInteractionBloc.dispatch(ReceiveQueryFromTerminalEvent(query));
-    } on FormatException {
-      print('Terminal sent an invalid action:' + message.message);
-    }
+    _terminalInteractionBloc
+        .dispatch(ReceiveQueryFromTerminalEvent(message.message));
   }
 }

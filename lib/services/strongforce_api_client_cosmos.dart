@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/models/contract_action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/cosmos_integration/action_request.dart';
@@ -11,97 +10,91 @@ import 'package:http/http.dart' as http;
 import 'package:wetonomy/models/contract.dart';
 
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
 
 import 'package:wetonomy/models/cosmos_integration/tendermint_response.dart';
 import 'package:wetonomy/models/cosmos_integration/tendermint_subscribe_request.dart';
 
-
-
 class StrongForceApiClientCosmos implements ContractsApiClient {
   static int count = 0;
-  
-  IOWebSocketChannel channel;
-  StreamController<ContractStateUpdateEvent> contractsEventsStream;
+
+  IOWebSocketChannel _channel;
+  StreamController<Contract> _contractsEventsStream;
 
   // String baseURL = "http://127.0.0.1:1317/";
-  String baseURL = lightClientUrl;
-  int seq = 2;
+  final String _baseURL = lightClientUrl;
+  int _seq = 2;
 
-  StrongForceApiClientCosmos(){
-    channel = IOWebSocketChannel.connect(webSocketUrl);
-    contractsEventsStream = new StreamController<ContractStateUpdateEvent>();
+  StrongForceApiClientCosmos() {
+    _channel = IOWebSocketChannel.connect(webSocketUrl);
+    _contractsEventsStream = StreamController<Contract>.broadcast();
     _subscribeForEvents();
   }
-   
+
   @override
-  Future<Map<String,dynamic>> sendAction(ContractAction action) async {
-    String actionUrl = "strongforce/contract/action";
-    var url = baseURL + actionUrl;
-    
-    var bytes = utf8.encode(jsonEncode(action.toJson()));
-    var encodedAction = Base64Codec().encode(bytes);
+  Future<Map<String, dynamic>> sendAction(ContractAction action) async {
+    final String actionUrl = 'strongforce/contract/action';
+    final String url = _baseURL + actionUrl;
 
-    var account = await _getAccontSequence(address);
+    final List<int> bytes = utf8.encode(jsonEncode(action.toJson()));
+    final String encodedAction = Base64Codec().encode(bytes);
 
-    var base = BaseRequest(address, account["sequence"], chainId, account["account_number"]);
-    var request = ActionRequest(base, 'A', encodedAction);
+    final Map<String, dynamic> account = await _getAccontSequence(address);
 
-    var encoded = jsonEncode(request);
-    var response = await http.post(url, body: encoded);
-    var body = jsonDecode(response.body);
-    body["error"]["code"]+=seq;
-    seq++;
-    return body["error"];
+    final BaseRequest base = BaseRequest(
+        address, account['sequence'], chainId, account['account_number']);
+    final ActionRequest request = ActionRequest(base, 'A', encodedAction);
+
+    final String encoded = jsonEncode(request);
+    final http.Response response = await http.post(url, body: encoded);
+    dynamic body = jsonDecode(response.body);
+    body['error']['code'] += _seq;
+    _seq++;
+    return body['error'];
   }
 
   @override
-  Future<Map<String,dynamic>> sendQuery(Query query) async {
-    var url = baseURL + query.url;
-    var response = await http.get(url);
-    var body = jsonDecode(response.body);
-    return body["result"];
+  Future<Map<String, dynamic>> sendQuery(Query query) async {
+    final String url = _baseURL + query.url;
+    final http.Response response = await http.get(url);
+    final dynamic body = jsonDecode(response.body);
+    return body['result'];
   }
 
   Future<Map<String, dynamic>> _getAccontSequence(String address) async {
-    var url = baseURL + "auth/accounts/" + address;
-    var response = await http.get(url);
-    var body = jsonDecode(response.body);
-    return body["result"]["value"];
+    final String url = _baseURL + 'auth/accounts/' + address;
+    final http.Response response = await http.get(url);
+    final dynamic body = jsonDecode(response.body);
+    return body['result']['value'];
   }
 
   void _subscribeForEvents() {
     TendermintSubscribeRequest msg = subscribeMsg;
-    channel.sink.add(jsonEncode(msg));
-    channel.stream.listen(
-      (message){
-        var decoded = jsonDecode(message);
-        var x = TendermintResponse.fromJson(decoded);
-        if(x.result.events != null){
-          var addresses = x.result.events["ContractStateUpdate.Address"];
-          var states = x.result.events["ContractStateUpdate.State"];
-          addresses.asMap().forEach((index, value) => { _sendContractStateUpdateEvent(addresses[index], states[index])});
-        }
-        print(message);
-      },
-      onError: (error, StackTrace stackTrace){
-        print(error);
-        // error handling
-      },
-      onDone: (){
-        throw("Unexpected close");
-        // communication has been closed 
-      },
-      cancelOnError: false);
+    _channel.sink.add(jsonEncode(msg));
+    _channel.stream.listen((message) {
+      final dynamic decoded = jsonDecode(message);
+      final TendermintResponse x = TendermintResponse.fromJson(decoded);
+      if (x.result.events != null) {
+        final dynamic addresses =
+            x.result.events['ContractStateUpdate.Address'];
+        final dynamic states = x.result.events['ContractStateUpdate.State'];
+        addresses.asMap().forEach((index, value) =>
+            _sendContractStateUpdateEvent(addresses[index], states[index]));
+      }
+      print(message);
+    }, onError: (error, StackTrace stackTrace) {
+      print(error);
+      // error handling
+    }, onDone: () {
+      throw ('Unexpected close');
+      // communication has been closed
+    }, cancelOnError: false);
   }
 
-  void _sendContractStateUpdateEvent(String address, String state){
-    var contract = Contract(address, jsonDecode(state));
-    contractsEventsStream.add(ContractStateUpdateEvent(contract));
+  void _sendContractStateUpdateEvent(String address, String state) {
+    final contract = Contract(address, jsonDecode(state));
+    _contractsEventsStream.add(contract);
   }
 
   @override
-  StreamController<ContractStateUpdateEvent> getContractsEventsStream() {
-    return contractsEventsStream;
-  }
+  Stream<Contract> get contractsEventsStream => _contractsEventsStream.stream;
 }

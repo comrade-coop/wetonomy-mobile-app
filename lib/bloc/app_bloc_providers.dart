@@ -5,7 +5,7 @@ import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dar
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
 import 'package:wetonomy/repositories/repositories.dart';
 import 'package:wetonomy/services/service_locator.dart';
-import 'package:wetonomy/services/webview_terminal_service.dart';
+import 'package:wetonomy/services/webview_terminal_bridge.dart';
 import 'logging_bloc_delegate.dart';
 
 List<BlocProvider> createBlocProviders() {
@@ -13,11 +13,12 @@ List<BlocProvider> createBlocProviders() {
     BlocSupervisor.delegate = LoggingBlocDelegate();
   }
 
-  final TerminalInteractionRepository interactionRepo = locator.get<TerminalInteractionRepository>();
   final TerminalsRepository terminalsRepo = locator.get<TerminalsRepository>();
-  final WebViewTerminalService terminalService = locator.get<WebViewTerminalService>();
+  final TerminalBridge terminalService =
+      locator.get<TerminalBridge>();
   final terminalsManagerBloc = TerminalsManagerBloc(terminalsRepo);
-  final interactionBloc = TerminalInteractionBloc(interactionRepo, terminalService, terminalsManagerBloc);
+  final interactionBloc = TerminalInteractionBloc(
+      terminalsRepo, terminalService, terminalsManagerBloc);
 
   return [
     BlocProvider<TerminalsManagerBloc>(

@@ -12,12 +12,15 @@ part 'terminal_interaction_state_after_query.g.dart';
 class TerminalInteractionStateAfterQuery extends TerminalInteractionState {
   final Map<String, dynamic> result;
   final Query query;
+
   TerminalInteractionStateAfterQuery(this.result, this.query);
 
-  factory TerminalInteractionStateAfterQuery.fromJson(Map<String, dynamic> json) =>
+  factory TerminalInteractionStateAfterQuery.fromJson(
+          Map<String, dynamic> json) =>
       _$TerminalInteractionStateAfterQueryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TerminalInteractionStateAfterQueryToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$TerminalInteractionStateAfterQueryToJson(this);
 
   String toEncodedJson() => jsonEncode(this.toJson());
 }

@@ -5,12 +5,15 @@ part 'action_request.g.dart';
 
 @JsonSerializable(nullable: false)
 class ActionRequest {
-  final BaseRequest base_req;
+  @JsonKey(name: 'base_req')
+  final BaseRequest baseRequest;
   final String name;
   final String action;
-  ActionRequest(this.base_req, this.name, this.action);
-  factory ActionRequest.fromJson(Map<String, dynamic> json) => _$ActionRequestFromJson(json);
+
+  ActionRequest(this.baseRequest, this.name, this.action);
+
+  factory ActionRequest.fromJson(Map<String, dynamic> json) =>
+      _$ActionRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$ActionRequestToJson(this);
 }
-
-

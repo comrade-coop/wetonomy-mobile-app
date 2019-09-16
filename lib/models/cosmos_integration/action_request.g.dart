@@ -16,7 +16,7 @@ ActionRequest _$ActionRequestFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ActionRequestToJson(ActionRequest instance) =>
     <String, dynamic>{
-      'base_req': instance.base_req,
+      'base_req': instance.baseRequest,
       'name': instance.name,
       'action': instance.action,
     };

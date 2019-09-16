@@ -30,7 +30,6 @@ class TerminalListTile extends StatefulWidget {
 }
 
 class _TerminalListTileState extends State<TerminalListTile> {
-  bool _showDeleteBtn = false;
   double _removeBtnOpacity = 0;
 
   @override

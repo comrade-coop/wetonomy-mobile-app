@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'StateQueryResponse.dart';
+part of 'state_query_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

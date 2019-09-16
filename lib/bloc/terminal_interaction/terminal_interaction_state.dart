@@ -18,8 +18,8 @@ class ActiveTerminalInteractionState extends TerminalInteractionState {
 class TerminalInteractionStateAfterAction extends TerminalInteractionState {
   final Map<String, dynamic> result;
   final Query query;
+
   TerminalInteractionStateAfterAction(this.result, this.query);
 
-  String toEncodedJson() => "";
+  String toEncodedJson() => '';
 }
-

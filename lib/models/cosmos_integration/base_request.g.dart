@@ -19,6 +19,6 @@ Map<String, dynamic> _$BaseRequestToJson(BaseRequest instance) =>
     <String, dynamic>{
       'from': instance.from,
       'sequence': instance.sequence,
-      'chain_id': instance.chain_id,
-      'account_number': instance.account_number,
+      'chain_id': instance.chainId,
+      'account_number': instance.accountNumber,
     };

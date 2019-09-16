@@ -8,6 +8,7 @@ part 'query.g.dart';
 @JsonSerializable(nullable: false)
 class Query {
   final String url;
+
   Query(this.url);
 
   factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);

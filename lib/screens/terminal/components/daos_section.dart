@@ -13,10 +13,12 @@ class DaosSection extends StatelessWidget {
           right: false,
           bottom: false,
           child: ListView(
-            children: <Widget>[Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: RoundSearchButton(onPressed: _handleAddNewDao),
-            )],
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: RoundSearchButton(onPressed: _handleAddNewDao),
+              )
+            ],
           ),
         ));
   }

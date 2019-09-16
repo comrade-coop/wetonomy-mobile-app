@@ -7,7 +7,11 @@ class TendermintResult {
   final String query;
   final Map<String, dynamic> data;
   final Map<String, dynamic> events;
+
   TendermintResult({this.query, this.data, this.events});
-  factory TendermintResult.fromJson(Map<String, dynamic> json) => _$TendermintResultFromJson(json);
+
+  factory TendermintResult.fromJson(Map<String, dynamic> json) =>
+      _$TendermintResultFromJson(json);
+
   Map<String, dynamic> toJson() => _$TendermintResultToJson(this);
 }

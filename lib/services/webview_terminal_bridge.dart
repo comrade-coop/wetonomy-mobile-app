@@ -5,19 +5,19 @@ import 'package:wetonomy/models/terminal_data.dart';
 import '../bloc/terminal_interaction/terminal_interaction_state.dart';
 import '../models/contract.dart';
 
-class WebViewTerminalService {
+class TerminalBridge {
   static const String strongForceReceiveStateUpdateMethodName =
-    'StrongForce__receiveStateUpdateFromNative';
+      'StrongForce__receiveStateUpdateFromNative';
 
   static const String strongForceReceiveQueryMethodName =
-    'StrongForce__receiveQueryResponseFromNative';
+      'StrongForce__receiveQueryResponseFromNative';
 
   static const String snackbarNotificationMethodName =
-    'StrongForce__snackbarNotification';
+      'StrongForce__snackbarNotification';
 
   final FlutterWebviewPlugin _webViewPlugin;
 
-  WebViewTerminalService(this._webViewPlugin) : assert(_webViewPlugin != null);
+  TerminalBridge(this._webViewPlugin) : assert(_webViewPlugin != null);
 
   void selectTerminal(TerminalData terminal) {
     _hideAndShowWhenLoaded();
@@ -35,8 +35,8 @@ class WebViewTerminalService {
   }
 
   void _sendStateUpdateToWebView(String message) {
-    _webViewPlugin
-        .evalJavascript(strongForceReceiveStateUpdateMethodName + '(\'$message\');');
+    _webViewPlugin.evalJavascript(
+        strongForceReceiveStateUpdateMethodName + '(\'$message\');');
   }
 
   void _sendQueryToWebView(String message) {
@@ -62,6 +62,5 @@ class WebViewTerminalService {
   void handleActionResponse(TerminalInteractionStateAfterAction state) {
     String interactionResponseJson = state.toEncodedJson();
     _sendSnackbarNotificationToWebView(interactionResponseJson);
-    
   }
 }

@@ -19,7 +19,7 @@ TendermintSubscribeRequest _$TendermintSubscribeRequestFromJson(
 Map<String, dynamic> _$TendermintSubscribeRequestToJson(
         TendermintSubscribeRequest instance) =>
     <String, dynamic>{
-      'jsonrpc': instance.jsonrpc,
+      'jsonrpc': instance.jsonRpc,
       'method': instance.method,
       'id': instance.id,
       'params': instance.params,
