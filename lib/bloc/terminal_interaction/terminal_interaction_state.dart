@@ -14,3 +14,12 @@ class ActiveTerminalInteractionState extends TerminalInteractionState {
 
   ActiveTerminalInteractionState(this.terminal) : super([terminal]);
 }
+
+class TerminalInteractionStateAfterAction extends TerminalInteractionState {
+  final Map<String, dynamic> result;
+  final Query query;
+  TerminalInteractionStateAfterAction(this.result, this.query);
+
+  String toEncodedJson() => "";
+}
+

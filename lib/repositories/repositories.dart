@@ -1,2 +1,2 @@
-export 'contracts_repository.dart';
+export 'terminal_interaction_repository.dart';
 export 'terminals_repository.dart';

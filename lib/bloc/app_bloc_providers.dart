@@ -1,14 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wetonomy/bloc/contracts/contracts_bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_bloc.dart';
-import 'package:wetonomy/repositories/contracts_repository.dart';
-import 'package:wetonomy/repositories/terminals_repository.dart';
+import 'package:wetonomy/repositories/repositories.dart';
 import 'package:wetonomy/services/service_locator.dart';
-import 'package:wetonomy/services/terminal_facade.dart';
-
+import 'package:wetonomy/services/webview_terminal_service.dart';
 import 'logging_bloc_delegate.dart';
 
 List<BlocProvider> createBlocProviders() {
@@ -16,18 +13,13 @@ List<BlocProvider> createBlocProviders() {
     BlocSupervisor.delegate = LoggingBlocDelegate();
   }
 
-  final ContractsRepository contractsRepo = locator.get<ContractsRepository>();
+  final TerminalInteractionRepository interactionRepo = locator.get<TerminalInteractionRepository>();
   final TerminalsRepository terminalsRepo = locator.get<TerminalsRepository>();
-  final TerminalFacade terminalFacade = locator.get<TerminalFacade>();
-  final contractsBloc = ContractsBloc(contractsRepo);
+  final WebViewTerminalService terminalService = locator.get<WebViewTerminalService>();
   final terminalsManagerBloc = TerminalsManagerBloc(terminalsRepo);
-  final interactionBloc = TerminalInteractionBloc(
-      terminalFacade, terminalsManagerBloc, contractsBloc);
+  final interactionBloc = TerminalInteractionBloc(interactionRepo, terminalService, terminalsManagerBloc);
 
   return [
-    BlocProvider<ContractsBloc>(
-      builder: (_) => contractsBloc,
-    ),
     BlocProvider<TerminalsManagerBloc>(
       builder: (_) => terminalsManagerBloc,
     ),

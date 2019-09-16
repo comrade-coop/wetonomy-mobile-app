@@ -9,15 +9,15 @@ part 'contract_action.g.dart';
 @immutable
 @JsonSerializable(nullable: false)
 class ContractAction extends Equatable {
-  final String target;
+  final List<String> targets;
   final String actionName;
-  final List<String> parameters;
+  final Map<String, dynamic> parameters;
 
-  ContractAction(this.target, this.actionName, this.parameters)
-      : assert(target != null),
+  ContractAction(this.targets, this.actionName, this.parameters)
+      : assert(targets != null),
         assert(actionName != null),
         assert(parameters != null),
-        super([target, actionName, parameters]);
+        super([targets, actionName, parameters]);
 
   factory ContractAction.fromJson(Map<String, dynamic> json) =>
       _$ContractActionFromJson(json);

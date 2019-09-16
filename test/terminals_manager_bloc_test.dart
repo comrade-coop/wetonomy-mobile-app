@@ -9,8 +9,6 @@ import 'mocks/mock_terminal_manager.dart';
 
 class MockFlutterWebviewPlugin extends Mock implements FlutterWebviewPlugin {}
 
-class MockContractsBloc extends Mock implements ContractsBloc {}
-
 void main() {
   group('TerminalsManagerBloc', () {
     TerminalsManagerBloc terminalsBloc;

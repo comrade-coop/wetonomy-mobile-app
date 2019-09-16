@@ -10,8 +10,8 @@ void main() {
         "parameters": ["Title", "Description"]
       }''';
 
-      final expected = ContractAction('0x00000000000000000000',
-          'CreateAchievement', ['Title', 'Description']);
+      final expected = ContractAction(['0x00000000000000000000'],
+          'CreateAchievement', {'Title': "", 'Description': ""});
 
       final result = ContractAction.fromJsonString(json);
       expect(expected, result);

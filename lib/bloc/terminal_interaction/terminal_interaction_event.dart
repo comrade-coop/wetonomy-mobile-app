@@ -7,14 +7,26 @@ abstract class TerminalInteractionEvent extends Equatable {
   TerminalInteractionEvent([List props = const <dynamic>[]]) : super(props);
 }
 
-class ReceiveMessageTerminalInteractionEvent extends TerminalInteractionEvent {
-  final String message;
+class ReceiveActionFromTerminalEvent extends TerminalInteractionEvent {
+  final ContractAction action;
 
-  ReceiveMessageTerminalInteractionEvent(this.message) : super([message]);
+  ReceiveActionFromTerminalEvent(this.action) : super([action]);
+}
+
+class ReceiveQueryFromTerminalEvent extends TerminalInteractionEvent {
+  final Query query;
+
+  ReceiveQueryFromTerminalEvent(this.query) : super([query]);
 }
 
 class SelectedTerminalInteractionEvent extends TerminalInteractionEvent {
   final TerminalData terminal;
 
   SelectedTerminalInteractionEvent(this.terminal) : super([terminal]);
+}
+
+class ContractStateUpdateEvent extends TerminalInteractionEvent {
+  final Contract contract;
+
+  ContractStateUpdateEvent(this.contract) : super([contract]);
 }
