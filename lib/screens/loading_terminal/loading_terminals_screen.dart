@@ -7,7 +7,7 @@ class LoadingTerminalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StackDrawerScaffold(
-      appBar: buildTerminalAppBar(),
+      appBar: buildTerminalAppBar(context),
       body: Center(child: CircularProgressIndicator()),
       drawer: AppDrawer(),
     );

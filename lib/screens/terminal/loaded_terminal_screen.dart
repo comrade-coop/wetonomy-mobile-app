@@ -50,7 +50,7 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
     return StackDrawerWebviewScaffold(
       url: _currentTerminal?.url,
       drawer: TerminalDrawerContainer(),
-      appBar: buildTerminalAppBar(terminal: _currentTerminal),
+      appBar: buildTerminalAppBar(context, title: _currentTerminal?.name),
       javascriptChannels: _channels,
     );
   }
@@ -70,6 +70,7 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   }
 
   void _onMessageReceivedFromWebView(JavascriptMessage message) {
-    _terminalBloc.dispatch(ReceiveMessageTerminalInteractionEvent(message.message));
+    _terminalBloc
+        .dispatch(ReceiveMessageTerminalInteractionEvent(message.message));
   }
 }

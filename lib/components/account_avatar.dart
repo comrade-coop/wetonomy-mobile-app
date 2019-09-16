@@ -6,11 +6,11 @@ class AccountAvatar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0, left: 8.0),
       child: CircleAvatar(
-        backgroundColor: Colors.grey.withAlpha(50),
+        backgroundColor: Colors.black.withAlpha(20),
         child: Icon(
           Icons.person,
           size: 32,
-          color: Colors.grey,
+          color: Colors.black.withAlpha(50),
         ),
       ),
     );

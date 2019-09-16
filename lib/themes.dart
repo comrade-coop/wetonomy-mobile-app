@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 ThemeData createDefaultTheme() {
   return ThemeData(
       brightness: Brightness.light,
-      primaryColor: Colors.white,
-      accentColor: Colors.blue,
-      backgroundColor: Colors.white);
+      primaryColor: Colors.blue,
+      accentColor: Colors.blue);
 }
 
 ThemeData createPinkTheme() {
@@ -14,6 +13,5 @@ ThemeData createPinkTheme() {
       primaryColor: Colors.white,
       primaryColorDark: Color.fromARGB(255, 180, 0, 78),
       primaryColorLight: Color.fromARGB(255, 255, 119, 169),
-      accentColor: Colors.pink.shade400,
-      backgroundColor: Colors.white);
+      accentColor: Colors.pink.shade400);
 }

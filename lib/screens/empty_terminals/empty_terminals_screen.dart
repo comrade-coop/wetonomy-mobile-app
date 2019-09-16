@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_drawer.dart';
 
 class EmptyTerminalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StackDrawerScaffold(
-      appBar: AppBar(
-        title: Text('Wetonomy'),
-        elevation: 0,
-      ),
+      appBar: buildTerminalAppBar(context, title: 'Wetonomy'),
       body: _buildBody(context),
       drawer: AppDrawer(),
     );
