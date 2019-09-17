@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/terminal/components/round_search_button.dart';
+import 'package:wetonomy/mock_resources.dart';
+import 'package:wetonomy/screens/terminal/components/round_add_button.dart';
 
 class DaosSection extends StatelessWidget {
   @override
@@ -14,13 +15,28 @@ class DaosSection extends StatelessWidget {
           bottom: false,
           child: ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: RoundSearchButton(onPressed: _handleAddNewDao),
-              )
+              _buildListItem(CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: Image.network(
+                    daoUrl,
+                    width: 50,
+                    height: 50,
+                  ),
+                ),
+                radius: 30.0,
+              )),
+              _buildListItem(RoundSearchButton.RoundAddButton(onPressed: _handleAddNewDao))
             ],
           ),
         ));
+  }
+
+  Widget _buildListItem(Widget child) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: child,
+    );
   }
 
   void _handleAddNewDao() {}

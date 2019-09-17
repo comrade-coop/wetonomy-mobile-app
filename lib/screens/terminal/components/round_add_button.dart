@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RoundSearchButton extends StatelessWidget {
   final Function onPressed;
 
-  RoundSearchButton({@required this.onPressed});
+  RoundSearchButton.RoundAddButton({@required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class RoundSearchButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Icon(
-          Icons.search,
+          Icons.add,
           color: Theme.of(context).accentColor,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/components/account_avatar.dart';
+import 'package:wetonomy/mock_resources.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_search.dart';
 
@@ -10,7 +11,9 @@ Widget buildTerminalAppBar({TerminalData terminal}) {
     ),
     actions: <Widget>[
       TerminalSearchButton(),
-      AccountAvatar(),
+      AccountAvatar(
+        avatar: Image.network(avatarUrl),
+      ),
     ],
   );
 }

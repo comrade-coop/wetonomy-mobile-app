@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/components/account_avatar.dart';
+import 'package:wetonomy/mock_resources.dart';
 
 class AccountInfoSection extends StatelessWidget {
   @override
@@ -13,13 +14,15 @@ class AccountInfoSection extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                AccountAvatar(),
-                Text('Username'),
+                AccountAvatar(
+                  avatar: Image.network(avatarUrl),
+                ),
+                Text('Vlad Gerov'),
                 SizedBox(
                   width: 12,
                 ),
                 Text(
-                  '0x00000000...',
+                  '0xad34dw3r...',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

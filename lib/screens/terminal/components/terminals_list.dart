@@ -30,6 +30,7 @@ class TerminalsList extends StatelessWidget {
       .map((t) => TerminalListTile(
             key: Key(t.url),
             title: t.name,
+            icon: Icons.toll,
             selected: terminals.indexOf(t) == selectedTerminalIndex,
             color: Colors.black54,
             selectedColor: selectedColor,
