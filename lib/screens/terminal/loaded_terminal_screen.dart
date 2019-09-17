@@ -10,7 +10,6 @@ import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.da
 import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
-import 'package:wetonomy/services/service_locator.dart';
 import 'package:wetonomy/services/terminal_controller.dart';
 
 class LoadedTerminalScreen extends StatefulWidget {
@@ -29,7 +28,7 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
 
   final TerminalController _terminalController =
-      locator.get<TerminalController>();
+      TerminalController(FlutterWebviewPlugin());
 
   @override
   void initState() {
