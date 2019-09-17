@@ -9,17 +9,24 @@ abstract class TerminalInteractionState extends Equatable {
 
 class InitialTerminalInteractionState extends TerminalInteractionState {}
 
-class ActiveTerminalInteractionState extends TerminalInteractionState {
+class SelectedTerminalState extends TerminalInteractionState {
   final TerminalData terminal;
 
-  ActiveTerminalInteractionState(this.terminal) : super([terminal]);
+  SelectedTerminalState(this.terminal) : super([terminal]);
 }
 
-class TerminalInteractionStateAfterAction extends TerminalInteractionState {
+class ReceivedActionResultState extends TerminalInteractionState {
   final Map<String, dynamic> result;
-  final Query query;
+  final Action action;
 
-  TerminalInteractionStateAfterAction(this.result, this.query);
+  ReceivedActionResultState(this.result, this.action) : super([result, action]);
 
+  // TODO: Implement toEncodedJson
   String toEncodedJson() => '';
+}
+
+class ContractStateChangedState extends TerminalInteractionState {
+  final Contract contract;
+
+  ContractStateChangedState(this.contract) : super([contract]);
 }

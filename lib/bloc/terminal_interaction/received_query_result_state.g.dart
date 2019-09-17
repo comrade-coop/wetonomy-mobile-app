@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'terminal_interaction_state_after_query.dart';
+part of 'received_query_result_state.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TerminalInteractionStateAfterQuery _$TerminalInteractionStateAfterQueryFromJson(
+ReceivedQueryResultState _$ReceivedQueryResultStateFromJson(
     Map<String, dynamic> json) {
-  return TerminalInteractionStateAfterQuery(
+  return ReceivedQueryResultState(
     json['result'] as Map<String, dynamic>,
     Query.fromJson(json['query'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$TerminalInteractionStateAfterQueryToJson(
-        TerminalInteractionStateAfterQuery instance) =>
+Map<String, dynamic> _$ReceivedQueryResultStateToJson(
+        ReceivedQueryResultState instance) =>
     <String, dynamic>{
       'result': instance.result,
       'query': instance.query,

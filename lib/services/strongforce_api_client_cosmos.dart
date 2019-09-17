@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:wetonomy/models/contract_action.dart';
+import 'package:wetonomy/models/action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/cosmos_integration/action_request.dart';
 import 'package:wetonomy/models/cosmos_integration/base_request.dart';
@@ -31,14 +31,14 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
   }
 
   @override
-  Future<Map<String, dynamic>> sendAction(ContractAction action) async {
+  Future<Map<String, dynamic>> sendAction(Action action) async {
     final String actionUrl = 'strongforce/contract/action';
     final String url = _baseURL + actionUrl;
 
     final List<int> bytes = utf8.encode(jsonEncode(action.toJson()));
     final String encodedAction = Base64Codec().encode(bytes);
 
-    final Map<String, dynamic> account = await _getAccontSequence(address);
+    final Map<String, dynamic> account = await _getAccountSequence(address);
 
     final BaseRequest base = BaseRequest(
         address, account['sequence'], chainId, account['account_number']);
@@ -60,7 +60,7 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
     return body['result'];
   }
 
-  Future<Map<String, dynamic>> _getAccontSequence(String address) async {
+  Future<Map<String, dynamic>> _getAccountSequence(String address) async {
     final String url = _baseURL + 'auth/accounts/' + address;
     final http.Response response = await http.get(url);
     final dynamic body = jsonDecode(response.body);

@@ -10,10 +10,10 @@ void main() {
         "parameters": {"Title": "test", "Description": "x"}
       }''';
 
-      final expected = ContractAction(['0x00000000000000000000'],
+      final expected = Action(['0x00000000000000000000'],
           'CreateAchievement', {'Title': "test", 'Description': "x"});
 
-      final result = ContractAction.fromJsonString(json);
+      final result = Action.fromJsonString(json);
       expect(expected, result);
     });
 
@@ -22,7 +22,7 @@ void main() {
         "actionName": "CreateAchievement",
         "parameters: ["Title", "Description"]
       }''';
-      expect(() => ContractAction.fromJsonString(json), throwsFormatException);
+      expect(() => Action.fromJsonString(json), throwsFormatException);
     });
 
     test('Throws when invalid action is sent', () {
@@ -31,7 +31,7 @@ void main() {
         "actionName": "CreateAchievement",
       }''';
 
-      expect(() => ContractAction.fromJsonString(json), throwsFormatException);
+      expect(() => Action.fromJsonString(json), throwsFormatException);
     });
   });
 }

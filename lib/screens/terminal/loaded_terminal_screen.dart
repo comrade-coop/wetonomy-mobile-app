@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
-
-import '../../models/contract_action.dart';
-import '../../models/query.dart';
+import 'package:wetonomy/services/service_locator.dart';
+import 'package:wetonomy/services/terminal_controller.dart';
 
 class LoadedTerminalScreen extends StatefulWidget {
   @override
@@ -28,6 +28,9 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   TerminalData _currentTerminal;
   StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
 
+  final TerminalController _terminalController =
+      locator.get<TerminalController>();
+
   @override
   void initState() {
     super.initState();
@@ -37,11 +40,10 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
     _terminalBlocSubscription =
         _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
 
-    if (_terminalInteractionBloc.currentState
-        is ActiveTerminalInteractionState) {
-      _currentTerminal = (_terminalInteractionBloc.currentState
-              as ActiveTerminalInteractionState)
-          ?.terminal;
+    final TerminalInteractionState currentState =
+        _terminalInteractionBloc.currentState;
+    if (currentState is SelectedTerminalState) {
+      _currentTerminal = currentState.terminal;
     }
 
     this._channels = [
@@ -71,10 +73,17 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   }
 
   void _handleTerminalStateChange(TerminalInteractionState state) {
-    if (state is ActiveTerminalInteractionState) {
+    if (state is SelectedTerminalState) {
       setState(() {
         _currentTerminal = state.terminal;
       });
+      _terminalController.selectTerminal(state.terminal);
+    } else if (state is ReceivedActionResultState) {
+      _terminalController.handleActionResponse(state);
+    } else if (state is ReceivedQueryResultState) {
+      _terminalController.handleQueryResponse(state);
+    } else if (state is ContractStateChangedState) {
+      _terminalController.handleContractsStateChange(state.contract);
     }
   }
 

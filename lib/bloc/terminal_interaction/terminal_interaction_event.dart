@@ -27,8 +27,8 @@ class SelectedTerminalInteractionEvent extends TerminalInteractionEvent {
   SelectedTerminalInteractionEvent(this.terminal) : super([terminal]);
 }
 
-class ContractStateUpdateEvent extends TerminalInteractionEvent {
+class ContractChangedEvent extends TerminalInteractionEvent {
   final Contract contract;
 
-  ContractStateUpdateEvent(this.contract) : super([contract]);
+  ContractChangedEvent(this.contract) : super([contract]);
 }
