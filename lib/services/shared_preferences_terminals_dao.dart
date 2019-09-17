@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
-import './terminal_storage_provider.dart';
+import './terminals_dao.dart';
 
-class SharedPrefsTerminalStorageProvider implements TerminalStorageProvider {
+class SharedPreferencesTerminalsDao implements TerminalsDao {
   static const String terminalsSharedPrefsKey = "terminals_key";
 
   final SharedPreferences sharedPrefs;
 
-  SharedPrefsTerminalStorageProvider(this.sharedPrefs)
-      : assert(sharedPrefs != null);
+  SharedPreferencesTerminalsDao(this.sharedPrefs) : assert(sharedPrefs != null);
 
   @override
   Future<bool> addTerminal(TerminalData terminal) async {
@@ -29,8 +28,10 @@ class SharedPrefsTerminalStorageProvider implements TerminalStorageProvider {
         sharedPrefs.getStringList(terminalsSharedPrefsKey);
 
     List<TerminalData> terminals = terminalStrings != null
-        ? terminalStrings.map((String terminalJson) =>
-            TerminalData.fromJson(jsonDecode(terminalJson))).toList()
+        ? terminalStrings
+            .map((String terminalJson) =>
+                TerminalData.fromJson(jsonDecode(terminalJson)))
+            .toList()
         : new List<TerminalData>();
     return terminals;
   }
@@ -43,7 +44,8 @@ class SharedPrefsTerminalStorageProvider implements TerminalStorageProvider {
   }
 
   Future<bool> _setTerminals(List<TerminalData> terminals) async {
-    List<String> terminalsJson = terminals.map((t) => t.toEncodedJson()).toList();
+    List<String> terminalsJson =
+        terminals.map((t) => t.toEncodedJson()).toList();
     return sharedPrefs.setStringList(terminalsSharedPrefsKey, terminalsJson);
   }
 }

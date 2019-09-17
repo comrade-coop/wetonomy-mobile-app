@@ -3,27 +3,35 @@ import 'package:bloc/bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
-import 'package:wetonomy/models/contract_action.dart';
-import 'package:wetonomy/services/terminal_facade.dart';
+import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
+import 'package:wetonomy/models/action.dart';
+import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/repositories/repositories.dart';
+
+import '../../models/contract.dart';
 
 class TerminalInteractionBloc
     extends Bloc<TerminalInteractionEvent, TerminalInteractionState> {
-  final TerminalFacade _facade;
-  final ContractsBloc _contractsBloc;
+  final TerminalsRepository repository;
   final TerminalsManagerBloc _terminalsManagerBloc;
-  StreamSubscription<ContractsState> _contractsBlocSubscription;
   StreamSubscription<TerminalsManagerState> _terminalsManagerSubscription;
+  StreamSubscription<Contract> _contractStateUpdateSubscription;
 
-  TerminalInteractionBloc(
-      this._facade, this._terminalsManagerBloc, this._contractsBloc) {
-    _contractsBlocSubscription =
-        _contractsBloc.state.listen(_handleContractsStateChange);
-
+  TerminalInteractionBloc(this.repository, this._terminalsManagerBloc) {
     _terminalsManagerSubscription =
         _terminalsManagerBloc.state.listen((TerminalsManagerState state) {
       if (state is LoadedTerminalsManagerState) {
         dispatch(SelectedTerminalInteractionEvent(state.currentTerminal));
       }
+    });
+
+    _contractStateUpdateSubscription =
+        repository.contractsEventsStream.listen((Contract contract) {
+      dispatch(ContractChangedEvent(contract));
+    }, onDone: () {
+      print('Task Done');
+    }, onError: (error) {
+      throw (error);
     });
   }
 
@@ -35,39 +43,52 @@ class TerminalInteractionBloc
   Stream<TerminalInteractionState> mapEventToState(
     TerminalInteractionEvent event,
   ) async* {
-    if (event is ReceiveMessageTerminalInteractionEvent) {
-      yield await _handleReceiveMessageFromTerminal(event);
+    if (event is ReceiveActionFromTerminalEvent) {
+      yield await _handleReceiveActionEvent(event);
+    } else if (event is ReceiveQueryFromTerminalEvent) {
+      yield await _handleReceiveQueryEvent(event);
     } else if (event is SelectedTerminalInteractionEvent) {
-      yield await _handleTerminalSelectedEvent(event);
+      yield SelectedTerminalState(event.terminal);
+    } else if (event is ContractChangedEvent) {
+      yield ContractStateChangedState(event.contract);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    _contractsBlocSubscription.cancel();
     _terminalsManagerSubscription.cancel();
+    _contractStateUpdateSubscription.cancel();
   }
 
-  void _handleContractsStateChange(ContractsState state) {
-    _facade.receiveContractsState(state);
-  }
-
-  Future<TerminalInteractionState> _handleReceiveMessageFromTerminal(
-      ReceiveMessageTerminalInteractionEvent event) async {
+  Future<TerminalInteractionState> _handleReceiveActionEvent(
+      ReceiveActionFromTerminalEvent event) async {
     try {
-      ContractAction action = ContractAction.fromJsonString(event.message);
-      _contractsBloc.dispatch(SendActionContractsEvent(action));
+      final Action action = Action.fromJsonString(event.serialisedAction);
+
+      final Map<String, dynamic> actionResult =
+          await repository.sendAction(action);
+      final state = ReceivedActionResultState(actionResult, null);
+      return state;
     } on FormatException {
-      print('Terminal sent an invalid action:' + event.message);
+      print('Terminal sent an invalid action:' + event.serialisedAction);
     }
 
     return currentState;
   }
 
-  Future<TerminalInteractionState> _handleTerminalSelectedEvent(
-      SelectedTerminalInteractionEvent event) async {
-    _facade.selectTerminal(event.terminal);
-    return ActiveTerminalInteractionState(event.terminal);
+  Future<TerminalInteractionState> _handleReceiveQueryEvent(
+      ReceiveQueryFromTerminalEvent event) async {
+    try {
+      final query = Query.fromJsonString(event.serialisedQuery);
+
+      Map<String, dynamic> queryResult = await repository.sendQuery(query);
+      final state = ReceivedQueryResultState(queryResult, query);
+      return state;
+    } on FormatException {
+      print('Terminal sent an invalid action:' + event.serialisedQuery);
+    }
+
+    return currentState;
   }
 }
