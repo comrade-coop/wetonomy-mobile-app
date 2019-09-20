@@ -11,11 +11,15 @@ void main() {
     expect(wallet.privKeyRaw, expectedWallet['privateKey']);
   });
 
-  test('Test public keys', () {});
+  test('Test public keys', () {
+    final wallet = CosmosHDWallet.fromMnemonic(expectedWallet['mnemonic']);
+    expect(wallet.pubKeyRaw, expectedWallet['publicKey']);
+  });
 
   test('Test signing', () {
     final wallet = CosmosHDWallet.fromMnemonic(expectedWallet['mnemonic']);
     final Uint8List signature = wallet.sign('Hello World!');
     expect(signature, expectedWallet['signature']);
   });
+
 }
