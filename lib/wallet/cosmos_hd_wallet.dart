@@ -8,11 +8,12 @@ import 'package:flutter/foundation.dart';
 import "package:pointycastle/digests/sha256.dart";
 import 'package:wetonomy/wallet/network.dart';
 
-class CosmosHDWallet implements HDWallet {
-  static const String _derivationPath = 'm/44\'/118\'/0\'/0/0';
+const String _derivationPath = 'm/44\'/118\'/0\'/0/0';
+const List<int> _aminoPublicKeyPrefix = [235, 90, 233, 135, 33];
 
-  HDWallet _wallet;
-  bip32.BIP32 _bip32;
+class CosmosHDWallet implements HDWallet {
+  final HDWallet _wallet;
+  final bip32.BIP32 _bip32;
 
   @override
   NetworkType network;
@@ -85,6 +86,7 @@ class CosmosHDWallet implements HDWallet {
   @override
   String get privKey => _wallet.privKey;
 
+  // TODO: Convert pubKey to use Cosmos encoding
   @override
   String get pubKey => _wallet.pubKey;
 
@@ -103,7 +105,9 @@ class CosmosHDWallet implements HDWallet {
   @override
   String get wif => _wallet.wif;
 
-  Uint8List get privKeyRaw => _bip32?.privateKey;
+  Uint8List get privKeyRaw => _bip32.privateKey;
 
-  Uint8List get pubKeyRaw => _bip32?.publicKey;
+  // Dirty fix in order to make the public key compatible with cosmos' amino encoded public keys
+  Uint8List get pubKeyRaw =>
+      Uint8List.fromList(_aminoPublicKeyPrefix + _bip32?.publicKey);
 }
