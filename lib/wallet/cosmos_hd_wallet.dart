@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bip32/bip32.dart' as bip32;
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:flutter/foundation.dart';
 import "package:pointycastle/digests/sha256.dart";
 import 'package:wetonomy/wallet/network.dart';
 
 class CosmosHDWallet implements HDWallet {
+  static const String _derivationPath = 'm/44\'/118\'/0\'/0/0';
+
   HDWallet _wallet;
   bip32.BIP32 _bip32;
 
@@ -17,17 +20,16 @@ class CosmosHDWallet implements HDWallet {
   @override
   String seed;
 
-  CosmosHDWallet(
-      {@required bip32, @required p2pkh, @required this.network, this.seed})
-      : assert(bip32 != null) {
-    this._bip32 = bip32;
-    this._wallet = HDWallet(
-        bip32: bip32, p2pkh: p2pkh, network: this.network, seed: this.seed);
-  }
-
   CosmosHDWallet._(this._bip32, this._wallet)
       : assert(_bip32 != null),
-        assert(_wallet != null);
+        assert(_wallet != null) {
+    network = _wallet.network;
+    seed = _wallet.seed;
+  }
+
+  factory CosmosHDWallet.fromMnemonic(String mnemonic) {
+    return CosmosHDWallet.fromSeed(bip39.mnemonicToSeed(mnemonic));
+  }
 
   factory CosmosHDWallet.fromSeed(Uint8List seed) {
     final NetworkType network = cosmos;
@@ -38,21 +40,23 @@ class CosmosHDWallet implements HDWallet {
                 public: network.bip32.public, private: network.bip32.private),
             wif: network.wif));
     final hdWallet = HDWallet.fromSeed(seed, network: network);
-    return CosmosHDWallet._(bip32Wallet, hdWallet);
+    final cosmosWallet = CosmosHDWallet._(bip32Wallet, hdWallet);
+
+    return cosmosWallet.derivePath(_derivationPath);
   }
 
   factory CosmosHDWallet.fromBase58(String xpub) {
     final NetworkType network = cosmos;
-
     final bip32Wallet = bip32.BIP32.fromBase58(
         xpub,
         bip32.NetworkType(
             bip32: bip32.Bip32Type(
                 public: network.bip32.public, private: network.bip32.private),
             wif: network.wif));
-
     final hdWallet = HDWallet.fromBase58(xpub, network: network);
-    return CosmosHDWallet._(bip32Wallet, hdWallet);
+    final cosmosWallet = CosmosHDWallet._(bip32Wallet, hdWallet);
+
+    return cosmosWallet.derivePath(_derivationPath);
   }
 
   @override
@@ -65,10 +69,18 @@ class CosmosHDWallet implements HDWallet {
   String get base58Priv => _wallet.base58Priv;
 
   @override
-  HDWallet derive(int index) => _wallet.derive(index);
+  HDWallet derive(int index) {
+    final bip32 = _bip32.derive(index);
+    final wallet = _wallet.derive(index);
+    return CosmosHDWallet._(bip32, wallet);
+  }
 
   @override
-  HDWallet derivePath(String path) => _wallet.derivePath(path);
+  HDWallet derivePath(String path) {
+    final bip32 = _bip32.derivePath(path);
+    final wallet = _wallet.derivePath(path);
+    return CosmosHDWallet._(bip32, wallet);
+  }
 
   @override
   String get privKey => _wallet.privKey;
@@ -90,4 +102,8 @@ class CosmosHDWallet implements HDWallet {
 
   @override
   String get wif => _wallet.wif;
+
+  Uint8List get privKeyRaw => _bip32?.privateKey;
+
+  Uint8List get pubKeyRaw => _bip32?.publicKey;
 }
