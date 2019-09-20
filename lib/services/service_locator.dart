@@ -7,7 +7,7 @@ import 'package:wetonomy/repositories/repositories.dart';
 
 GetIt locator = GetIt();
 
-Future<void> setupLocator() async {
+Future<void> setupServiceLocator() async {
   await _registerTerminalsRepository();
 }
 
