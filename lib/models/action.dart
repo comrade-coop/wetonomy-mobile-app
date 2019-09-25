@@ -22,13 +22,12 @@ class Action extends Equatable {
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 
   factory Action.fromJsonString(String jsonString) {
-    try {
-      Map<String, dynamic> json = jsonDecode(jsonString);
-      return _$ActionFromJson(json);
-    } on FormatException {
-      throw new FormatException();
-    }
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    return _$ActionFromJson(json);
   }
 
   Map<String, dynamic> toJson() => _$ActionToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }

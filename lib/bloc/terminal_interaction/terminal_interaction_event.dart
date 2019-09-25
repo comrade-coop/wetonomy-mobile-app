@@ -7,18 +7,19 @@ abstract class TerminalInteractionEvent extends Equatable {
   TerminalInteractionEvent([List props = const <dynamic>[]]) : super(props);
 }
 
-class ReceiveActionFromTerminalEvent
-    extends TerminalInteractionEvent {
-  final String serialisedAction;
+class ReceiveActionFromTerminalEvent extends TerminalInteractionEvent {
+  final Action action;
 
-  ReceiveActionFromTerminalEvent(this.serialisedAction)
-      : super([serialisedAction]);
+  ReceiveActionFromTerminalEvent(String serialisedAction)
+      : action = Action.fromJsonString(serialisedAction),
+        super([serialisedAction]);
 }
 
 class ReceiveQueryFromTerminalEvent extends TerminalInteractionEvent {
   final String serialisedQuery;
 
-  ReceiveQueryFromTerminalEvent(this.serialisedQuery) : super([serialisedQuery]);
+  ReceiveQueryFromTerminalEvent(this.serialisedQuery)
+      : super([serialisedQuery]);
 }
 
 class SelectedTerminalInteractionEvent extends TerminalInteractionEvent {

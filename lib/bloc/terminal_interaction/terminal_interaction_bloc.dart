@@ -4,11 +4,9 @@ import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
 import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
-import 'package:wetonomy/models/action.dart';
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/repositories/repositories.dart';
-
-import '../../models/contract.dart';
 
 class TerminalInteractionBloc
     extends Bloc<TerminalInteractionEvent, TerminalInteractionState> {
@@ -64,14 +62,12 @@ class TerminalInteractionBloc
   Future<TerminalInteractionState> _handleReceiveActionEvent(
       ReceiveActionFromTerminalEvent event) async {
     try {
-      final Action action = Action.fromJsonString(event.serialisedAction);
-
       final Map<String, dynamic> actionResult =
-          await repository.sendAction(action);
+          await repository.sendAction(event.action);
       final state = ReceivedActionResultState(actionResult, null);
       return state;
     } on FormatException {
-      print('Terminal sent an invalid action:' + event.serialisedAction);
+      print('Terminal sent an invalid action:' + event.action.toString());
     }
 
     return currentState;

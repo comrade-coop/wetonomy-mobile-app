@@ -21,8 +21,7 @@ class ReceivedActionResultState extends TerminalInteractionState {
 
   ReceivedActionResultState(this.result, this.action) : super([result, action]);
 
-  // TODO: Implement toEncodedJson
-  String toEncodedJson() => '';
+  String toEncodedJson() => result.toString();
 }
 
 class ContractStateChangedState extends TerminalInteractionState {

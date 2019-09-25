@@ -18,18 +18,18 @@
     <script>
       function sendMessageToNative() {
         const action = {
-          target: '0x00000000000000000000',
+          targets: ['0x00000000000000000000'],
           actionName: 'CreateAchievement',
-          parameters: []
+          parameters: {}
         }
-        StrongForceChannel.postMessage(JSON.stringify(action))
+        StrongForceActionChannel.postMessage(JSON.stringify(action))
       }
 
       function sendInvalidMessage() {
         StrongForceChannel.postMessage('Hello world')
       }
 
-      function StrongForce__receiveMessageFromNative(msg) {
+      function StrongForce__snackbarNotification(msg) {
         document.body.innerHTML +=
           '<p>Message received from native code: ' + msg + '</p>'
       }

@@ -11,13 +11,13 @@ class FakeContractsApiClient implements ContractsApiClient {
   @override
   Future<Map<String, dynamic>> sendAction(Action action) async {
     await Future.delayed(Duration(milliseconds: 500));
-    return Map();
+    return { 'count': count++ };
   }
 
   @override
   Future<Map<String, dynamic>> sendQuery(Query query) async {
     await Future.delayed(Duration(milliseconds: 500));
-    return Map();
+      return { 'count': count++ };
   }
 
   @override
