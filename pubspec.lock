@@ -189,9 +189,11 @@ packages:
   flutter_webview_plugin:
     dependency: "direct main"
     description:
-      path: "vendor/flutter_webview_plugin"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "8e07b245d812b38d4416cb1c5fd7f456671ddb38"
+      url: "https://github.com/ivanasen/flutter_webview_plugin.git"
+    source: git
     version: "0.3.7"
   front_end:
     dependency: transitive

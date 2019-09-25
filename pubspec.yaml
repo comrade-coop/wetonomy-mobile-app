@@ -35,7 +35,7 @@ dependencies:
   validators: ^2.0.0+1
 
   flutter_webview_plugin:
-    path: ./vendor/flutter_webview_plugin
+    git: https://github.com/ivanasen/flutter_webview_plugin.git
 
   web_socket_channel: ^1.0.0
   http: ^0.12.0
