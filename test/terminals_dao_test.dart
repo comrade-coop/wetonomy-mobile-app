@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +15,9 @@ void main() {
         SharedPreferencesTerminalsDao.terminalsSharedPrefsKey;
 
     final stringLists = Map<String, List<String>>();
-    when(sharedPrefs.setStringList(terminalKey, [terminal.toEncodedJson()]))
-        .thenAnswer((_) async {
-      stringLists[terminalKey] = [terminal.toEncodedJson()];
+    when(sharedPrefs.setStringList(
+        terminalKey, [jsonEncode(terminal.toJson())])).thenAnswer((_) async {
+      stringLists[terminalKey] = [jsonEncode(terminal.toJson())];
       return true;
     });
     when(sharedPrefs.getStringList(terminalKey))

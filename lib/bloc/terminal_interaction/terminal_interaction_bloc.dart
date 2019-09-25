@@ -3,9 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
-import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
+import 'package:wetonomy/models/action_result.dart';
 import 'package:wetonomy/models/contract.dart';
-import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/repositories/repositories.dart';
 
 class TerminalInteractionBloc
@@ -62,9 +62,9 @@ class TerminalInteractionBloc
   Future<TerminalInteractionState> _handleReceiveActionEvent(
       ReceiveActionFromTerminalEvent event) async {
     try {
-      final Map<String, dynamic> actionResult =
+      final ActionResult actionResult =
           await repository.sendAction(event.action);
-      final state = ReceivedActionResultState(actionResult, null);
+      final state = ReceivedActionResultState(actionResult);
       return state;
     } on FormatException {
       print('Terminal sent an invalid action:' + event.action.toString());
@@ -76,13 +76,13 @@ class TerminalInteractionBloc
   Future<TerminalInteractionState> _handleReceiveQueryEvent(
       ReceiveQueryFromTerminalEvent event) async {
     try {
-      final query = Query.fromJsonString(event.serialisedQuery);
+      final query = event.query;
 
-      Map<String, dynamic> queryResult = await repository.sendQuery(query);
-      final state = ReceivedQueryResultState(queryResult, query);
+      QueryResult queryResult = await repository.sendQuery(query);
+      final state = ReceivedQueryResultState(queryResult);
       return state;
     } on FormatException {
-      print('Terminal sent an invalid action:' + event.serialisedQuery);
+      print('Terminal sent an invalid query:' + event.query.toString());
     }
 
     return currentState;

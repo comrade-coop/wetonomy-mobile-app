@@ -5,9 +5,9 @@ void main() {
   group('ContractAction', () {
     test('Creates correct action from json string', () {
       final String json = '''{
-        "targets": ["0x00000000000000000000"],
-        "actionName": "CreateAchievement",
-        "parameters": {"Title": "test", "Description": "x"}
+        "Targets": ["0x00000000000000000000"],
+        "Type": "CreateAchievement",
+        "Payload": {"Title": "test", "Description": "x"}
       }''';
 
       final expected = Action(['0x00000000000000000000'],
@@ -18,17 +18,19 @@ void main() {
     });
 
     test('Throws when invalid json is sent', () {
+      // Missing opening brace
       final String json = '''
-        "actionName": "CreateAchievement",
-        "parameters: ["Title", "Description"]
+        "targets": "CreateAchievement",
+        "payload: ["Title", "Description"]
       }''';
       expect(() => Action.fromJsonString(json), throwsFormatException);
     });
 
     test('Throws when invalid action is sent', () {
+      // Missing payload
       final String json = '''{
-        "target": "0x00000000000000000000",
-        "actionName": "CreateAchievement",
+        "Targets": "0x00000000000000000000",
+        "Type": "CreateAchievement",
       }''';
 
       expect(() => Action.fromJsonString(json), throwsFormatException);

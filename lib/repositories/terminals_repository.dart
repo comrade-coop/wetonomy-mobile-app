@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:wetonomy/models/action_result.dart';
 import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/action.dart';
 import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/services/contracts_api_client.dart';
 import 'package:wetonomy/services/terminals_dao.dart';
@@ -25,11 +27,11 @@ class TerminalsRepository {
     return _terminalsDao.removeTerminal(terminal);
   }
 
-  Future<Map<String, dynamic>> sendAction(Action action) async {
+  Future<ActionResult> sendAction(Action action) async {
     return await _client.sendAction(action);
   }
 
-  Future<Map<String, dynamic>> sendQuery(Query query) async {
+  Future<QueryResult> sendQuery(Query query) async {
     return await _client.sendQuery(query);
   }
 

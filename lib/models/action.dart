@@ -9,8 +9,13 @@ part 'action.g.dart';
 @immutable
 @JsonSerializable(nullable: false)
 class Action extends Equatable {
+  @JsonKey(name: 'Targets')
   final List<String> targets;
+
+  @JsonKey(name: 'Type')
   final String actionName;
+
+  @JsonKey(name: 'Payload')
   final Map<String, dynamic> parameters;
 
   Action(this.targets, this.actionName, this.parameters)

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:wetonomy/models/action.dart';
+import 'package:wetonomy/models/action_result.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/cosmos_integration/action_request.dart';
 import 'package:wetonomy/models/cosmos_integration/base_request.dart';
+import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/services/contracts_api_client.dart';
 import 'package:wetonomy/services/mock_env.dart';
 import 'package:http/http.dart' as http;
@@ -31,7 +33,7 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
   }
 
   @override
-  Future<Map<String, dynamic>> sendAction(Action action) async {
+  Future<ActionResult> sendAction(Action action) async {
     final String actionUrl = 'strongforce/contract/action';
     final String url = _baseURL + actionUrl;
 
@@ -49,15 +51,15 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
     dynamic body = jsonDecode(response.body);
     body['error']['code'] += _seq;
     _seq++;
-    return body['error'];
+    return ActionResult(body['error'], action);
   }
 
   @override
-  Future<Map<String, dynamic>> sendQuery(Query query) async {
+  Future<QueryResult> sendQuery(Query query) async {
     final String url = _baseURL + query.url;
     final http.Response response = await http.get(url);
     final dynamic body = jsonDecode(response.body);
-    return body['result'];
+    return QueryResult(body['result'], query);
   }
 
   Future<Map<String, dynamic>> _getAccountSequence(String address) async {

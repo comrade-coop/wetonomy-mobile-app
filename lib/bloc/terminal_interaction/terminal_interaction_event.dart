@@ -16,10 +16,11 @@ class ReceiveActionFromTerminalEvent extends TerminalInteractionEvent {
 }
 
 class ReceiveQueryFromTerminalEvent extends TerminalInteractionEvent {
-  final String serialisedQuery;
+  final Query query;
 
-  ReceiveQueryFromTerminalEvent(this.serialisedQuery)
-      : super([serialisedQuery]);
+  ReceiveQueryFromTerminalEvent(String serialisedQuery)
+      : query = Query.fromJsonString(serialisedQuery),
+        super([serialisedQuery]);
 }
 
 class SelectedTerminalInteractionEvent extends TerminalInteractionEvent {
