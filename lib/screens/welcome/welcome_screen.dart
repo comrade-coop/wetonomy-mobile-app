@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'package:wetonomy/screens/welcome/components/waves_background.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Stack(children: [
-        _buildWavesBackground(context),
+        Align(alignment: Alignment.bottomCenter, child: WavesBackground()),
         _buildContent(context),
       ]),
     );
@@ -28,6 +30,7 @@ class WelcomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   _buildCreateAccountButton(context),
+                  SizedBox(height: 16),
                   _buildImportButton(context)
                 ],
               ),
@@ -39,29 +42,48 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget _buildLogo(BuildContext context) {
-    return Container(
-      width: 150,
-      height: 150,
-      color: Theme.of(context).accentColor,
+    return Column(
+      children: <Widget>[
+        SvgPicture.asset('assets/images/logo.svg'),
+        SizedBox(height: 32),
+        Text(
+          'WETONOMY',
+          style: Theme.of(context).textTheme.display1.apply(
+              color: Color.fromARGB(255, 131, 111, 254),
+              fontFamily: 'Montserrat',
+              fontWeightDelta: 700),
+        )
+      ],
     );
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Text(
-      'Work with each other, not for one another',
-      style: Theme.of(context).textTheme.title.apply(
-        color: Colors.white,
-
-      ),
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 64,
+        ),
+        Text(
+          'Work with each other,\n not for one another',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline.apply(
+              color: Colors.white,
+              fontFamily: 'Montserrat',
+              fontWeightDelta: 2),
+        ),
+      ],
     );
   }
 
   Widget _buildCreateAccountButton(BuildContext context) {
     return RaisedButton(
       color: Theme.of(context).primaryColor,
-      child: Text(
-        'Create new Account',
-        style: TextStyle(color: Theme.of(context).accentColor),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'Create new Account',
+          style: TextStyle(color: Colors.deepPurple, fontFamily: 'Montserrat'),
+        ),
       ),
       onPressed: () {},
     );
@@ -70,37 +92,14 @@ class WelcomeScreen extends StatelessWidget {
   Widget _buildImportButton(BuildContext context) {
     return FlatButton(
       color: Colors.black.withAlpha(10),
-      child: Text(
-        'Import from Seed Phrase',
-        style: TextStyle(color: Theme.of(context).textTheme.title.color),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'Import from Seed Phrase',
+          style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'),
+        ),
       ),
       onPressed: () {},
-    );
-  }
-
-  Widget _buildWavesBackground(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: WaveWidget(
-        config: CustomConfig(
-          gradients: [
-            [
-              Theme.of(context).accentColor.withAlpha(100),
-              Theme.of(context).accentColor.withAlpha(30)
-            ],
-            [
-              Theme.of(context).accentColor.withAlpha(60),
-              Theme.of(context).accentColor.withAlpha(10)
-            ],
-          ],
-          durations: [10000, 15000],
-          heightPercentages: [0.35, 0.35],
-          gradientBegin: Alignment.bottomLeft,
-          gradientEnd: Alignment.topRight,
-        ),
-        waveAmplitude: 20,
-        size: Size(double.infinity, double.infinity),
-      ),
     );
   }
 }
