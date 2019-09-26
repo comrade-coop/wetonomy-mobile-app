@@ -29,6 +29,7 @@ class AccountActionButtons extends StatelessWidget {
     return _buildButton(
         label: Strings.importAccountLabel,
         color: Colors.black.withAlpha(30),
+        textColor: Colors.white,
         onPressed: () {});
   }
 

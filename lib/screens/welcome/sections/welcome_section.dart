@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
 
-import 'account_action_buttons.dart';
-import 'logo_with_title.dart';
+import '../components/account_action_buttons.dart';
+import '../components/logo_with_title.dart';
 
 class WelcomeSection extends StatelessWidget {
   @override
@@ -34,10 +34,10 @@ class WelcomeSection extends StatelessWidget {
         Text(
           Strings.welcomeMsg,
           textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .headline
-              .apply(fontFamily: 'Montserrat', fontWeightDelta: 1),
+          style: Theme.of(context).textTheme.headline.apply(
+              fontFamily: 'Montserrat',
+              fontWeightDelta: 1,
+              color: Colors.white),
         ),
       ],
     );
