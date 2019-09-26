@@ -5,26 +5,24 @@ import 'package:wave/wave.dart';
 class WavesBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Color primaryDark = Theme.of(context).primaryColorDark;
+    final Color primaryLight = Theme.of(context).primaryColorLight;
+
     return WaveWidget(
       config: CustomConfig(
           gradients: [
-            [
-              Color.fromARGB(255, 131, 111, 254).withAlpha(170),
-              Color.fromARGB(255, 225, 153, 184).withAlpha(100)
-            ],
-            [
-              Color.fromARGB(255, 131, 111, 254).withAlpha(170),
-              Color.fromARGB(255, 225, 153, 184).withAlpha(100)
-            ],
+            [primaryDark.withAlpha(180), primaryLight.withAlpha(110)],
+            [primaryDark.withAlpha(150), primaryLight.withAlpha(90)],
           ],
           durations: [
-            30000,
-            40000
+            40000,
+            50000
           ],
           heightPercentages: [
             0.38,
             0.40
           ],
+          blur: MaskFilter.blur(BlurStyle.solid, 10),
           gradientBegin: Alignment.bottomLeft,
           gradientEnd: Alignment.centerRight),
       waveAmplitude: 25,
