@@ -3,12 +3,10 @@ import 'package:bloc/bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
-import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
-import 'package:wetonomy/models/action.dart';
-import 'package:wetonomy/models/query.dart';
+import 'package:wetonomy/models/action_result.dart';
+import 'package:wetonomy/models/contract.dart';
+import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/repositories/repositories.dart';
-
-import '../../models/contract.dart';
 
 class TerminalInteractionBloc
     extends Bloc<TerminalInteractionEvent, TerminalInteractionState> {
@@ -64,14 +62,12 @@ class TerminalInteractionBloc
   Future<TerminalInteractionState> _handleReceiveActionEvent(
       ReceiveActionFromTerminalEvent event) async {
     try {
-      final Action action = Action.fromJsonString(event.serialisedAction);
-
-      final Map<String, dynamic> actionResult =
-          await repository.sendAction(action);
-      final state = ReceivedActionResultState(actionResult, null);
+      final ActionResult actionResult =
+          await repository.sendAction(event.action);
+      final state = ReceivedActionResultState(actionResult);
       return state;
     } on FormatException {
-      print('Terminal sent an invalid action:' + event.serialisedAction);
+      print('Terminal sent an invalid action:' + event.action.toString());
     }
 
     return currentState;
@@ -80,13 +76,13 @@ class TerminalInteractionBloc
   Future<TerminalInteractionState> _handleReceiveQueryEvent(
       ReceiveQueryFromTerminalEvent event) async {
     try {
-      final query = Query.fromJsonString(event.serialisedQuery);
+      final query = event.query;
 
-      Map<String, dynamic> queryResult = await repository.sendQuery(query);
-      final state = ReceivedQueryResultState(queryResult, query);
+      QueryResult queryResult = await repository.sendQuery(query);
+      final state = ReceivedQueryResultState(queryResult);
       return state;
     } on FormatException {
-      print('Terminal sent an invalid action:' + event.serialisedQuery);
+      print('Terminal sent an invalid query:' + event.query.toString());
     }
 
     return currentState;

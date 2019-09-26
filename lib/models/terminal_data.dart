@@ -21,6 +21,4 @@ class TerminalData extends Equatable {
       _$TerminalDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TerminalDataToJson(this);
-
-  String toEncodedJson() => jsonEncode(this.toJson());
 }

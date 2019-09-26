@@ -7,31 +7,48 @@
   </head>
 
   <body>
-    <button onclick="sendMessageToNative()">
+    <button onclick="sendActionToNative()">
       Send Action
     </button>
 
-    <button onclick="sendInvalidMessage()">
-      Send Invalid Action
+    <button onclick="sendQueryToNative()">
+      Send Query
     </button>
 
     <script>
-      function sendMessageToNative() {
+      function sendActionToNative() {
         const action = {
-          target: '0x00000000000000000000',
-          actionName: 'CreateAchievement',
-          parameters: []
+          Targets: ['0x00000000000000000000'],
+          Type: 'CreateAchievement',
+          Payload: {}
         }
-        StrongForceChannel.postMessage(JSON.stringify(action))
+        StrongForceActionChannel.postMessage(JSON.stringify(action))
+      }
+
+      function sendQueryToNative() {
+        const query = {
+          Url: ''
+        }
+        StrongForceQueryChannel.postMessage(JSON.stringify(query))
       }
 
       function sendInvalidMessage() {
         StrongForceChannel.postMessage('Hello world')
       }
 
-      function StrongForce__receiveMessageFromNative(msg) {
+      function StrongForce__receiveActionResponse(msg) {
         document.body.innerHTML +=
-          '<p>Message received from native code: ' + msg + '</p>'
+          '<p>Action response: ' + msg + '</p>'
+      }
+
+      function StrongForce__receiveQueryResponse(msg) {
+        document.body.innerHTML +=
+          '<p>Query response: ' + msg + '</p>'
+      }
+
+      function StrongForce__receiveStateUpdate(msg) {
+        document.body.innerHTML +=
+          '<p>Contract update: ' + msg + '</p>'
       }
     </script>
   </body>

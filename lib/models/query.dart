@@ -7,6 +7,7 @@ part 'query.g.dart';
 @immutable
 @JsonSerializable(nullable: false)
 class Query {
+  @JsonKey(name: 'Url')
   final String url;
 
   Query(this.url);
@@ -23,4 +24,7 @@ class Query {
   }
 
   Map<String, dynamic> toJson() => _$QueryToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
