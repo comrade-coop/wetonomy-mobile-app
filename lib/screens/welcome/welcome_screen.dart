@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/screens/welcome/components/waves_background.dart';
 import 'package:wetonomy/screens/welcome/sections/create_password_section.dart';
+import 'package:wetonomy/screens/welcome/sections/view_secret_phrase_section.dart';
 
 import 'sections/welcome_section.dart';
 
@@ -13,10 +14,10 @@ class WelcomeScreen extends StatelessWidget {
         Align(
             alignment: Alignment.bottomCenter,
             child: WavesBackground(
-              heightPercentage: 0.70,
+              heightPercentage: 0.73,
             )),
         SafeArea(
-          child: CreatePasswordSection(),
+          child: ViewSecretPhraseSection(),
           top: true,
           left: true,
           right: true,
