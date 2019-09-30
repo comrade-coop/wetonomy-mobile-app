@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
 
-import '../components/account_action_buttons.dart';
-import '../components/logo_with_title.dart';
+import 'account_action_buttons.dart';
+import 'logo_with_title.dart';
 
 class WelcomeSection extends StatelessWidget {
   @override

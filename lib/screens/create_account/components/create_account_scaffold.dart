@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/welcome/components/logo_with_title_small.dart';
+import 'package:wetonomy/screens/create_account/components/logo_with_title_small.dart';
 
-class WelcomeSectionScaffold extends StatelessWidget {
+class CreateAccountScaffold extends StatelessWidget {
   final String title;
   final Widget body;
 
-  const WelcomeSectionScaffold(
+  const CreateAccountScaffold(
       {Key key, @required this.title, @required this.body})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         elevation: 0,
         title: LogoWithTitleSmall(),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).accentColor,
-          ),
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
       body: _buildBody(context),
     );
@@ -50,6 +44,9 @@ class WelcomeSectionScaffold extends StatelessWidget {
   Widget _buildTitle(BuildContext context) {
     return Text(title,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headline);
+        style: Theme.of(context)
+            .textTheme
+            .headline
+            .apply(fontFamily: 'Montserrat', fontWeightDelta: 2));
   }
 }

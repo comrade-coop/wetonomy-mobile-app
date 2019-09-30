@@ -32,4 +32,5 @@ Tips on storing it safely:
   ''';
   static const String cantRecoverMessage =
       '* Wetonomy cannot recover your seed phrase.';
+  static const String confirmMnemonic = 'Confirm Secret Phrase';
 }

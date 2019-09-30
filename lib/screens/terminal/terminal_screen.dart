@@ -28,7 +28,7 @@ class TerminalScreen extends StatelessWidget {
             return EmptyTerminalsScreen();
           }
 
-          return LoadedTerminalScreen();
+          return EmptyTerminalsScreen();
         },
         bloc: bloc,
       ),

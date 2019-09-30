@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/welcome/components/accent_text_button.dart';
-import 'package:wetonomy/screens/welcome/sections/welcome_section_scaffold.dart';
+import 'package:wetonomy/screens/create_account/components/accent_button.dart';
+import 'package:wetonomy/screens/create_account/confirm_mnemonic_screen.dart';
+import 'package:wetonomy/screens/create_account/components/create_account_scaffold.dart';
 
-class ViewSecretPhraseSection extends StatelessWidget {
+class ViewMnemonicScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return WelcomeSectionScaffold(
+    return CreateAccountScaffold(
       title: Strings.secretPhraseLabel,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -37,8 +39,9 @@ class ViewSecretPhraseSection extends StatelessWidget {
                   ],
                 ),
               ),
-              AccentTextButton(
-                onPressed: () {},
+              AccentButton(
+                onPressed: () => Navigator.push(
+                    context, slideRightTransition(ConfirmMnemonicScreen())),
                 label: Strings.nextLabel,
               )
             ],

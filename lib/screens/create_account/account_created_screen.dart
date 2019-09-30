@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/welcome/components/accent_text_button.dart';
-import 'package:wetonomy/screens/welcome/sections/welcome_section_scaffold.dart';
+import 'package:wetonomy/screens/create_account/components/accent_button.dart';
+import 'package:wetonomy/screens/create_account/components/create_account_scaffold.dart';
 
-class AccountCreatedSection extends StatelessWidget {
+class AccountCreatedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return WelcomeSectionScaffold(
+    return CreateAccountScaffold(
       title: Strings.congratulationsLabel,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -18,14 +17,14 @@ class AccountCreatedSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _buildStyledText(Strings.congratulationsMessage, context),
-                SizedBox(height: 16),
+                _buildVerticalSpacing(),
                 _buildStyledText(Strings.passwordTips, context),
-                SizedBox(height: 16),
+                _buildVerticalSpacing(),
                 _buildStyledText(Strings.cantRecoverMessage, context),
               ],
             ),
-            AccentTextButton(
-              onPressed: () {},
+            AccentButton(
+              onPressed: () => _openTerminalScreen(context),
               label: Strings.allDoneLabel,
             )
           ],
@@ -34,7 +33,18 @@ class AccountCreatedSection extends StatelessWidget {
     );
   }
 
+  Widget _buildVerticalSpacing() => SizedBox(height: 16);
+
   Widget _buildStyledText(String text, BuildContext context) {
-    return Text(text, style: Theme.of(context).textTheme.subhead);
+    return Text(text,
+        style: Theme.of(context)
+            .textTheme
+            .subhead
+            .apply(fontFamily: 'Montserrat'));
+  }
+
+  void _openTerminalScreen(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/terminal', (Route<dynamic> route) => false);
   }
 }

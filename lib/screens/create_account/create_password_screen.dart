@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/welcome/components/logo_with_title_small.dart';
-import 'package:wetonomy/screens/welcome/components/accent_text_button.dart';
+import 'package:wetonomy/screens/create_account/components/accent_button.dart';
+import 'package:wetonomy/screens/create_account/view_mnemonic_screen.dart';
 
-import 'welcome_section_scaffold.dart';
+import 'components/create_account_scaffold.dart';
 
-class CreatePasswordSection extends StatefulWidget {
+class CreatePasswordScreen extends StatefulWidget {
   @override
-  _CreatePasswordSectionState createState() => _CreatePasswordSectionState();
+  _CreatePasswordScreenState createState() => _CreatePasswordScreenState();
 }
 
-class _CreatePasswordSectionState extends State<CreatePasswordSection> {
+class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    return WelcomeSectionScaffold(
+    return CreateAccountScaffold(
       title: Strings.createPasswordLabel,
       body: _buildBody(),
     );
@@ -29,9 +30,10 @@ class _CreatePasswordSectionState extends State<CreatePasswordSection> {
             child: Center(child: _buildPasswordInputs()),
           ),
         ),
-        AccentTextButton(
+        AccentButton(
           label: Strings.nextLabel,
-          onPressed: () {},
+          onPressed: () => Navigator.push(
+              context, slideRightTransition(ViewMnemonicScreen())),
         )
       ],
     );

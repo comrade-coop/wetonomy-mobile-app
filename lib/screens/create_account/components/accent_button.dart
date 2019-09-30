@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/constants/strings.dart';
 
-class AccentTextButton extends StatelessWidget {
+class AccentButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
 
-  const AccentTextButton(
-      {Key key, @required this.label, @required this.onPressed})
+  const AccentButton({Key key, @required this.label, @required this.onPressed})
       : assert(label != null),
         assert(onPressed != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return RaisedButton(
       onPressed: onPressed,
-      color: Colors.white,
+      color: Theme.of(context).accentColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: Text(
           label,
-          style: theme.textTheme.button.apply(color: theme.accentColor),
+          style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'),
         ),
       ),
     );
