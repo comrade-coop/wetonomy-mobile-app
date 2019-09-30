@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/welcome/components/logo_with_title_small.dart';
-import 'package:wetonomy/screens/welcome/components/next_button.dart';
+import 'package:wetonomy/screens/welcome/components/accent_text_button.dart';
 
 import 'welcome_section_scaffold.dart';
 
@@ -29,7 +29,8 @@ class _CreatePasswordSectionState extends State<CreatePasswordSection> {
             child: Center(child: _buildPasswordInputs()),
           ),
         ),
-        NextButton(
+        AccentTextButton(
+          label: Strings.nextLabel,
           onPressed: () {},
         )
       ],

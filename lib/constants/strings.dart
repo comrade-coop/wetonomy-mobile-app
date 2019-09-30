@@ -13,16 +13,23 @@ class Strings {
   static const String confirmPasswordLabel = 'Confirm Password';
   static const String secretPhraseLabel = 'Secret Backup Phrase';
   static const String nextLabel = 'Next';
+  static const String allDoneLabel = 'All Done';
   static const String secretPhraseMessage =
       'Your secret backup phrase makes it easy to back up and restore your account.';
+  static const String secretPhraseStorageMessage =
+      'Store it in a Password Manager or write it down on a piece of paper and keep it in a safe place.';
   static const String secretPhraseWarning =
       'WARNING: Never disclose your backup phrase. Anyone with this phrase can access your account.';
-  static const String secretPhraseTips = '''Tips: 
+  static const String congratulationsLabel = 'Congratulations';
+  static const String congratulationsMessage =
+      'You passed the test - keep your secret phrase safe, its your responsibility!';
+  static const String passwordTips = '''
+Tips on storing it safely: 
 
-Store this phrase in a password manager. 
-
-Write this phrase on a piece of paper and store in a secure location. 
-
-Memorize this phrase. 
-   ''';
+• Save a backup in multiple places.
+• Never share the phrase with anyone.
+• Be careful of malicious apps! Wetonomy will never spontaneously ask for your seed phrase. 
+  ''';
+  static const String cantRecoverMessage =
+      '* Wetonomy cannot recover your seed phrase.';
 }

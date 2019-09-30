@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
 
-class NextButton extends StatelessWidget {
+class AccentTextButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final String label;
 
-  const NextButton({Key key, @required this.onPressed}) : super(key: key);
+  const AccentTextButton(
+      {Key key, @required this.label, @required this.onPressed})
+      : assert(label != null),
+        assert(onPressed != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class NextButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Text(
-          Strings.nextLabel,
+          label,
           style: theme.textTheme.button.apply(color: theme.accentColor),
         ),
       ),

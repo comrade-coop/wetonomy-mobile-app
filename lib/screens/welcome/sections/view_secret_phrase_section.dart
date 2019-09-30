@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/welcome/components/next_button.dart';
+import 'package:wetonomy/screens/welcome/components/accent_text_button.dart';
 import 'package:wetonomy/screens/welcome/sections/welcome_section_scaffold.dart';
 
 class ViewSecretPhraseSection extends StatelessWidget {
@@ -23,15 +23,24 @@ class ViewSecretPhraseSection extends StatelessWidget {
                   children: <Widget>[
                     Text(Strings.secretPhraseMessage),
                     SizedBox(
-                      height: 16,
+                      height: 8,
+                    ),
+                    Text(Strings.secretPhraseStorageMessage),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    _buildMnemonicCard(context),
+                    SizedBox(
+                      height: 8,
                     ),
                     Text(Strings.secretPhraseWarning),
-                    _buildMnemonicCard(context),
-                    Text(Strings.secretPhraseTips),
                   ],
                 ),
               ),
-              NextButton(onPressed: () {})
+              AccentTextButton(
+                onPressed: () {},
+                label: Strings.nextLabel,
+              )
             ],
           ),
         ),
@@ -41,7 +50,7 @@ class ViewSecretPhraseSection extends StatelessWidget {
 
   Widget _buildMnemonicCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 32),
+      margin: EdgeInsets.symmetric(vertical: 16),
       child: Container(
           width: double.infinity,
           padding: EdgeInsets.all(24),

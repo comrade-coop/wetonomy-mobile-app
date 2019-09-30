@@ -36,7 +36,13 @@ class WelcomeSectionScaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
-        children: <Widget>[_buildTitle(context), Expanded(child: body)],
+        children: <Widget>[
+          _buildTitle(context),
+          SizedBox(
+            height: 32,
+          ),
+          Expanded(child: body)
+        ],
       ),
     );
   }
@@ -44,6 +50,6 @@ class WelcomeSectionScaffold extends StatelessWidget {
   Widget _buildTitle(BuildContext context) {
     return Text(title,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.display1);
+        style: Theme.of(context).textTheme.headline);
   }
 }
