@@ -1,70 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wetonomy/bloc/account_setup/account_setup_bloc.dart';
+import 'package:wetonomy/bloc/account_setup/account_setup_event.dart';
+import 'package:wetonomy/bloc/account_setup/account_setup_state.dart';
 import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/create_account/components/accent_button.dart';
+import 'package:wetonomy/screens/create_account/components/password_form.dart';
 import 'package:wetonomy/screens/create_account/view_mnemonic_screen.dart';
 
 import 'components/create_account_scaffold.dart';
 
-class CreatePasswordScreen extends StatefulWidget {
-  @override
-  _CreatePasswordScreenState createState() => _CreatePasswordScreenState();
-}
-
-class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
+class CreatePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CreateAccountScaffold(
-      title: Strings.createPasswordLabel,
-      body: _buildBody(),
-    );
-  }
+    final bloc = BlocProvider.of<AccountSetupBloc>(context);
+    bloc.dispatch(RemovePasswordEvent());
 
-  Widget _buildBody() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            child: Center(child: _buildPasswordInputs()),
+    return BlocListener<AccountSetupEvent, AccountSetupState>(
+        bloc: bloc,
+        listener: (BuildContext context, AccountSetupState state) {
+          if (state is PasswordAddedState) {
+            _goToMnemonicScreen(context);
+          }
+        },
+        child: CreateAccountScaffold(
+          title: Strings.createPasswordLabel,
+          body: PasswordForm(
+            onSuccessfulValidation: (String password) {
+              final state = bloc.currentState;
+              if (state is PasswordAddedState && state.password == password) {
+                _goToMnemonicScreen(context);
+              }
+
+              bloc.dispatch(AddPasswordEvent(password));
+            },
           ),
-        ),
-        AccentButton(
-          label: Strings.nextLabel,
-          onPressed: () => Navigator.push(
-              context, slideRightTransition(ViewMnemonicScreen())),
-        )
-      ],
-    );
+        ));
   }
 
-  Widget _buildPasswordInputs() {
-    return Form(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildStyledTextField(
-              helperText: Strings.minCharsPassword,
-              hintText: Strings.passwordLabel),
-          SizedBox(height: 24),
-          _buildStyledTextField(hintText: Strings.confirmPasswordLabel),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStyledTextField({String hintText, String helperText}) {
-    return TextFormField(
-        autocorrect: false,
-        decoration: InputDecoration(
-            filled: true,
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent)),
-            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            helperText: helperText,
-            suffixIcon: Icon(Icons.remove_red_eye),
-            hintText: hintText,
-            alignLabelWithHint: true));
+  void _goToMnemonicScreen(BuildContext context) {
+    Navigator.push(context, slideRightTransition(ViewMnemonicScreen()));
   }
 }

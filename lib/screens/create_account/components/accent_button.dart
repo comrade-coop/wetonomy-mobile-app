@@ -16,7 +16,7 @@ class AccentButton extends StatelessWidget {
       color: Theme.of(context).accentColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Text(
           label,
           style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'),

@@ -8,7 +8,6 @@ class Strings {
   static const String importAccountLabel = 'Import from Seed Phrase';
 
   static const String createPasswordLabel = 'Create a Password';
-  static const String minCharsPassword = 'Minimum 8 characters';
   static const String passwordLabel = 'Password';
   static const String confirmPasswordLabel = 'Confirm Password';
   static const String secretPhraseLabel = 'Secret Backup Phrase';
@@ -33,4 +32,11 @@ Tips on storing it safely:
   static const String cantRecoverMessage =
       '* Wetonomy cannot recover your seed phrase.';
   static const String confirmMnemonic = 'Confirm Secret Phrase';
+
+  static const String passwordsMatchError = 'Passwords don\'t match';
+  static String emptyPasswordError = 'Password can not be empty';
+  static const String creatingMnemonicLabel = 'Creating Mnemonic…';
+
+  static String minCharsPassword(int minChars) =>
+      'Minimum $minChars characters';
 }
