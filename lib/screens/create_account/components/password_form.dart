@@ -19,53 +19,61 @@ class _PasswordFormState extends State<PasswordForm> {
   static const int minCharsPassword = 8;
 
   final _formKey = GlobalKey<FormState>();
+  final _passwordNode = FocusNode();
+  final _repeatPasswordNode = FocusNode();
+  bool _autovalidate = false;
 
-  String _password = '';
+  String _password;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            child: Center(child: _buildForm()),
-          ),
-        ),
-        AccentButton(
-            label: Strings.nextLabel,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                widget.onSuccessfulValidation(_password);
-              }
-            }),
-      ],
+    return Container(
+      height: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          _buildForm(),
+          AccentButton(
+              label: Strings.nextLabel,
+              onPressed: () {
+                if (_validateInputs()) {
+                  widget.onSuccessfulValidation(_password);
+                }
+              }),
+        ],
+      ),
     );
   }
 
   Widget _buildForm() {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            PasswordFormField(
-              helperText: Strings.minCharsPassword(minCharsPassword),
-              hintText: Strings.passwordLabel,
-              validator: _validatePassword,
-              onChanged: (String password) =>
-                  setState(() => _password = password),
-            ),
-            SizedBox(height: 24),
-            PasswordFormField(
-              hintText: Strings.confirmPasswordLabel,
-              validator: _validateRepeatedPassword,
-              helperText: Strings.confirmPasswordLabel,
-            ),
-          ],
-        ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          PasswordFormField(
+            focusNode: _passwordNode,
+            helperText: Strings.minCharsPassword(minCharsPassword),
+            hintText: Strings.passwordLabel,
+            inputAction: TextInputAction.next,
+            validator: _validatePassword,
+            autovalidate: _autovalidate,
+            onChanged: (String password) =>
+                setState(() => _password = password),
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_repeatPasswordNode);
+            },
+          ),
+          SizedBox(height: 24),
+          PasswordFormField(
+            focusNode: _repeatPasswordNode,
+            hintText: Strings.confirmPasswordLabel,
+            validator: _validateRepeatedPassword,
+            autovalidate: _autovalidate,
+            helperText: Strings.confirmPasswordLabel,
+          ),
+        ],
       ),
     );
   }
@@ -87,5 +95,14 @@ class _PasswordFormState extends State<PasswordForm> {
       return Strings.passwordsMatchError;
     }
     return null;
+  }
+
+  bool _validateInputs() {
+    if (!_autovalidate) {
+      setState(() {
+        _autovalidate = true;
+      });
+    }
+    return _formKey.currentState.validate();
   }
 }

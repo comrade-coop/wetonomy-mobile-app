@@ -13,6 +13,7 @@ class CreateAccountScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         title: LogoWithTitleSmall(),
@@ -24,9 +25,8 @@ class CreateAccountScaffold extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-      height: double.infinity,
       width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
@@ -35,7 +35,11 @@ class CreateAccountScaffold extends StatelessWidget {
           SizedBox(
             height: 32,
           ),
-          Expanded(child: body)
+          Expanded(
+              child: ConstrainedBox(
+            child: body,
+            constraints: BoxConstraints(maxWidth: 700),
+          ))
         ],
       ),
     );

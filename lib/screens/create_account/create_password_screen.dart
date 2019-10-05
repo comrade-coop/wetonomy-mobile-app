@@ -27,11 +27,6 @@ class CreatePasswordScreen extends StatelessWidget {
           title: Strings.createPasswordLabel,
           body: PasswordForm(
             onSuccessfulValidation: (String password) {
-              final state = bloc.currentState;
-              if (state is PasswordAddedState && state.password == password) {
-                _goToMnemonicScreen(context);
-              }
-
               bloc.dispatch(AddPasswordEvent(password));
             },
           ),
