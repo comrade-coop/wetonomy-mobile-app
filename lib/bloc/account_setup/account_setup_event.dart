@@ -18,4 +18,4 @@ class RemovePasswordEvent extends AccountSetupEvent {}
 
 class CreateMnemonicEvent extends AccountSetupEvent {}
 
-class CreateAccountEvent extends AccountSetupEvent {}
+class SaveAccountEvent extends AccountSetupEvent {}

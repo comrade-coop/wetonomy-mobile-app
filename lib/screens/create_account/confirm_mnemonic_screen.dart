@@ -25,7 +25,7 @@ class ConfirmMnemonicScreen extends StatelessWidget {
             AccentButton(
                 label: Strings.nextLabel,
                 onPressed: () {
-                  bloc.dispatch(CreateAccountEvent());
+                  bloc.dispatch(SaveAccountEvent());
                   Navigator.push(
                       context, slideRightTransition(AccountCreatedScreen()));
                 })

@@ -14,13 +14,19 @@ class AccountRepository {
     return _walletUtil.generateMnemonic();
   }
 
-  HDWallet createAndPersistAccount(String mnemonic) {
+  Future<HDWallet> createAndPersistAccount(String mnemonic) async {
     HDWallet wallet = createWallet(mnemonic);
-    persistWallet(wallet);
+
+    try {
+      await persistWallet(wallet);
+    } on Exception catch (e) {
+      print('Failed saving wallet to storage: ' + e.toString());
+    }
+
     return wallet;
   }
 
-  void persistWallet(HDWallet wallet) {
-    // TODO: Add wallet persistence
+  Future<void> persistWallet(HDWallet wallet) async {
+
   }
 }

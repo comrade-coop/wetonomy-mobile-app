@@ -21,10 +21,10 @@ class MnemonicCreatedState extends AccountSetupState {
   MnemonicCreatedState(this.mnemonic);
 }
 
-class AccountCreatedState extends AccountSetupState {
+class AccountSavedState extends AccountSetupState {
   final HDWallet wallet;
 
-  AccountCreatedState(this.wallet);
+  AccountSavedState(this.wallet);
 }
 
-class CreatingAccountState extends AccountSetupState {}
+class SavingAccountState extends AccountSetupState {}
