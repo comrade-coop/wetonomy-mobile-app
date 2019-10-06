@@ -16,9 +16,10 @@ class PasswordAddedState extends AccountSetupState {
 }
 
 class MnemonicCreatedState extends AccountSetupState {
+  final String password;
   final String mnemonic;
 
-  MnemonicCreatedState(this.mnemonic);
+  MnemonicCreatedState(this.mnemonic, this.password);
 }
 
 class AccountSavedState extends AccountSetupState {

@@ -7,7 +7,7 @@ class WalletUtility {
     return CosmosHDWallet.fromMnemonic(mnemonic);
   }
 
-  String generateMnemonic() {
+  String createMnemonic() {
     return Bip39.generateMnemonic();
   }
 }

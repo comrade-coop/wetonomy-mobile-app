@@ -22,24 +22,34 @@ class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
     if (event is AddPasswordEvent) {
       yield PasswordAddedState(event.password);
     } else if (event is CreateMnemonicEvent) {
-      final String mnemonic = _accountRepository.createMnemonic();
-      yield MnemonicCreatedState(mnemonic);
+      yield _handleCreateMnemonicEvent();
     } else if (event is RemovePasswordEvent) {
       yield InitialAccountSetupState();
     } else if (event is SaveAccountEvent) {
-      yield SavingAccountState();
-      yield await _handleSaveAccountEvent();
+      final state = currentState;
+      if (state is MnemonicCreatedState) {
+        yield SavingAccountState();
+        yield await _handleSaveAccountEvent(state.mnemonic, state.password);
+      } else {
+        yield state;
+      }
     }
   }
 
-  Future<AccountSetupState> _handleSaveAccountEvent() async {
+  Future<AccountSetupState> _handleSaveAccountEvent(
+      String mnemonic, String password) async {
+    final HDWallet wallet =
+        await _accountRepository.createAndPersistAccount(mnemonic, password);
+    return AccountSavedState(wallet);
+  }
+
+  AccountSetupState _handleCreateMnemonicEvent() {
     final state = currentState;
-    if (state is MnemonicCreatedState) {
-      final HDWallet wallet =
-          await _accountRepository.createAndPersistAccount(state.mnemonic);
-      return AccountSavedState(wallet);
+    if (state is PasswordAddedState) {
+      final String mnemonic = _accountRepository.createMnemonic();
+      return MnemonicCreatedState(mnemonic, state.password);
     }
 
-    return state;
+    return currentState;
   }
 }
