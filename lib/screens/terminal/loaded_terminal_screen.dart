@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:wetonomy/bloc/terminal_interaction/received_query_result_state.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
@@ -78,9 +77,9 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
       });
       _terminalController.selectTerminal(state.terminal);
     } else if (state is ReceivedActionResultState) {
-      _terminalController.handleActionResponse(state);
+      _terminalController.handleActionResult(state.result);
     } else if (state is ReceivedQueryResultState) {
-      _terminalController.handleQueryResponse(state);
+      _terminalController.handleQueryResult(state.result);
     } else if (state is ContractStateChangedState) {
       _terminalController.handleContractsStateChange(state.contract);
     }

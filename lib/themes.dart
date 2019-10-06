@@ -12,8 +12,8 @@ ThemeData createPinkTheme() {
   return ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.white,
-      primaryColorDark: Color.fromARGB(255, 180, 0, 78),
-      primaryColorLight: Color.fromARGB(255, 255, 119, 169),
-      accentColor: Colors.pink.shade400,
+      primaryColorDark: Color.fromARGB(255, 131, 111, 254),
+      primaryColorLight: Color.fromARGB(255, 225, 153, 184),
+      accentColor: Color.fromARGB(255, 131, 111, 254),
       backgroundColor: Colors.white);
 }

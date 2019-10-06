@@ -9,8 +9,13 @@ part 'action.g.dart';
 @immutable
 @JsonSerializable(nullable: false)
 class Action extends Equatable {
+  @JsonKey(name: 'Targets')
   final List<String> targets;
+
+  @JsonKey(name: 'Type')
   final String actionName;
+
+  @JsonKey(name: 'Payload')
   final Map<String, dynamic> parameters;
 
   Action(this.targets, this.actionName, this.parameters)
@@ -22,13 +27,12 @@ class Action extends Equatable {
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 
   factory Action.fromJsonString(String jsonString) {
-    try {
-      Map<String, dynamic> json = jsonDecode(jsonString);
-      return _$ActionFromJson(json);
-    } on FormatException {
-      throw new FormatException();
-    }
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    return _$ActionFromJson(json);
   }
 
   Map<String, dynamic> toJson() => _$ActionToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }

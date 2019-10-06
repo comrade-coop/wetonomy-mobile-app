@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.2.0"
   bip32:
     dependency: "direct main"
     description:
@@ -56,7 +56,7 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.4"
   bs58check:
     dependency: transitive
     description:
@@ -209,6 +209,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.19.1"
+  flutter_svg:
+    dependency: "direct main"
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -217,9 +224,11 @@ packages:
   flutter_webview_plugin:
     dependency: "direct main"
     description:
-      path: "vendor/flutter_webview_plugin"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "8e07b245d812b38d4416cb1c5fd7f456671ddb38"
+      url: "https://github.com/ivanasen/flutter_webview_plugin.git"
+    source: git
     version: "0.3.7"
   front_end:
     dependency: transitive
@@ -339,7 +348,7 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.7"
+    version: "1.1.6"
   mime:
     dependency: transitive
     description:
@@ -368,20 +377,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.10"
+  page_transition:
+    dependency: "direct main"
+    description:
+      name: page_transition
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   path:
     dependency: transitive
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.4"
+    version: "1.6.2"
   pedantic:
     dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0+1"
+    version: "1.7.0"
   pointycastle:
     dependency: transitive
     description:
@@ -423,7 +439,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.3"
   rxdart:
     dependency: transitive
     description:
@@ -498,7 +514,7 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.4"
   term_glyph:
     dependency: transitive
     description:
@@ -548,6 +564,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.7+12"
+  wave:
+    dependency: "direct main"
+    description:
+      name: wave
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8"
   web_socket_channel:
     dependency: "direct main"
     description:
@@ -555,6 +578,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.15"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.5.0"
   yaml:
     dependency: transitive
     description:
@@ -563,5 +593,5 @@ packages:
     source: hosted
     version: "2.1.16"
 sdks:
-  dart: ">=2.3.0 <3.0.0"
-  flutter: ">=1.5.0 <2.0.0"
+  dart: ">=2.4.0 <3.0.0"
+  flutter: ">=1.5.9-pre.94 <2.0.0"

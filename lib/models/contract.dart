@@ -20,6 +20,4 @@ class Contract extends Equatable {
       _$ContractFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContractToJson(this);
-
-  String toEncodedJson() => jsonEncode(this.toJson());
 }

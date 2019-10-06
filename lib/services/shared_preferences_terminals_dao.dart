@@ -45,7 +45,7 @@ class SharedPreferencesTerminalsDao implements TerminalsDao {
 
   Future<bool> _setTerminals(List<TerminalData> terminals) async {
     List<String> terminalsJson =
-        terminals.map((t) => t.toEncodedJson()).toList();
+        terminals.map((t) => jsonEncode(t.toJson())).toList();
     return sharedPrefs.setStringList(terminalsSharedPrefsKey, terminalsJson);
   }
 }
