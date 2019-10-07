@@ -1,6 +1,6 @@
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wetonomy/wallet/wallet.dart';
 
 @immutable
 abstract class AccountSetupState extends Equatable {
@@ -23,7 +23,7 @@ class MnemonicCreatedState extends AccountSetupState {
 }
 
 class AccountSavedState extends AccountSetupState {
-  final HDWallet wallet;
+  final Wallet wallet;
 
   AccountSavedState(this.wallet);
 }

@@ -1,7 +1,7 @@
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
+import 'package:wetonomy/wallet/wallet.dart';
 
 class WalletStorage {
-  void storeWallet(HDWallet wallet, String password) {
+  void storeWallet(Wallet wallet, String password) {
     // TODO: Implement storeWallet
   }
 }

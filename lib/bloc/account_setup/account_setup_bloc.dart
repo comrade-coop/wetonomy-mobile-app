@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:wetonomy/repositories/account_repository.dart';
+import 'package:wetonomy/wallet/wallet.dart';
 
 import 'account_setup_event.dart';
 import 'account_setup_state.dart';
@@ -38,7 +38,7 @@ class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
 
   Future<AccountSetupState> _handleSaveAccountEvent(
       String mnemonic, String password) async {
-    final HDWallet wallet =
+    final Wallet wallet =
         await _accountRepository.createAndPersistAccount(mnemonic, password);
     return AccountSavedState(wallet);
   }

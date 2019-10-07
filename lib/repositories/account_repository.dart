@@ -1,6 +1,6 @@
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:wetonomy/services/wallet_storage.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
+import 'package:wetonomy/wallet/wallet.dart';
 
 class AccountRepository {
   final WalletUtility _walletUtil;
@@ -10,7 +10,7 @@ class AccountRepository {
       : assert(_walletUtil != null),
         assert(_walletStorage != null);
 
-  HDWallet createWallet(String mnemonic) {
+  Wallet createWallet(String mnemonic) {
     if (mnemonic == null) {
       throw ArgumentError.notNull('mnemonic');
     }
@@ -21,14 +21,14 @@ class AccountRepository {
     return _walletUtil.createMnemonic();
   }
 
-  Future<HDWallet> createAndPersistAccount(
+  Future<Wallet> createAndPersistAccount(
       String password, String mnemonic) async {
-    HDWallet wallet = createWallet(mnemonic);
+    Wallet wallet = createWallet(mnemonic);
     persistWallet(wallet, password);
     return wallet;
   }
 
-  Future<void> persistWallet(HDWallet wallet, String password) async {
+  Future<void> persistWallet(Wallet wallet, String password) async {
     _walletStorage.storeWallet(wallet, password);
   }
 }

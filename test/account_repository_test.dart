@@ -1,8 +1,8 @@
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/repositories/account_repository.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
+import 'package:wetonomy/wallet/wallet.dart';
 
 import 'mocks/wallet_storage_mock.dart';
 
@@ -24,7 +24,7 @@ void main() {
       final walletUtility = WalletUtility();
       final repository = AccountRepository(walletUtility, WalletStorageMock());
 
-      final HDWallet wallet =
+      final Wallet wallet =
           repository.createWallet(walletUtility.createMnemonic());
       expect(wallet != null, true);
     });
@@ -34,7 +34,7 @@ void main() {
 
       final repository = AccountRepository(WalletUtility(), walletStorage);
       final String mnemonic = repository.createMnemonic();
-      final HDWallet wallet = repository.createWallet(mnemonic);
+      final Wallet wallet = repository.createWallet(mnemonic);
       final String password = 'password';
 
       bool calledStoreWallet = false;
