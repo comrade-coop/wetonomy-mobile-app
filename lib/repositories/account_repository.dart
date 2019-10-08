@@ -10,11 +10,11 @@ class AccountRepository {
       : assert(_walletUtil != null),
         assert(_walletStorage != null);
 
-  Wallet createWallet(String mnemonic) {
+  Wallet createWallet(String mnemonic, String password) {
     if (mnemonic == null) {
       throw ArgumentError.notNull('mnemonic');
     }
-    return _walletUtil.createWallet(mnemonic);
+    return _walletUtil.createWallet(mnemonic, password);
   }
 
   String createMnemonic() {
@@ -22,13 +22,13 @@ class AccountRepository {
   }
 
   Future<Wallet> createAndPersistAccount(
-      String password, String mnemonic) async {
-    Wallet wallet = createWallet(mnemonic);
-    persistWallet(wallet, password);
+  String mnemonic, String password) async {
+    Wallet wallet = createWallet(mnemonic, password);
+    await persistWallet(wallet, password);
     return wallet;
   }
 
   Future<void> persistWallet(Wallet wallet, String password) async {
-    _walletStorage.storeWallet(wallet, password);
+    await _walletStorage.storeWallet(wallet);
   }
 }

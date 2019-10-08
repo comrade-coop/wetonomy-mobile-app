@@ -25,7 +25,7 @@ void main() {
       final repository = AccountRepository(walletUtility, WalletStorageMock());
 
       final Wallet wallet =
-          repository.createWallet(walletUtility.createMnemonic());
+          repository.createWallet(walletUtility.createMnemonic(), '');
       expect(wallet != null, true);
     });
 
@@ -34,12 +34,14 @@ void main() {
 
       final repository = AccountRepository(WalletUtility(), walletStorage);
       final String mnemonic = repository.createMnemonic();
-      final Wallet wallet = repository.createWallet(mnemonic);
+      final Wallet wallet = repository.createWallet(mnemonic, '');
       final String password = 'password';
 
       bool calledStoreWallet = false;
-      when(walletStorage.storeWallet(wallet, password))
-          .thenAnswer((_) => calledStoreWallet = true);
+      when(walletStorage.storeWallet(wallet)).thenAnswer((_) {
+        calledStoreWallet = true;
+        return Future.value();
+      });
 
       repository.persistWallet(wallet, password);
       expect(calledStoreWallet, true);

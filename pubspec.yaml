@@ -11,30 +11,26 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-
   bloc: ^0.14.0
   flutter_bloc: ^0.19.0
   equatable: ^0.3.0
   json_annotation: ^2.4.0
-
   shared_preferences: ^0.5.3+4
   get_it: ^1.0.3+2
-
   validators: ^2.0.0+1
-
-  flutter_webview_plugin:
-    git: https://github.com/ivanasen/flutter_webview_plugin.git
-
   web_socket_channel: ^1.0.0
   http: ^0.12.0
-
   bitcoin_flutter: ^1.0.7
   bip32: ^1.0.5
   bip39: ^1.0.3
-
   flutter_svg: ^0.14.1
   wave: ^0.0.8
   page_transition: ^1.1.4
+  pointycastle: ^1.0.1
+  flutter_secure_storage: ^3.3.1+1
+
+  flutter_webview_plugin:
+    git: https://github.com/ivanasen/flutter_webview_plugin.git
 
 dev_dependencies:
   flutter_test:

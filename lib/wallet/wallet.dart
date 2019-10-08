@@ -7,6 +7,8 @@ abstract class Wallet {
 
   String get address;
 
+  String toBase58();
+
   Wallet derive(int index);
 
   Wallet derivePath(String path);
@@ -14,4 +16,6 @@ abstract class Wallet {
   Uint8List sign(String message);
 
   bool verify(String message, Uint8List signature);
+
+  String toJson();
 }
