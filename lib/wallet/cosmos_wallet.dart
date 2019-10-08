@@ -197,7 +197,9 @@ class CosmosWallet implements wetonomy.Wallet {
     final List<int> macBody = <int>[]
       ..addAll(dk.sublist(16, 32))
       ..addAll(cipherText);
-    return pointyCastle.SHA3Digest().process(macBody).toString();
+    return pointyCastle.SHA3Digest(256)
+        .process(Uint8List.fromList(macBody))
+        .toString();
   }
 
   @override

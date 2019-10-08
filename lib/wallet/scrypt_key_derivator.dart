@@ -28,7 +28,7 @@ class ScryptKeyDerivator implements KeyDerivator {
   factory ScryptKeyDerivator.defaultParams() {
     final random = RandomBridge(Random.secure());
     final Uint8List salt = random.nextBytes(32);
-    return ScryptKeyDerivator(32, 81892, 8, 1, salt);
+    return ScryptKeyDerivator(32, 8192, 8, 1, salt);
   }
 
   @override
@@ -39,7 +39,7 @@ class ScryptKeyDerivator implements KeyDerivator {
   @override
   Map<String, dynamic> encode() {
     return {
-      'dKlen': dkLen,
+      'dklen': dkLen,
       'n': n,
       'r': r,
       'p': p,
