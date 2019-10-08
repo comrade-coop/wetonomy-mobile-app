@@ -15,20 +15,20 @@ import 'package:wetonomy/wallet/scrypt_key_derivator.dart';
 import 'package:wetonomy/wallet/wallet.dart' as wetonomy;
 
 class CosmosWallet implements wetonomy.Wallet {
-  static final String _derivationPath = 'm/44\'/118\'/0\'/0/0';
+  static final String derivationPath = 'm/44\'/118\'/0\'/0/0';
   static final List<int> _aminoPublicKeyPrefix = [235, 90, 233, 135, 33];
 
   final HDWallet _wallet;
   final bip32.BIP32 _bip32;
-  final Uint8List _password;
-  final Uint8List _iv;
+  final Uint8List password;
+  final Uint8List iv;
   KeyDerivator _keyDerivator;
 
-  CosmosWallet._(this._bip32, this._wallet, this._password, this._iv,
+  CosmosWallet._(this._bip32, this._wallet, this.password, this.iv,
       {KeyDerivator keyDerivator})
       : assert(_bip32 != null),
         assert(_wallet != null),
-        assert(_iv != null) {
+        assert(iv != null) {
     if (keyDerivator == null) {
       keyDerivator = ScryptKeyDerivator.defaultParams();
     }
@@ -54,7 +54,7 @@ class CosmosWallet implements wetonomy.Wallet {
     final cosmosWallet = CosmosWallet._(bip32Wallet, hdWallet, password, iv,
         keyDerivator: ScryptKeyDerivator.defaultParams());
 
-    return cosmosWallet.derivePath(_derivationPath);
+    return cosmosWallet._derivePath(derivationPath);
   }
 
   factory CosmosWallet.fromBase58(
@@ -71,9 +71,7 @@ class CosmosWallet implements wetonomy.Wallet {
     final random = RandomBridge(Random.secure());
     final iv = random.nextBytes(16);
 
-    final cosmosWallet = CosmosWallet._(bip32Wallet, hdWallet, password, iv);
-
-    return cosmosWallet.derivePath(_derivationPath);
+    return CosmosWallet._(bip32Wallet, hdWallet, password, iv);
   }
 
   factory CosmosWallet.fromJson(String encoded, String password) {
@@ -153,14 +151,13 @@ class CosmosWallet implements wetonomy.Wallet {
   wetonomy.Wallet derive(int index) {
     final bip32 = _bip32.derive(index);
     final wallet = _wallet.derive(index);
-    return CosmosWallet._(bip32, wallet, _password, _iv);
+    return CosmosWallet._(bip32, wallet, password, iv);
   }
 
-  @override
-  wetonomy.Wallet derivePath(String path) {
+  wetonomy.Wallet _derivePath(String path) {
     final bip32 = _bip32.derivePath(path);
     final wallet = _wallet.derivePath(path);
-    return CosmosWallet._(bip32, wallet, _password, _iv);
+    return CosmosWallet._(bip32, wallet, password, iv);
   }
 
   @override
@@ -170,11 +167,11 @@ class CosmosWallet implements wetonomy.Wallet {
     final jsonMap = {
       'crypto': {
         'cipher': 'aes-128-ctr',
-        'cipherparams': {'iv': hex.encode(_iv)},
+        'cipherparams': {'iv': hex.encode(iv)},
         'ciphertext': hex.encode(cipher),
         'kdf': _keyDerivator.name,
         'kdfparams': _keyDerivator.encode(),
-        'mac': _generateMac(_keyDerivator.deriveKey(_password), cipher)
+        'mac': _generateMac(_keyDerivator.deriveKey(password), cipher)
       }
     };
 
@@ -182,10 +179,10 @@ class CosmosWallet implements wetonomy.Wallet {
   }
 
   Uint8List _encryptPrivateKey() {
-    final derived = _keyDerivator.deriveKey(_password);
+    final derived = _keyDerivator.deriveKey(password);
     final aesKey = Uint8List.view(derived.buffer, 0, 16);
 
-    final aes = _initCipher(aesKey, _iv);
+    final aes = _initCipher(aesKey, iv);
     return aes.process(Uint8List.fromList(utf8.encode(toBase58())));
   }
 
