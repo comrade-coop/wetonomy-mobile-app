@@ -1,7 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:wetonomy/models/action.dart';
 import 'package:wetonomy/models/action_result.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/cosmos_msg.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/cosmos_tx.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/cosmos_tx_value.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/signatures.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/cosmos_integration/action_request.dart';
 import 'package:wetonomy/models/cosmos_integration/base_request.dart';
@@ -15,10 +20,11 @@ import 'package:web_socket_channel/io.dart';
 
 import 'package:wetonomy/models/cosmos_integration/tendermint_response.dart';
 import 'package:wetonomy/models/cosmos_integration/tendermint_subscribe_request.dart';
+import 'package:wetonomy/wallet/cosmos_hd_wallet.dart';
 
 class StrongForceApiClientCosmos implements ContractsApiClient {
   static int count = 0;
-
+  CosmosHDWallet wallet;
   IOWebSocketChannel _channel;
   StreamController<Contract> _contractsEventsStream;
 
@@ -27,9 +33,28 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
   int _seq = 2;
 
   StrongForceApiClientCosmos() {
+    wallet = CosmosHDWallet.fromMnemonic("position soccer uphold patch fossil spare great junk domain arrange copy cradle need bunker horse gown just property perfect pen devote chair join mirror");
+    
     _channel = IOWebSocketChannel.connect(webSocketUrl);
     _contractsEventsStream = StreamController<Contract>.broadcast();
     _subscribeForEvents();
+  }
+  
+  Future<String> signAction(List<CosmosMsg> msg) async{
+    final Map<String, dynamic> account = await _getAccountSequence(address);
+    
+    var tx = {
+      "account_number": account['account_number'],
+      "chain_id": chainId,
+      "fee": {"amount":[],"gas":"200000"},
+      "memo": "",
+      "msgs": msg,
+      "sequence": account['sequence']
+    };
+    // var tx = CosmosTx("cosmos-sdk/StdTx", val);
+    Uint8List x = wallet.sign(json.encode(tx));
+    var base = base64.encode(x);
+    return base;
   }
 
   @override
@@ -39,15 +64,18 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
 
     final List<int> bytes = utf8.encode(jsonEncode(action.toJson()));
     final String encodedAction = Base64Codec().encode(bytes);
+    final msgs = [CosmosMsg("strongforce/ExecuteAction", { "Action": encodedAction, "Doer": address})];
 
-    final Map<String, dynamic> account = await _getAccountSequence(address);
+    final signedAction = await this.signAction(msgs);
+    final signatures = Signatures(signedAction, {"type": "tendermint/PubKeySecp256k1","value": wallet.pubKey });
+    
+    final txValue = CosmosTxValue(msgs,{"amount":[],"gas":"200000"}, signatures, "");
+    final tx = CosmosTx("cosmos-sdk/StdTx", txValue);
 
-    final BaseRequest base = BaseRequest(
-        address, account['sequence'], chainId, account['account_number']);
-    final ActionRequest request = ActionRequest(base, 'A', encodedAction);
 
-    final String encoded = jsonEncode(request);
+    final String encoded = tx.toEncodedJson();
     final http.Response response = await http.post(url, body: encoded);
+
     dynamic body = jsonDecode(response.body);
     body['error']['code'] += _seq;
     _seq++;
