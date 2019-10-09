@@ -78,8 +78,41 @@ class CosmosWallet implements wetonomy.Wallet {
     final data = json.decode(encoded);
 
     final crypto = data['crypto'];
+    if (crypto == null) {
+      _throwWalletException('crypto', encoded);
+    }
 
     final String kdf = crypto['kdf'];
+    if (kdf == null) {
+      _throwWalletException('kdf', encoded);
+    }
+
+    final encryptedBase58 = hex.decode(crypto['ciphertext']);
+    if (encryptedBase58 == null) {
+      _throwWalletException('ciphertext', encoded);
+    }
+
+    final mac = crypto['mac'];
+    if (mac == null) {
+      _throwWalletException('mac', encoded);
+    }
+
+    final cipher = crypto['cipher'];
+    if (cipher == null) {
+      _throwWalletException('cipher', encoded);
+    }
+
+    final cipherParams = crypto['cipherparams'];
+    if (cipherParams == null) {
+      _throwWalletException('cipherparams', encoded);
+    }
+
+    final ivEncoded = cipherParams['iv'];
+    if (ivEncoded == null) {
+      _throwWalletException('iv', encoded);
+    }
+    final iv = Uint8List.fromList(hex.decode(ivEncoded));
+
     KeyDerivator derivator;
 
     switch (kdf) {
@@ -102,25 +135,26 @@ class CosmosWallet implements wetonomy.Wallet {
     final Uint8List derivedKey = derivator.deriveKey(encodedPassword);
     final aesKey = Uint8List.fromList(derivedKey.sublist(0, 16));
 
-    final encryptedBase58 = hex.decode(crypto['ciphertext']);
-
     final derivedMac = _generateMac(derivedKey, encryptedBase58);
-    if (derivedMac != crypto['mac']) {
+    if (derivedMac != mac) {
       throw ArgumentError(
           'Could not unlock wallet file. You either supplied the wrong password or the file is corrupted');
     }
 
-    if (crypto['cipher'] != 'aes-128-ctr') {
+    if (cipher != 'aes-128-ctr') {
       throw ArgumentError(
           'Wallet file uses ${crypto["cipher"]} as cipher, but only aes-128-ctr is supported.');
     }
-
-    final iv = Uint8List.fromList(hex.decode(crypto['cipherparams']['iv']));
 
     final aes = _initCipher(aesKey, iv);
 
     final Uint8List base58 = aes.process(Uint8List.fromList(encryptedBase58));
     return CosmosWallet.fromBase58(utf8.decode(base58), encodedPassword, iv);
+  }
+
+  static void _throwWalletException(String property, String walletJson) {
+    throw ArgumentError(
+        '$property property is null. Provided wallet json: \n' + walletJson);
   }
 
   @override
@@ -197,9 +231,10 @@ class CosmosWallet implements wetonomy.Wallet {
     final List<int> macBody = <int>[]
       ..addAll(dk.sublist(16, 32))
       ..addAll(cipherText);
-    return pointyCastle.SHA3Digest(256)
-        .process(Uint8List.fromList(macBody))
-        .toString();
+    final mac =
+        pointyCastle.SHA3Digest(256).process(Uint8List.fromList(macBody));
+
+    return json.encode(mac);
   }
 
   @override

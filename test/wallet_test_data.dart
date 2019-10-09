@@ -140,5 +140,5 @@ final expectedWallet = {
     208,
     205,
     117,
-  ]
+  ],
 };
