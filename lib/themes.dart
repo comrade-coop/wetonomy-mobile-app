@@ -8,7 +8,7 @@ ThemeData createDefaultTheme() {
       backgroundColor: Colors.white);
 }
 
-ThemeData createPinkTheme() {
+ThemeData createPurpleTheme() {
   return ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.white,

@@ -6,6 +6,7 @@ import 'package:convert/convert.dart';
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
+import 'package:flutter/foundation.dart';
 import "package:pointycastle/digests/sha256.dart";
 import 'package:pointycastle/export.dart' as pointyCastle;
 import 'package:wetonomy/wallet/key_derivator.dart';
@@ -92,7 +93,7 @@ class CosmosWallet implements wetonomy.Wallet {
       _throwWalletException('ciphertext', encoded);
     }
 
-    final mac = crypto['mac'];
+    final List<int> mac = crypto['mac']?.cast<int>()?.toList();
     if (mac == null) {
       _throwWalletException('mac', encoded);
     }
@@ -135,8 +136,8 @@ class CosmosWallet implements wetonomy.Wallet {
     final Uint8List derivedKey = derivator.deriveKey(encodedPassword);
     final aesKey = Uint8List.fromList(derivedKey.sublist(0, 16));
 
-    final derivedMac = _generateMac(derivedKey, encryptedBase58);
-    if (derivedMac != mac) {
+    final List<int> derivedMac = _generateMac(derivedKey, encryptedBase58);
+    if (!listEquals<int>(mac, derivedMac)) {
       throw ArgumentError(
           'Could not unlock wallet file. You either supplied the wrong password or the file is corrupted');
     }
@@ -227,14 +228,13 @@ class CosmosWallet implements wetonomy.Wallet {
           pointyCastle.ParametersWithIV(pointyCastle.KeyParameter(aesKey), iv));
   }
 
-  static String _generateMac(List<int> dk, List<int> cipherText) {
+  static List<int> _generateMac(List<int> dk, List<int> cipherText) {
     final List<int> macBody = <int>[]
       ..addAll(dk.sublist(16, 32))
       ..addAll(cipherText);
-    final mac =
-        pointyCastle.SHA3Digest(256).process(Uint8List.fromList(macBody));
-
-    return json.encode(mac);
+    return pointyCastle.SHA3Digest(256)
+        .process(Uint8List.fromList(macBody))
+        .toList();
   }
 
   @override

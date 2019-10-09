@@ -69,6 +69,8 @@ void main() {
           CosmosWallet.fromMnemonic(expectedWallet['mnemonic'], Uint8List(0));
       final Map<String, dynamic> walletJson = json.decode(wallet.toJson());
 
+      print(json.encode(walletJson));
+
       final emptyJson = '{}';
       expect(() => CosmosWallet.fromJson(emptyJson, ''), throwsArgumentError);
 
