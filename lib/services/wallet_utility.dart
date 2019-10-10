@@ -6,9 +6,8 @@ import 'package:wetonomy/wallet/cosmos_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
 class WalletUtility {
-  Wallet createWallet(String mnemonic, String password) {
-    return CosmosWallet.fromMnemonic(
-        mnemonic, Uint8List.fromList(utf8.encode(password)));
+  Wallet createWallet(String mnemonic) {
+    return CosmosWallet.fromMnemonic(mnemonic);
   }
 
   String createMnemonic() {

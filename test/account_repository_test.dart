@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/repositories/account_repository.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
+import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
 import 'mocks/wallet_storage_mock.dart';
@@ -25,7 +26,7 @@ void main() {
       final repository = AccountRepository(walletUtility, WalletStorageMock());
 
       final Wallet wallet =
-          repository.createWallet(walletUtility.createMnemonic(), '');
+          repository.createWallet(walletUtility.createMnemonic());
       expect(wallet != null, true);
     });
 
@@ -34,16 +35,16 @@ void main() {
 
       final repository = AccountRepository(WalletUtility(), walletStorage);
       final String mnemonic = repository.createMnemonic();
-      final Wallet wallet = repository.createWallet(mnemonic, '');
-      final String password = 'password';
+      final Wallet wallet = repository.createWallet(mnemonic);
+      final encrypted = CosmosEncryptedWallet.fromWallet(wallet, '');
 
       bool calledStoreWallet = false;
-      when(walletStorage.storeWallet(wallet)).thenAnswer((_) {
+      when(walletStorage.storeWallet(encrypted)).thenAnswer((_) {
         calledStoreWallet = true;
         return Future.value();
       });
 
-      repository.persistWallet(wallet, password);
+      repository.persistWallet(encrypted);
       expect(calledStoreWallet, true);
     });
   });

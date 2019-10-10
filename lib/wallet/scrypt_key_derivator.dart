@@ -1,18 +1,26 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:pointycastle/export.dart' as pointyCastle;
-import 'package:convert/convert.dart';
 import 'package:pointycastle/key_derivators/api.dart';
+import 'package:wetonomy/models/wallet/uint8_list_string_converter.dart';
 import 'package:wetonomy/wallet/key_derivator.dart';
 import 'package:wetonomy/wallet/random_bridge.dart';
 
+part 'scrypt_key_derivator.g.dart';
+
+@JsonSerializable(nullable: false)
 class ScryptKeyDerivator implements KeyDerivator {
+  @JsonKey(name: 'dklen')
   final int dkLen;
   final int n;
   final int r;
   final int p;
+
+  @Uint8ListStringConverter()
   final Uint8List salt;
+
   pointyCastle.Scrypt _scrypt;
 
   ScryptKeyDerivator(this.dkLen, this.n, this.r, this.p, this.salt)
@@ -31,22 +39,16 @@ class ScryptKeyDerivator implements KeyDerivator {
     return ScryptKeyDerivator(32, 8192, 8, 1, salt);
   }
 
+  factory ScryptKeyDerivator.fromJson(Map<String, dynamic> json) =>
+      _$ScryptKeyDerivatorFromJson(json);
+
   @override
   Uint8List deriveKey(Uint8List password) {
     return _scrypt.process(password);
   }
 
   @override
-  Map<String, dynamic> encode() {
-    return {
-      'dklen': dkLen,
-      'n': n,
-      'r': r,
-      'p': p,
-      'salt': hex.encode(salt),
-    };
-  }
-
-  @override
   String get name => 'scrypt';
+
+  Map<String, dynamic> toJson() => _$ScryptKeyDerivatorToJson(this);
 }

@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/models/action_result.dart';
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-
-import '../bloc/terminal_interaction/terminal_interaction_state.dart';
-import '../models/contract.dart';
 
 class TerminalController {
   static const String _receiveStateUpdateMethodName =
