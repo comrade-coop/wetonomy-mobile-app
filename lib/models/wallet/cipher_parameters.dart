@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wetonomy/models/uint8_list_string_converter.dart';
+import 'package:wetonomy/models/converters/uint8_list_string_converter.dart';
 
 part 'cipher_parameters.g.dart';
 

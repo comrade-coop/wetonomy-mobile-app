@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:wetonomy/models/wallet/encrypted_wallet_file.dart';
 import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/cosmos_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
@@ -53,29 +54,20 @@ void main() {
       expect(() => encrypted.unlock('wrongpass'), throwsArgumentError);
     });
 
-//    test('fromJson throws when invalid json is sent', () {
-//      final String json = 'Invalid json';
-//      expect(() => CosmosWallet.fromJson(json, ''), throwsFormatException);
-//    });
+    test('Wallet serialisation works correctly', () {
+      final String password = 'password';
+      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final encryptedWallet =
+          CosmosEncryptedWallet.fromWallet(wallet, password);
+      final walletFile = encryptedWallet.toEncryptedWalletFile();
+      final Map<String, dynamic> walletJson = walletFile.toJson();
 
-//    test('fromJson throws when invalid wallet json is parsed', () {
-//      final wallet =
-//          CosmosWallet.fromMnemonic(expectedWallet['mnemonic'], Uint8List(0));
-//      final Map<String, dynamic> walletJson = json.decode(wallet.toJson());
-//
-//      print(json.encode(walletJson));
-//
-//      final emptyJson = '{}';
-//      expect(() => CosmosWallet.fromJson(emptyJson, ''), throwsArgumentError);
-//
-//      final dynamic kdf = walletJson['crypto'].remove('kdf');
-//      expect(() => CosmosWallet.fromJson(json.encode(walletJson), ''),
-//          throwsArgumentError);
-//      walletJson['crypto']['kdf'] = kdf;
-//
-//      walletJson['crypto'].remove('mac');
-//      expect(() => CosmosWallet.fromJson(json.encode(walletJson), ''),
-//          throwsArgumentError);
-//    });
+      final deserialised = EncryptedWalletFile.fromJson(walletJson);
+      final deserialisedEncrypted =
+          CosmosEncryptedWallet.fromEncryptedWalletFile(deserialised);
+
+      final unlocked = deserialisedEncrypted.unlock(password);
+      expect(unlocked.privateKey, wallet.privateKey);
+    });
   });
 }

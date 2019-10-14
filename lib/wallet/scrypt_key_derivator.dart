@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pointycastle/export.dart' as pointyCastle;
 import 'package:pointycastle/key_derivators/api.dart';
-import 'package:wetonomy/models/uint8_list_string_converter.dart';
+import 'package:wetonomy/models/converters/uint8_list_string_converter.dart';
 import 'package:wetonomy/wallet/key_derivator.dart';
 import 'package:wetonomy/wallet/random_bridge.dart';
 
@@ -12,6 +12,8 @@ part 'scrypt_key_derivator.g.dart';
 
 @JsonSerializable(nullable: false)
 class ScryptKeyDerivator implements KeyDerivator {
+  static const String name = 'scrypt';
+
   @JsonKey(name: 'dklen')
   final int dkLen;
   final int n;
@@ -48,7 +50,7 @@ class ScryptKeyDerivator implements KeyDerivator {
   }
 
   @override
-  String get name => 'scrypt';
+  String get algorithmName => name;
 
   Map<String, dynamic> toJson() => _$ScryptKeyDerivatorToJson(this);
 

@@ -53,6 +53,11 @@ class CosmosEncryptedWallet implements EncryptedWallet {
           'Wallet file uses ${file.crypto.cipher} as cipher, but only ${AesCipher.name} is supported.');
     }
 
+    if (file.crypto.keyDerivationFunction != ScryptKeyDerivator.name) {
+      throw ArgumentError(
+          'Wallet file uses ${file.crypto.keyDerivationFunction} as a key derivation function, but only ${ScryptKeyDerivator.name} is supported.');
+    }
+
     final derivator =
         ScryptKeyDerivator.fromJson(file.crypto.keyDerivationParams);
 
@@ -86,8 +91,8 @@ class CosmosEncryptedWallet implements EncryptedWallet {
   }
 
   EncryptedWalletFile toEncryptedWalletFile() {
-    final crypto = Crypto(_encryptedWallet, _mac, AesCipher.name,
-        _cipherParameters, _keyDerivator.derivationParameters);
+    final crypto = Crypto(_keyDerivator.algorithmName, _encryptedWallet, _mac,
+        AesCipher.name, _cipherParameters, _keyDerivator.derivationParameters);
     return EncryptedWalletFile(crypto, address);
   }
 }
