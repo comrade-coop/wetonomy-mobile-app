@@ -16,13 +16,13 @@ import 'package:wetonomy/wallet/wallet.dart';
 
 class CosmosEncryptedWallet implements EncryptedWallet {
   final Crypto crypto;
-  final KeyDerivator _keyDerivator = ScryptKeyDerivator.defaultParams();
+  final KeyDerivator _keyDerivator;
 
   final String address;
 
   static const String aesAlgorithmName = 'aes-128-ctr';
 
-  CosmosEncryptedWallet._(this.crypto, this.address)
+  CosmosEncryptedWallet._(this._keyDerivator, this.crypto, this.address)
       : assert(crypto != null),
         assert(address != null);
 
@@ -39,12 +39,13 @@ class CosmosEncryptedWallet implements EncryptedWallet {
     final crypto = Crypto(cipher, mac, aesAlgorithmName, CipherParameters(iv),
         derivator.toJson());
 
-    return CosmosEncryptedWallet._(crypto, wallet.address);
+    return CosmosEncryptedWallet._(derivator, crypto, wallet.address);
   }
 
   factory CosmosEncryptedWallet.fromEncryptedWalletFile(
       EncryptedWalletFile file) {
-    return CosmosEncryptedWallet._(file.crypto, file.address);
+    return CosmosEncryptedWallet._(
+        ScryptKeyDerivator.defaultParams(), file.crypto, file.address);
   }
 
   Wallet unlock(String password) {
@@ -53,7 +54,7 @@ class CosmosEncryptedWallet implements EncryptedWallet {
           'Wallet file uses ${crypto.cipher} as cipher, but only $aesAlgorithmName is supported.');
     }
 
-    final Uint8List encodedPassword = Uint8List.fromList(utf8.encode(password));
+    final Uint8List encodedPassword = utf8.encode(password);
     final Uint8List derivedKey = _keyDerivator.deriveKey(encodedPassword);
     final aesKey = Uint8List.view(derivedKey.buffer, 0, 16);
 
