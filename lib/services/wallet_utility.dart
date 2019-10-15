@@ -11,3 +11,4 @@ class WalletUtility {
     return Bip39.generateMnemonic();
   }
 }
+--
