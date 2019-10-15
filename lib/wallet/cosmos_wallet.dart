@@ -9,7 +9,7 @@ import 'package:wetonomy/wallet/network.dart';
 import 'package:wetonomy/wallet/wallet.dart' as wetonomy;
 
 class CosmosWallet implements wetonomy.Wallet {
-  static final String _derivationPath = 'm/44\'/118\'/0\'/0/0';
+  static final String derivationPath = 'm/44\'/118\'/0\'/0/0';
   static final List<int> _aminoPublicKeyPrefix = [235, 90, 233, 135, 33];
 
   final HDWallet _wallet;
@@ -34,21 +34,20 @@ class CosmosWallet implements wetonomy.Wallet {
     final hdWallet = HDWallet.fromSeed(seed, network: network);
     final cosmosWallet = CosmosWallet._(bip32Wallet, hdWallet);
 
-    return cosmosWallet.derivePath(_derivationPath);
+    return cosmosWallet._derivePath(derivationPath);
   }
 
-  factory CosmosWallet.fromBase58(String xpub) {
+  factory CosmosWallet.fromBase58(String xPub) {
     final NetworkType network = cosmos;
     final bip32Wallet = bip32.BIP32.fromBase58(
-        xpub,
+        xPub,
         bip32.NetworkType(
             bip32: bip32.Bip32Type(
                 public: network.bip32.public, private: network.bip32.private),
             wif: network.wif));
-    final hdWallet = HDWallet.fromBase58(xpub, network: network);
-    final cosmosWallet = CosmosWallet._(bip32Wallet, hdWallet);
+    final hdWallet = HDWallet.fromBase58(xPub, network: network);
 
-    return cosmosWallet.derivePath(_derivationPath);
+    return CosmosWallet._(bip32Wallet, hdWallet);
   }
 
   @override
@@ -58,8 +57,10 @@ class CosmosWallet implements wetonomy.Wallet {
   Uint8List get privateKey => _bip32.privateKey;
 
   // TODO: Convert pubKey to use Cosmos encoding
+  // Dirty fix in order to make the public key compatible with cosmos' amino encoded public keys
   @override
-  Uint8List get publicKey => _bip32.publicKey;
+  Uint8List get publicKey =>
+      Uint8List.fromList(_aminoPublicKeyPrefix + _bip32?.publicKey);
 
   @override
   Uint8List sign(String message) {
@@ -73,12 +74,6 @@ class CosmosWallet implements wetonomy.Wallet {
     return _bip32.verify(messageHash, signature);
   }
 
-  Uint8List get privKeyRaw => _bip32.privateKey;
-
-  // Dirty fix in order to make the public key compatible with cosmos' amino encoded public keys
-  Uint8List get pubKeyRaw =>
-      Uint8List.fromList(_aminoPublicKeyPrefix + _bip32?.publicKey);
-
   @override
   wetonomy.Wallet derive(int index) {
     final bip32 = _bip32.derive(index);
@@ -86,10 +81,12 @@ class CosmosWallet implements wetonomy.Wallet {
     return CosmosWallet._(bip32, wallet);
   }
 
-  @override
-  wetonomy.Wallet derivePath(String path) {
+  wetonomy.Wallet _derivePath(String path) {
     final bip32 = _bip32.derivePath(path);
     final wallet = _wallet.derivePath(path);
     return CosmosWallet._(bip32, wallet);
   }
+
+  @override
+  String toBase58() => _bip32.toBase58();
 }

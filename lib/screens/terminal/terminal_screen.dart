@@ -4,7 +4,6 @@ import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminals_manager/terminals_manager_state.dart';
 import 'package:wetonomy/components/transparent_status_bar.dart';
 import 'package:wetonomy/screens/empty_terminals/empty_terminals_screen.dart';
-import 'package:wetonomy/screens/terminal/loaded_terminal_screen.dart';
 import 'package:wetonomy/screens/loading_terminal/loading_terminals_screen.dart';
 
 class TerminalScreen extends StatelessWidget {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/create_account/create_account_screen.dart';
 import 'package:wetonomy/screens/import_account/import_account_screen.dart';
-import 'package:wetonomy/screens/terminal/terminal_screen.dart';
 
 class AccountActionButtons extends StatelessWidget {
   @override

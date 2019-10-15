@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wetonomy/repositories/terminals_repository.dart';
@@ -17,7 +18,7 @@ Future<void> setupServiceLocator() async {
 
 _registerAccountRepository() {
   final walletUtility = WalletUtility();
-  final walletStorage = WalletStorage();
+  final walletStorage = WalletStorage(FlutterSecureStorage());
   locator.registerSingleton(AccountRepository(walletUtility, walletStorage));
 }
 

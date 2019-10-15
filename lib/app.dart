@@ -18,7 +18,7 @@ class WetonomyApp extends StatelessWidget {
       providers: createBlocProviders(),
       child: MaterialApp(
         title: 'Wetonomy',
-        theme: createPinkTheme(),
+        theme: createPurpleTheme(),
         routes: createRoutes(),
         // Needed in order for the native webView to know when to hide itself
         navigatorObservers: [WebviewAutoHideNavigatorObserver()],

@@ -7,9 +7,9 @@ abstract class Wallet {
 
   String get address;
 
-  Wallet derive(int index);
+  String toBase58();
 
-  Wallet derivePath(String path);
+  Wallet derive(int index);
 
   Uint8List sign(String message);
 

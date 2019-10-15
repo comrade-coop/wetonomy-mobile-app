@@ -7,7 +7,9 @@ class CreateAccountScaffold extends StatelessWidget {
 
   const CreateAccountScaffold(
       {Key key, @required this.title, @required this.body})
-      : super(key: key);
+      : assert(title != null),
+        assert(body != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

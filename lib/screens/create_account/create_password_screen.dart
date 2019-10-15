@@ -14,7 +14,6 @@ class CreatePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountSetupBloc>(context);
-    bloc.dispatch(RemovePasswordEvent());
 
     return BlocListener<AccountSetupEvent, AccountSetupState>(
         bloc: bloc,

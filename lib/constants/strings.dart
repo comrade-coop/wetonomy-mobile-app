@@ -1,4 +1,7 @@
 class Strings {
+  static const String confirmMnemonicMessage =
+      'Please rebuild the mnemonic sequence in order to make sure you\'ve remembered it.';
+
   Strings._();
 
   static const String appName = 'Wetonomy';
@@ -36,6 +39,8 @@ Tips on storing it safely:
   static const String passwordsMatchError = 'Passwords don\'t match';
   static String emptyPasswordError = 'Password can not be empty';
   static const String creatingMnemonicLabel = 'Creating Mnemonic…';
+  static const String savingAccountLabel = 'Saving Account…';
+  static const String confirmLabel = 'Confirm';
 
   static String minCharsPassword(int minChars) =>
       'Minimum $minChars characters';
