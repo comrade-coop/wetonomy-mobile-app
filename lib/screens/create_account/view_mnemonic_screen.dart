@@ -7,6 +7,7 @@ import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/create_account/components/view_mnemonic_section.dart';
 import 'package:wetonomy/screens/create_account/components/create_account_scaffold.dart';
+import 'package:wetonomy/screens/create_account/loading_screen.dart';
 
 import 'confirm_mnemonic_screen.dart';
 
@@ -24,18 +25,16 @@ class ViewMnemonicScreen extends StatelessWidget {
             body: ViewMnemonicSection(
               mnemonic: state.mnemonic,
               onNextPressed: () => Navigator.push(
-                  context, slideRightTransition(ConfirmMnemonicScreen())),
+                  context,
+                  slideRightTransition(ConfirmMnemonicScreen(
+                    mnemonic: state.mnemonic,
+                  ))),
             ),
           );
         }
 
         bloc.dispatch(CreateMnemonicEvent());
-        return CreateAccountScaffold(
-          title: Strings.creatingMnemonicLabel,
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return LoadingScreen(title: Strings.creatingMnemonicLabel);
       },
     );
   }

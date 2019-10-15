@@ -1,6 +1,5 @@
 import 'package:wetonomy/services/wallet_storage.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
-import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
@@ -26,12 +25,12 @@ class AccountRepository {
   Future<Wallet> createAndPersistAccount(
       String mnemonic, String password) async {
     final Wallet wallet = createWallet(mnemonic);
-    final encrypted = CosmosEncryptedWallet.fromWallet(wallet, password);
+    final encrypted = await _walletUtil.encryptWallet(wallet, password);
     await persistWallet(encrypted);
     return wallet;
   }
 
-  Future<void> persistWallet(EncryptedWallet wallet) async {
-    await _walletStorage.storeWallet(wallet);
+  Future<String> persistWallet(EncryptedWallet wallet) async {
+    return await _walletStorage.storeWallet(wallet);
   }
 }
