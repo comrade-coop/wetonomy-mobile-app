@@ -7,11 +7,11 @@ part 'signatures.g.dart';
 
 @JsonSerializable(nullable: false)
 class Signatures extends Equatable {
-  final String signature;
-
   final Map<String, dynamic> pub_key;
 
-  Signatures(this.signature, this.pub_key): super([signature, pub_key]);
+  final String signature;
+
+  Signatures(this.pub_key, this.signature): super([pub_key, signature]);
 
   factory Signatures.fromJson(Map<String, dynamic> json) =>
       _$SignaturesFromJson(json);

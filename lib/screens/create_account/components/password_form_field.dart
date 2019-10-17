@@ -27,7 +27,7 @@ class PasswordFormField extends StatelessWidget {
     return TextFormField(
         focusNode: this.focusNode,
         validator: validator,
-        onChanged: onChanged,
+        // onChanged: onChanged,
         textInputAction: this.inputAction,
         autocorrect: false,
         autovalidate: autovalidate,

@@ -33,14 +33,14 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
   int _seq = 2;
 
   StrongForceApiClientCosmos() {
-    wallet = CosmosHDWallet.fromMnemonic("position soccer uphold patch fossil spare great junk domain arrange copy cradle need bunker horse gown just property perfect pen devote chair join mirror");
+    wallet = CosmosHDWallet.fromMnemonic(mnemonic);
     
     _channel = IOWebSocketChannel.connect(webSocketUrl);
     _contractsEventsStream = StreamController<Contract>.broadcast();
     _subscribeForEvents();
   }
   
-  Future<String> signAction(List<CosmosMsg> msg) async{
+  Future<String> signAction(List<Map<String, dynamic>> msg) async{
     final Map<String, dynamic> account = await _getAccountSequence(address);
     
     var tx = {
@@ -66,10 +66,10 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
     final String encodedAction = Base64Codec().encode(bytes);
     final msgs = [CosmosMsg("strongforce/ExecuteAction", { "Action": encodedAction, "Doer": address})];
 
-    final signedAction = await this.signAction(msgs);
-    final signatures = Signatures(signedAction, {"type": "tendermint/PubKeySecp256k1","value": wallet.pubKey });
+    final signedAction = await this.signAction([{ "Action": encodedAction, "Doer": address}]);
+    final signatures = Signatures({"type": "tendermint/PubKeySecp256k1","value": Base64Codec().encode(wallet.pubKeyWithoutAmino)}, signedAction);
     
-    final txValue = CosmosTxValue(msgs,{"amount":[],"gas":"200000"}, signatures, "");
+    final txValue = CosmosTxValue(msgs,{"amount":[],"gas":"200000"}, [signatures], "");
     final tx = CosmosTx("cosmos-sdk/StdTx", txValue);
 
 

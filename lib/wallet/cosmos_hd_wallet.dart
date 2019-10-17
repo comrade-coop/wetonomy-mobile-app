@@ -110,4 +110,6 @@ class CosmosHDWallet implements HDWallet {
   // Dirty fix in order to make the public key compatible with cosmos' amino encoded public keys
   Uint8List get pubKeyRaw =>
       Uint8List.fromList(_aminoPublicKeyPrefix + _bip32?.publicKey);
+  
+  Uint8List get pubKeyWithoutAmino => Uint8List.fromList(_bip32?.publicKey);
 }

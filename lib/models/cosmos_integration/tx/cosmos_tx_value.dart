@@ -2,17 +2,19 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import './signatures.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/cosmos_msg.dart';
+import 'package:wetonomy/models/cosmos_integration/tx/signatures.dart';
+
 
 part 'cosmos_tx_value.g.dart';
 
 @JsonSerializable(nullable: false)
 class CosmosTxValue extends Equatable {
-  final List<Map<String,dynamic>> msg;
+  final List<CosmosMsg> msg;
 
   final Map<String,dynamic> fee;
 
-  final Signatures signatures;
+  final List<Signatures> signatures;
 
   final String memo;
 
