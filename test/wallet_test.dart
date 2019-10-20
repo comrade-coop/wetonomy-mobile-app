@@ -12,23 +12,23 @@ import 'wallet_test_data.dart';
 void main() {
   group('Wallet', () {
     test('Creates correct private key', () {
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
-      expect(wallet.privateKey, expectedWallet['privateKey']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
+      expect(base64.encode(wallet.privateKey), WalletTestData.privateKeyBase64);
     });
 
     test('Creates correct public key', () {
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
-      expect(wallet.publicKey, expectedWallet['publicKey']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
+      expect(base64.encode(wallet.publicKey), WalletTestData.publicKeyBase64);
     });
 
     test('Signes messages correctly', () {
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
       final Uint8List signature = wallet.sign('Hello World!');
-      expect(signature, expectedWallet['signature']);
+      expect(base64.encode(signature), WalletTestData.signatureBase64);
     });
 
     test('Creates a wallet from base58 correctly', () {
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
 
       String base58 = wallet.toBase58();
       final base58Wallet = CosmosWallet.fromBase58(base58);
@@ -38,7 +38,7 @@ void main() {
 
     test('fromEncryptedWallet works correctly', () {
       final String password = 'testpass';
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
       final encrypted = CosmosEncryptedWallet.fromWallet(wallet, password);
 
       final Wallet unlocked = encrypted.unlock(password);
@@ -48,7 +48,7 @@ void main() {
 
     test('fromEncryptedWallet throws when invalid password is used', () {
       final String password = 'testpass';
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
       final encrypted = CosmosEncryptedWallet.fromWallet(wallet, password);
 
       expect(() => encrypted.unlock('wrongpass'), throwsArgumentError);
@@ -56,7 +56,7 @@ void main() {
 
     test('Wallet serialisation works correctly', () {
       final String password = 'password';
-      final wallet = CosmosWallet.fromMnemonic(expectedWallet['mnemonic']);
+      final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
       final encryptedWallet =
           CosmosEncryptedWallet.fromWallet(wallet, password);
       final walletFile = encryptedWallet.toEncryptedWalletFile();

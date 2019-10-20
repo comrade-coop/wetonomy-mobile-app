@@ -35,14 +35,14 @@ class AccountCreatedScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildStyledText(Strings.congratulationsMessage, context),
+              _buildStyledText(Strings.congratulationsMsg, context),
               _buildVerticalSpacing(),
               _buildStyledText(
                   'Your wallet address is: ${wallet.address}', context),
               _buildVerticalSpacing(),
               _buildStyledText(Strings.passwordTips, context),
               _buildVerticalSpacing(),
-              _buildStyledText(Strings.cantRecoverMessage, context),
+              _buildStyledText(Strings.cantRecoverMsg, context),
             ],
           ),
           AccentButton(

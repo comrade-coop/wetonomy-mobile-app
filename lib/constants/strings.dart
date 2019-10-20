@@ -1,7 +1,4 @@
 class Strings {
-  static const String confirmMnemonicMessage =
-      'Please rebuild the mnemonic sequence in order to make sure you\'ve remembered it.';
-
   Strings._();
 
   static const String appName = 'Wetonomy';
@@ -16,14 +13,14 @@ class Strings {
   static const String secretPhraseLabel = 'Secret Backup Phrase';
   static const String nextLabel = 'Next';
   static const String allDoneLabel = 'All Done';
-  static const String secretPhraseMessage =
+  static const String secretPhraseMsg =
       'Your secret backup phrase makes it easy to back up and restore your account.';
-  static const String secretPhraseStorageMessage =
+  static const String secretPhraseStorageMsg =
       'Store it in a Password Manager or write it down on a piece of paper and keep it in a safe place.';
   static const String secretPhraseWarning =
       'WARNING: Never disclose your backup phrase. Anyone with this phrase can access your account.';
   static const String congratulationsLabel = 'Congratulations';
-  static const String congratulationsMessage =
+  static const String congratulationsMsg =
       'You passed the test - keep your secret phrase safe, its your responsibility!';
   static const String passwordTips = '''
 Tips on storing it safely: 
@@ -32,7 +29,7 @@ Tips on storing it safely:
 • Never share the phrase with anyone.
 • Be careful of malicious apps! Wetonomy will never spontaneously ask for your seed phrase. 
   ''';
-  static const String cantRecoverMessage =
+  static const String cantRecoverMsg =
       '* Wetonomy cannot recover your seed phrase.';
   static const String confirmMnemonic = 'Confirm Secret Phrase';
 
@@ -41,6 +38,11 @@ Tips on storing it safely:
   static const String creatingMnemonicLabel = 'Creating Mnemonic…';
   static const String savingAccountLabel = 'Saving Account…';
   static const String confirmLabel = 'Confirm';
+
+  static const String confirmMnemonicMsg =
+      'Please rebuild the mnemonic sequence in order to make sure you\'ve remembered it.';
+
+  static const String wrongMnemonicMsg = 'Wrong mnemonic!';
 
   static String minCharsPassword(int minChars) =>
       'Minimum $minChars characters';

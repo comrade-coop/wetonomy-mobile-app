@@ -1,8 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:wetonomy/bloc/bloc.dart';
+import 'package:wetonomy/bloc/mnemonic_verification/word_field.dart';
 import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/create_account/components/accent_button.dart';
+import 'package:wetonomy/screens/create_account/components/memonic_word.dart';
 
 class MnemonicVerificationSection extends StatefulWidget {
   final String mnemonic;
@@ -23,19 +24,21 @@ class MnemonicVerificationSection extends StatefulWidget {
 
 class _MnemonicVerificationSectionState
     extends State<MnemonicVerificationSection> {
-  List<String> _mnemonicList;
-  List<String> _mnemonicShuffled;
+  MnemonicVerificationBloc _bloc;
+  List<WordField> _selectedWords = [];
+  List<WordField> _remainingWords = [];
 
   @override
   void initState() {
     super.initState();
+    _bloc = MnemonicVerificationBloc(widget.mnemonic.split(' '));
 
-    _mnemonicList = widget.mnemonic.split(' ');
-    _mnemonicShuffled = []..addAll(_mnemonicList);
-    _mnemonicShuffled.shuffle(Random());
-
-    print(_mnemonicList);
-    print(_mnemonicShuffled);
+    _bloc.state.listen((MnemonicVerificationState state) {
+      setState(() {
+        _selectedWords = state.selectedWords;
+        _remainingWords = state.remainingWords;
+      });
+    });
   }
 
   @override
@@ -46,8 +49,8 @@ class _MnemonicVerificationSectionState
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         children: <Widget>[
-          _buildMessage(),
-          _buildMnemonicDraggableArea(),
+          Text(Strings.confirmMnemonicMsg),
+          _buildSelectedMnemonicArea(),
           _buildMnemonicPieces(),
           AccentButton(label: Strings.confirmLabel, onPressed: _verifyMnemonic)
         ],
@@ -55,13 +58,35 @@ class _MnemonicVerificationSectionState
     );
   }
 
-  Widget _buildMnemonicDraggableArea() {
+  Widget _buildSelectedMnemonicArea() {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 16),
-      child: Container(
-        height: 120,
-        width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 200,
+          width: double.infinity,
+          child: _buildSelectedWords(),
+        ),
       ),
+    );
+  }
+
+  Widget _buildSelectedWords() {
+    return GridView.count(
+      crossAxisCount: 3,
+      childAspectRatio: 2,
+      children: _selectedWords.map((WordField field) {
+        return Center(
+          child: MnemonicWord(
+            word: field.word,
+            onSelected: () {
+              _bloc.dispatch(UnSelectWordEvent(_selectedWords.indexOf(field)));
+            },
+            selected: field.selected,
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -70,37 +95,31 @@ class _MnemonicVerificationSectionState
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
           crossAxisCount: 3,
           childAspectRatio: 2,
-          // Generate 100 widgets that display their index in the List.
-          children: _mnemonicShuffled.map((String word) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor.withAlpha(30),
-                    borderRadius: BorderRadius.circular(4)),
-                child: Center(
-                  child: Text(
-                    word,
-                    style: TextStyle(color: Theme.of(context).primaryColorDark),
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
+          children: _remainingWords
+              .map((WordField field) => Center(
+                    child: MnemonicWord(
+                      word: field.word,
+                      onSelected: () {
+                        _bloc.dispatch(
+                            SelectWordEvent(_remainingWords.indexOf(field)));
+                      },
+                      selected: field.selected,
+                    ),
+                  ))
+              .toList(),
         ),
       ),
     );
   }
 
   void _verifyMnemonic() {
-    widget.onSuccessfulVerification();
-  }
-
-  Widget _buildMessage() {
-    return Text(Strings.confirmMnemonicMessage);
+    if (_bloc.currentState.isValidSequence) {
+      widget.onSuccessfulVerification();
+    } else {
+      final snackBar = SnackBar(content: Text(Strings.wrongMnemonicMsg));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
   }
 }
