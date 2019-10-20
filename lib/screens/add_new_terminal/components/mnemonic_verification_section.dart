@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/mnemonic_verification/word_field.dart';
@@ -52,7 +53,14 @@ class _MnemonicVerificationSectionState
           Text(Strings.confirmMnemonicMsg),
           _buildSelectedMnemonicArea(),
           _buildMnemonicPieces(),
-          AccentButton(label: Strings.confirmLabel, onPressed: _verifyMnemonic)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AccentButton(
+                  label: Strings.confirmLabel, onPressed: _verifyMnemonic),
+              _buildDebugSkipBtn()
+            ],
+          )
         ],
       ),
     );
@@ -121,5 +129,18 @@ class _MnemonicVerificationSectionState
       final snackBar = SnackBar(content: Text(Strings.wrongMnemonicMsg));
       Scaffold.of(context).showSnackBar(snackBar);
     }
+  }
+
+  Widget _buildDebugSkipBtn() {
+    if (!kDebugMode) {
+      return SizedBox.shrink();
+    }
+
+    return FlatButton(
+        child: Text(
+          Strings.skipLabelDebug,
+          style: TextStyle(color: Theme.of(context).accentColor),
+        ),
+        onPressed: widget.onSuccessfulVerification);
   }
 }

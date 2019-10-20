@@ -46,4 +46,5 @@ Tips on storing it safely:
 
   static String minCharsPassword(int minChars) =>
       'Minimum $minChars characters';
+  static const String skipLabelDebug = 'Skip (Debug only)';
 }
