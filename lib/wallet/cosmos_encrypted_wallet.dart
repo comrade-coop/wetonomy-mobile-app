@@ -39,8 +39,7 @@ class CosmosEncryptedWallet implements EncryptedWallet {
     final aes = AesCipher.generateIV(aesKey);
     final cipher = aes.process(utf8.encode(wallet.toBase58()));
 
-    final Uint8List mac =
-        _generateMac(derivator.deriveKey(encodedPassword), cipher);
+    final Uint8List mac = _generateMac(derived, cipher);
 
     return CosmosEncryptedWallet._(
         wallet.address, derivator, cipher, mac, aes.cipherParameters);
