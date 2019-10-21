@@ -42,9 +42,12 @@ Tips on storing it safely:
   static const String confirmMnemonicMsg =
       'Please rebuild the mnemonic sequence in order to make sure you\'ve remembered it.';
 
-  static const String wrongMnemonicMsg = 'Wrong mnemonic!';
+  static const String wrongMnemonicMsg =
+      'Wrong mnemonic! Make sure you\'ve written it down correctly.';
 
   static String minCharsPassword(int minChars) =>
       'Minimum $minChars characters';
   static const String skipLabelDebug = 'Skip (Debug only)';
+
+  static const String yourWalletAddressLabel = 'Your wallet address is:';
 }

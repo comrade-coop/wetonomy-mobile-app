@@ -29,6 +29,9 @@ class _MnemonicVerificationSectionState
   List<WordField> _selectedWords = [];
   List<WordField> _remainingWords = [];
 
+  static const int _crossAxisWordCount = 3;
+  static const double _wordAspectRatio = 2;
+
   @override
   void initState() {
     super.initState();
@@ -67,12 +70,11 @@ class _MnemonicVerificationSectionState
   }
 
   Widget _buildSelectedMnemonicArea() {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    return Expanded(
+      child: Card(
+        margin: EdgeInsets.symmetric(vertical: 16),
         child: Container(
-          height: 200,
+          height: double.infinity,
           width: double.infinity,
           child: _buildSelectedWords(),
         ),
@@ -82,8 +84,8 @@ class _MnemonicVerificationSectionState
 
   Widget _buildSelectedWords() {
     return GridView.count(
-      crossAxisCount: 3,
-      childAspectRatio: 2,
+      crossAxisCount: _crossAxisWordCount,
+      childAspectRatio: _wordAspectRatio,
       children: _selectedWords.map((WordField field) {
         return Center(
           child: MnemonicWord(
@@ -103,19 +105,10 @@ class _MnemonicVerificationSectionState
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: GridView.count(
-          crossAxisCount: 3,
-          childAspectRatio: 2,
+          crossAxisCount: _crossAxisWordCount,
+          childAspectRatio: _wordAspectRatio,
           children: _remainingWords
-              .map((WordField field) => Center(
-                    child: MnemonicWord(
-                      word: field.word,
-                      onSelected: () {
-                        _bloc.dispatch(
-                            SelectWordEvent(_remainingWords.indexOf(field)));
-                      },
-                      selected: field.selected,
-                    ),
-                  ))
+              .map((WordField field) => _buildMnemonicWord(field))
               .toList(),
         ),
       ),
@@ -142,5 +135,17 @@ class _MnemonicVerificationSectionState
           style: TextStyle(color: Theme.of(context).accentColor),
         ),
         onPressed: widget.onSuccessfulVerification);
+  }
+
+  Widget _buildMnemonicWord(WordField field) {
+    return Center(
+      child: MnemonicWord(
+        word: field.word,
+        onSelected: () {
+          _bloc.dispatch(SelectWordEvent(_remainingWords.indexOf(field)));
+        },
+        selected: field.selected,
+      ),
+    );
   }
 }

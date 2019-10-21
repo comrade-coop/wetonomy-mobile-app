@@ -21,14 +21,14 @@ class ViewMnemonicSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          _buildMsgsAndCard(context),
+          _buildMessagesAndCard(context),
           _buildNextButton(context),
         ],
       ),
     );
   }
 
-  Widget _buildMsgsAndCard(BuildContext context) {
+  Widget _buildMessagesAndCard(BuildContext context) {
     return Column(
       children: <Widget>[
         _buildPaddedText(Strings.secretPhraseMsg),

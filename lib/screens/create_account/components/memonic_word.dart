@@ -20,8 +20,7 @@ class MnemonicWord extends StatelessWidget {
       return OutlineButton(
         color: Colors.transparent,
         onPressed: null,
-        borderSide:
-            BorderSide(color: Theme.of(context).accentColor.withAlpha(30)),
+        disabledBorderColor: Theme.of(context).accentColor.withAlpha(30),
         child: Text(word, style: TextStyle(color: Colors.transparent)),
       );
     }
