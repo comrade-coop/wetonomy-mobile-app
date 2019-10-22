@@ -52,7 +52,7 @@ void main() {
       final String password = 'test';
       final String mnemonic = 'Mnemonic';
       when(repository.createMnemonic()).thenAnswer((_) => mnemonic);
-      when(repository.createAndPersistAccount(mnemonic, password))
+      when(repository.createAndPersistWallet(mnemonic, password))
           .thenAnswer((_) {
         calledPersistWallet = true;
         return Future.value();

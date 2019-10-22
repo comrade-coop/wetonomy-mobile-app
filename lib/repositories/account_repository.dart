@@ -22,7 +22,7 @@ class AccountRepository {
     return _walletUtil.createMnemonic();
   }
 
-  Future<Wallet> createAndPersistAccount(
+  Future<Wallet> createAndPersistWallet(
       String mnemonic, String password) async {
     final Wallet wallet = createWallet(mnemonic);
     final encrypted = await _walletUtil.encryptWallet(wallet, password);
@@ -32,5 +32,9 @@ class AccountRepository {
 
   Future<String> persistWallet(EncryptedWallet wallet) async {
     return await _walletStorage.storeWallet(wallet);
+  }
+
+  Future<List<EncryptedWallet>> getAllWallets() async {
+    return _walletStorage.readAllWallets();
   }
 }

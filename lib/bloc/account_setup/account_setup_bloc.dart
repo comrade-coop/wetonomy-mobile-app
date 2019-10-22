@@ -39,7 +39,7 @@ class AccountSetupBloc extends Bloc<AccountSetupEvent, AccountSetupState> {
   Future<AccountSetupState> _handleSaveAccountEvent(
       String mnemonic, String password) async {
     final Wallet wallet =
-        await _accountRepository.createAndPersistAccount(mnemonic, password);
+        await _accountRepository.createAndPersistWallet(mnemonic, password);
     return AccountSavedState(wallet);
   }
 
