@@ -5,10 +5,8 @@ import 'package:wetonomy/bloc/account_setup/account_setup_event.dart';
 import 'package:wetonomy/bloc/account_setup/account_setup_state.dart';
 import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/create_account/account_created_section.dart';
-import 'package:wetonomy/screens/create_account/components/accent_button.dart';
 import 'package:wetonomy/screens/create_account/components/create_account_scaffold.dart';
 import 'package:wetonomy/screens/create_account/loading_screen.dart';
-import 'package:wetonomy/wallet/wallet.dart';
 
 class AccountCreatedScreen extends StatelessWidget {
   @override
