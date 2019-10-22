@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wetonomy/models/wallet/encrypted_wallet_file.dart';
-import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
+import 'package:wetonomy/wallet/scrypt_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/cosmos_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
@@ -39,7 +39,7 @@ void main() {
     test('fromEncryptedWallet works correctly', () {
       final String password = 'testpass';
       final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
-      final encrypted = CosmosEncryptedWallet.fromWallet(wallet, password);
+      final encrypted = ScryptEncryptedWallet.fromWallet(wallet, password);
 
       final Wallet unlocked = encrypted.unlock(password);
 
@@ -49,7 +49,7 @@ void main() {
     test('fromEncryptedWallet throws when invalid password is used', () {
       final String password = 'testpass';
       final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
-      final encrypted = CosmosEncryptedWallet.fromWallet(wallet, password);
+      final encrypted = ScryptEncryptedWallet.fromWallet(wallet, password);
 
       expect(() => encrypted.unlock('wrongpass'), throwsArgumentError);
     });
@@ -58,13 +58,13 @@ void main() {
       final String password = 'password';
       final wallet = CosmosWallet.fromMnemonic(WalletTestData.mnemonic);
       final encryptedWallet =
-          CosmosEncryptedWallet.fromWallet(wallet, password);
+          ScryptEncryptedWallet.fromWallet(wallet, password);
       final walletFile = encryptedWallet.toEncryptedWalletFile();
       final Map<String, dynamic> walletJson = walletFile.toJson();
 
       final deserialised = EncryptedWalletFile.fromJson(walletJson);
       final deserialisedEncrypted =
-          CosmosEncryptedWallet.fromEncryptedWalletFile(deserialised);
+          ScryptEncryptedWallet.fromEncryptedWalletFile(deserialised);
 
       final unlocked = deserialisedEncrypted.unlock(password);
       expect(unlocked.privateKey, wallet.privateKey);

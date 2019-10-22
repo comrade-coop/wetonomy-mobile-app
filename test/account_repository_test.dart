@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/repositories/account_repository.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
-import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
+import 'package:wetonomy/wallet/scrypt_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
 import 'mocks/wallet_storage_mock.dart';
@@ -36,7 +36,7 @@ void main() {
       final repository = AccountRepository(WalletUtility(), walletStorage);
       final String mnemonic = repository.createMnemonic();
       final Wallet wallet = repository.createWallet(mnemonic);
-      final encrypted = CosmosEncryptedWallet.fromWallet(wallet, '');
+      final encrypted = ScryptEncryptedWallet.fromWallet(wallet, '');
 
       bool calledStoreWallet = false;
       when(walletStorage.storeWallet(encrypted)).thenAnswer((_) {

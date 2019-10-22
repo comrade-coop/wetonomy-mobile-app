@@ -13,7 +13,7 @@ import 'package:wetonomy/wallet/key_derivator.dart';
 import 'package:wetonomy/wallet/scrypt_key_derivator.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
-class CosmosEncryptedWallet implements EncryptedWallet {
+class ScryptEncryptedWallet implements EncryptedWallet {
   final KeyDerivator _keyDerivator;
 
   final Uint8List _encryptedWallet;
@@ -21,7 +21,7 @@ class CosmosEncryptedWallet implements EncryptedWallet {
   final String address;
   final CipherParameters _cipherParameters;
 
-  CosmosEncryptedWallet._(this.address, this._keyDerivator,
+  ScryptEncryptedWallet._(this.address, this._keyDerivator,
       this._encryptedWallet, this._mac, this._cipherParameters)
       : assert(address != null),
         assert(_keyDerivator != null),
@@ -29,7 +29,7 @@ class CosmosEncryptedWallet implements EncryptedWallet {
         assert(_mac != null),
         assert(_cipherParameters != null);
 
-  factory CosmosEncryptedWallet.fromWallet(Wallet wallet, String password) {
+  factory ScryptEncryptedWallet.fromWallet(Wallet wallet, String password) {
     final derivator = ScryptKeyDerivator.defaultParams();
 
     final Uint8List encodedPassword = utf8.encode(password);
@@ -41,11 +41,11 @@ class CosmosEncryptedWallet implements EncryptedWallet {
 
     final Uint8List mac = _generateMac(derived, cipher);
 
-    return CosmosEncryptedWallet._(
+    return ScryptEncryptedWallet._(
         wallet.address, derivator, cipher, mac, aes.cipherParameters);
   }
 
-  factory CosmosEncryptedWallet.fromEncryptedWalletFile(
+  factory ScryptEncryptedWallet.fromEncryptedWalletFile(
       EncryptedWalletFile file) {
     if (file.crypto.cipher != AesCipher.name) {
       throw ArgumentError(
@@ -60,7 +60,7 @@ class CosmosEncryptedWallet implements EncryptedWallet {
     final derivator =
         ScryptKeyDerivator.fromJson(file.crypto.keyDerivationParams);
 
-    return CosmosEncryptedWallet._(file.address, derivator,
+    return ScryptEncryptedWallet._(file.address, derivator,
         file.crypto.cipherText, file.crypto.mac, file.crypto.cipherParameters);
   }
 

@@ -12,6 +12,6 @@ class CryptoJsonConverter
 
   @override
   Map<String, dynamic> toJson(Crypto crypto) {
-    return crypto.toJson();
+    return crypto?.toJson();
   }
 }

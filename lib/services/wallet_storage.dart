@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wetonomy/models/wallet/encrypted_wallet_file.dart';
-import 'package:wetonomy/wallet/cosmos_encrypted_wallet.dart';
+import 'package:wetonomy/wallet/scrypt_encrypted_wallet.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 
 class WalletStorage {
@@ -20,20 +20,30 @@ class WalletStorage {
     return key;
   }
 
-  Future<List<String>> readAllWallets() async {
-    Map<String, String> allWallets = await _storage.readAll();
-    return allWallets.keys.toList();
+  Future<List<EncryptedWallet>> readAllWallets() async {
+    Map<String, String> walletEntries = await _storage.readAll();
+
+    final List<EncryptedWallet> encrypted = walletEntries != null
+        ? walletEntries.values
+            .map((String json) => _toEncryptedWallet(json))
+            .toList()
+        : [];
+    return encrypted;
   }
 
-  Future<EncryptedWallet> readWallet(String key, String password) async {
+  Future<EncryptedWallet> readWallet(String key) async {
     String json = await _storage.read(key: key);
 
-    if (json == null || json.isEmpty) {
+    if (json == null) {
       throw ArgumentError('Invalid wallet key: ' + key);
     }
 
-    final Map<String, dynamic> jsonMap = jsonDecode(json);
-    final encrypted = EncryptedWalletFile.fromJson(jsonMap);
-    return CosmosEncryptedWallet.fromEncryptedWalletFile(encrypted);
+    return _toEncryptedWallet(json);
+  }
+
+  EncryptedWallet _toEncryptedWallet(String json) {
+    final Map<String, dynamic> jsonWallet = jsonDecode(json);
+    final file = EncryptedWalletFile.fromJson(jsonWallet);
+    return ScryptEncryptedWallet.fromEncryptedWalletFile(file);
   }
 }

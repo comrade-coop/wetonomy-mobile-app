@@ -30,12 +30,7 @@ class Crypto {
   final Map<String, dynamic> keyDerivationParams;
 
   Crypto(this.keyDerivationFunction, this.cipherText, this.mac, this.cipher,
-      this.cipherParameters, this.keyDerivationParams)
-      : assert(cipherText != null),
-        assert(mac != null),
-        assert(cipher != null),
-        assert(cipherParameters != null),
-        assert(keyDerivationParams != null);
+      this.cipherParameters, this.keyDerivationParams);
 
   factory Crypto.fromJson(Map<String, dynamic> json) => _$CryptoFromJson(json);
 

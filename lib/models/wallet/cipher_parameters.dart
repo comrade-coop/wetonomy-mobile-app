@@ -13,7 +13,7 @@ class CipherParameters {
   @Uint8ListStringConverter()
   final Uint8List initialVector;
 
-  CipherParameters(this.initialVector) : assert(initialVector != null);
+  CipherParameters(this.initialVector);
 
   factory CipherParameters.fromJson(Map<String, dynamic> json) =>
       _$CipherParametersFromJson(json);

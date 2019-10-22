@@ -7,16 +7,14 @@ import 'crypto.dart';
 part 'encrypted_wallet_file.g.dart';
 
 @immutable
-@JsonSerializable(nullable: false)
+@JsonSerializable(nullable: true)
 class EncryptedWalletFile {
   @CryptoJsonConverter()
   final Crypto crypto;
 
   final String address;
 
-  EncryptedWalletFile(this.crypto, this.address)
-      : assert(crypto != null),
-        assert(address != null);
+  EncryptedWalletFile(this.crypto, this.address);
 
   factory EncryptedWalletFile.fromJson(Map<String, dynamic> json) =>
       _$EncryptedWalletFileFromJson(json);
