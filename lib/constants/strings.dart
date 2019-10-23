@@ -50,4 +50,5 @@ Tips on storing it safely:
   static const String skipLabelDebug = 'Skip (Debug only)';
 
   static const String yourWalletAddressLabel = 'Your wallet address is:';
+  static const String loadingAccountsLabel = 'Loading Accounts…';
 }

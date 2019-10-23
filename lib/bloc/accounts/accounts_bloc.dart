@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:wetonomy/repositories/repositories.dart';
+import 'package:wetonomy/services/mock_env.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 import '../bloc.dart';
 
@@ -17,7 +18,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     AccountsEvent event,
   ) async* {
     switch (event.runtimeType) {
-      case FetchAccountsEvent:
+      case LoadAccountsEvent:
         yield FetchingAccountsState();
         yield await _handleFetchAccountEvent();
         break;
@@ -28,6 +29,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<AccountsState> _handleFetchAccountEvent() async {
     final List<EncryptedWallet> accounts = await _repository.getAllWallets();
+
+    if (accounts.isEmpty) {
+      return EmptyAccountsState();
+    }
+
     return AccountsFetchedState(accounts);
   }
 }
