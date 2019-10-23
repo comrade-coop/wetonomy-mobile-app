@@ -5,7 +5,7 @@ import 'package:wetonomy/bloc/account_setup/account_setup_event.dart';
 import 'package:wetonomy/bloc/account_setup/account_setup_state.dart';
 import 'package:wetonomy/components/slide_right_transition.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/create_account/components/password_form.dart';
+import 'package:wetonomy/screens/create_account/components/create_password_form.dart';
 import 'package:wetonomy/screens/create_account/view_mnemonic_screen.dart';
 
 import 'components/create_account_scaffold.dart';
@@ -24,7 +24,7 @@ class CreatePasswordScreen extends StatelessWidget {
         },
         child: CreateAccountScaffold(
           title: Strings.createPasswordLabel,
-          body: PasswordForm(
+          body: CreatePasswordForm(
             onSuccessfulValidation: (String password) {
               bloc.dispatch(AddPasswordEvent(password));
             },

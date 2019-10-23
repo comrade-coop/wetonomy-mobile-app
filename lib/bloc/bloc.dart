@@ -17,3 +17,6 @@ export 'accounts/accounts_state.dart';
 export 'accounts/accounts_bloc.dart';
 export 'accounts/accounts_event.dart';
 export 'accounts/accounts_state.dart';
+export 'account/account_bloc.dart';
+export 'account/account_event.dart';
+export 'account/account_state.dart';

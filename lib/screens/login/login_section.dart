@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/accounts/accounts_bloc.dart';
 import 'package:wetonomy/bloc/accounts/accounts_event.dart';
 import 'package:wetonomy/bloc/accounts/accounts_state.dart';
+import 'package:wetonomy/screens/login/components/password_form.dart';
+import 'package:wetonomy/screens/welcome/components/logo_with_title.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 
 class LoginSection extends StatefulWidget {
@@ -43,7 +45,16 @@ class _LoginSectionState extends State<LoginSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Material(
+        child: Container(
+      padding: EdgeInsets.all(16),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[LogoWithTitle(), PasswordForm()],
+        ),
+      ),
+    ));
   }
 
   void _tryUnlockAccount(EncryptedWallet wallet, String password) {

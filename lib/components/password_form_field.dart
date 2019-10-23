@@ -8,7 +8,7 @@ class PasswordFormField extends StatelessWidget {
   final TextInputAction inputAction;
   final ValueChanged<String> onFieldSubmitted;
   final FocusNode focusNode;
-  final bool autovalidate;
+  final bool autoValidate;
 
   const PasswordFormField(
       {Key key,
@@ -19,7 +19,7 @@ class PasswordFormField extends StatelessWidget {
       this.inputAction,
       this.onFieldSubmitted,
       this.focusNode,
-      this.autovalidate = false})
+      this.autoValidate = false})
       : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class PasswordFormField extends StatelessWidget {
         onChanged: onChanged,
         textInputAction: this.inputAction,
         autocorrect: false,
-        autovalidate: autovalidate,
+        autovalidate: autoValidate,
         obscureText: true,
         onFieldSubmitted: this.onFieldSubmitted,
         decoration: InputDecoration(

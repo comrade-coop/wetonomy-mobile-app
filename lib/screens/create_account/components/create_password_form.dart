@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/constants/strings.dart';
-import 'package:wetonomy/screens/create_account/components/password_form_field.dart';
+import 'package:wetonomy/components/password_form_field.dart';
 
 import 'accent_button.dart';
 
-class PasswordForm extends StatefulWidget {
+class CreatePasswordForm extends StatefulWidget {
   final void Function(String) onSuccessfulValidation;
 
-  const PasswordForm({Key key, @required this.onSuccessfulValidation})
+  const CreatePasswordForm({Key key, @required this.onSuccessfulValidation})
       : assert(onSuccessfulValidation != null),
         super(key: key);
 
   @override
-  _PasswordFormState createState() => _PasswordFormState();
+  _CreatePasswordFormState createState() => _CreatePasswordFormState();
 }
 
-class _PasswordFormState extends State<PasswordForm> {
+class _CreatePasswordFormState extends State<CreatePasswordForm> {
   static const int minCharsPassword = 8;
 
   final _formKey = GlobalKey<FormState>();
   final _passwordNode = FocusNode();
   final _repeatPasswordNode = FocusNode();
-  bool _autovalidate = false;
+  bool _autoValidate = false;
 
   String _password;
 
@@ -58,7 +58,7 @@ class _PasswordFormState extends State<PasswordForm> {
             hintText: Strings.passwordLabel,
             inputAction: TextInputAction.next,
             validator: _validatePassword,
-            autovalidate: _autovalidate,
+            autoValidate: _autoValidate,
             onChanged: (String password) =>
                 setState(() => _password = password),
             onFieldSubmitted: (_) {
@@ -70,7 +70,7 @@ class _PasswordFormState extends State<PasswordForm> {
             focusNode: _repeatPasswordNode,
             hintText: Strings.confirmPasswordLabel,
             validator: _validateRepeatedPassword,
-            autovalidate: _autovalidate,
+            autoValidate: _autoValidate,
             helperText: Strings.confirmPasswordLabel,
           ),
         ],
@@ -98,9 +98,9 @@ class _PasswordFormState extends State<PasswordForm> {
   }
 
   bool _validateInputs() {
-    if (!_autovalidate) {
+    if (!_autoValidate) {
       setState(() {
-        _autovalidate = true;
+        _autoValidate = true;
       });
     }
     return _formKey.currentState.validate();
