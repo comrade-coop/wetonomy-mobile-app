@@ -34,7 +34,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       return EmptyAccountsState();
     }
 
-    return AccountsFetchedState(accounts);
+    return AccountsLoadedState(accounts);
   }
 
   Future<AccountsState> _handleUnlockAccountEvent(

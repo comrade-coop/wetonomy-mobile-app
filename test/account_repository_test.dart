@@ -1,3 +1,4 @@
+import 'package:bip39/bip39.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wetonomy/repositories/account_repository.dart';
@@ -10,8 +11,7 @@ import 'mocks/wallet_storage_mock.dart';
 void main() {
   group('AccountRepository', () {
     test('Creates a valid mnemonic', () {
-      final repository =
-          AccountRepository(WalletUtility(), WalletStorageMock());
+      final repository = AccountRepository(WalletCrypto(), WalletStorageMock());
 
       final String mnemonic = repository.createMnemonic();
 
@@ -22,18 +22,17 @@ void main() {
     });
 
     test('Creates wallet given a mnemonic', () {
-      final walletUtility = WalletUtility();
+      final walletUtility = WalletCrypto();
       final repository = AccountRepository(walletUtility, WalletStorageMock());
 
-      final Wallet wallet =
-          repository.createWallet(walletUtility.createMnemonic());
+      final Wallet wallet = repository.createWallet(generateMnemonic());
       expect(wallet != null, true);
     });
 
     test('Persists wallet', () {
       final walletStorage = WalletStorageMock();
 
-      final repository = AccountRepository(WalletUtility(), walletStorage);
+      final repository = AccountRepository(WalletCrypto(), walletStorage);
       final String mnemonic = repository.createMnemonic();
       final Wallet wallet = repository.createWallet(mnemonic);
       final encrypted = ScryptEncryptedWallet.fromWallet(wallet, '');

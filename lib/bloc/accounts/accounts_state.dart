@@ -14,10 +14,10 @@ class FetchingAccountsState extends AccountsState {}
 
 class EmptyAccountsState extends AccountsState {}
 
-class AccountsFetchedState extends AccountsState {
+class AccountsLoadedState extends AccountsState {
   final List<EncryptedWallet> accounts;
 
-  AccountsFetchedState(this.accounts) : super([accounts]);
+  AccountsLoadedState(this.accounts) : super([accounts]);
 }
 
 class WrongPasswordState extends AccountsState {}

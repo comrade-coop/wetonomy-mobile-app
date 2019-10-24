@@ -17,7 +17,7 @@ Future<void> setupServiceLocator() async {
 }
 
 _registerAccountRepository() {
-  final walletUtility = WalletUtility();
+  final walletUtility = WalletCrypto();
   final walletStorage = WalletStorage(FlutterSecureStorage());
   locator.registerSingleton(AccountRepository(walletUtility, walletStorage));
 }

@@ -1,10 +1,12 @@
+import 'package:bip39/bip39.dart' as Bip39;
 import 'package:wetonomy/services/wallet_storage.dart';
 import 'package:wetonomy/services/wallet_utility.dart';
+import 'package:wetonomy/wallet/cosmos_wallet.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
 class AccountRepository {
-  final WalletUtility _walletUtil;
+  final WalletCrypto _walletUtil;
   final WalletStorage _walletStorage;
 
   AccountRepository(this._walletUtil, this._walletStorage)
@@ -15,11 +17,11 @@ class AccountRepository {
     if (mnemonic == null) {
       throw ArgumentError.notNull('mnemonic');
     }
-    return _walletUtil.createWallet(mnemonic);
+    return CosmosWallet.fromMnemonic(mnemonic);
   }
 
   String createMnemonic() {
-    return _walletUtil.createMnemonic();
+    return Bip39.generateMnemonic();
   }
 
   Future<Wallet> createAndPersistWallet(
@@ -39,6 +41,6 @@ class AccountRepository {
   }
 
   Future<Wallet> tryUnlockWallet(EncryptedWallet wallet, String password) {
-    return _walletUtil.tryUnlockWallet(wallet, password);
+    return _walletUtil.decryptWallet(wallet, password);
   }
 }

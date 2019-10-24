@@ -1,27 +1,23 @@
-import 'package:bip39/bip39.dart' as Bip39;
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:wetonomy/wallet/scrypt_encrypted_wallet.dart';
-import 'package:wetonomy/wallet/cosmos_wallet.dart';
 import 'package:wetonomy/wallet/encrypted_wallet.dart';
 import 'package:wetonomy/wallet/wallet.dart';
 
-class WalletUtility {
-  Wallet createWallet(String mnemonic) {
-    return CosmosWallet.fromMnemonic(mnemonic);
-  }
-
-  String createMnemonic() {
-    return Bip39.generateMnemonic();
-  }
-
+class WalletCrypto {
   Future<EncryptedWallet> encryptWallet(Wallet wallet, String password) async {
     final encrypted = await compute(_encryptedWallet, [wallet, password]);
     return encrypted;
   }
 
-  Future<Wallet> tryUnlockWallet(EncryptedWallet encrypted,
-      String password) async {
+  Future<Wallet> decryptWallet(
+      EncryptedWallet encrypted, String password) async {
     final wallet = await compute(_decryptWallet, [encrypted, password]);
+    if (wallet == null) {
+      throw ArgumentError(
+          'Invalid password for wallet: ' + encrypted.toString());
+    }
     return wallet;
   }
 
@@ -30,6 +26,10 @@ class WalletUtility {
   }
 
   static Wallet _decryptWallet(List<dynamic> args) {
-    return args[0].unlock(args[1]);
+    try {
+      return args[0].unlock(args[1]);
+    } on ArgumentError {
+      return null;
+    }
   }
 }
