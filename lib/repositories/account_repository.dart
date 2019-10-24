@@ -37,4 +37,8 @@ class AccountRepository {
   Future<List<EncryptedWallet>> getAllWallets() async {
     return _walletStorage.readAllWallets();
   }
+
+  Future<Wallet> tryUnlockWallet(EncryptedWallet wallet, String password) {
+    return _walletUtil.tryUnlockWallet(wallet, password);
+  }
 }

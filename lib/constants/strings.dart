@@ -51,4 +51,6 @@ Tips on storing it safely:
 
   static const String yourWalletAddressLabel = 'Your wallet address is:';
   static const String loadingAccountsLabel = 'Loading Accounts…';
+  static const String unlockLabel = 'Unlock';
+  static const String loginMsg = 'Type in your password to unlock your account';
 }

@@ -15,11 +15,21 @@ class WalletUtility {
   }
 
   Future<EncryptedWallet> encryptWallet(Wallet wallet, String password) async {
-    final encrypted = await compute(_encryptWallet, [wallet, password]);
+    final encrypted = await compute(_encryptedWallet, [wallet, password]);
     return encrypted;
   }
 
-  static EncryptedWallet _encryptWallet(List<dynamic> args) {
+  Future<Wallet> tryUnlockWallet(EncryptedWallet encrypted,
+      String password) async {
+    final wallet = await compute(_decryptWallet, [encrypted, password]);
+    return wallet;
+  }
+
+  static EncryptedWallet _encryptedWallet(List<dynamic> args) {
     return ScryptEncryptedWallet.fromWallet(args[0], args[1]);
+  }
+
+  static Wallet _decryptWallet(List<dynamic> args) {
+    return args[0].unlock(args[1]);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wetonomy/bloc/bloc.dart';
@@ -6,11 +8,11 @@ import 'package:wetonomy/constants/strings.dart';
 import 'package:wetonomy/screens/create_account/components/accent_button.dart';
 import 'package:wetonomy/screens/create_account/components/memonic_word.dart';
 
-class MnemonicVerificationSection extends StatefulWidget {
+class VerifyMnemonicSection extends StatefulWidget {
   final String mnemonic;
   final VoidCallback onSuccessfulVerification;
 
-  const MnemonicVerificationSection(
+  const VerifyMnemonicSection(
       {Key key,
       @required this.mnemonic,
       @required this.onSuccessfulVerification})
@@ -19,17 +21,18 @@ class MnemonicVerificationSection extends StatefulWidget {
         super(key: key);
 
   @override
-  _MnemonicVerificationSectionState createState() =>
-      _MnemonicVerificationSectionState();
+  _VerifyMnemonicSectionState createState() => _VerifyMnemonicSectionState();
 }
 
-class _MnemonicVerificationSectionState
-    extends State<MnemonicVerificationSection> {
+class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
   MnemonicVerificationBloc _bloc;
-  List<WordField> _selectedWords = [];
-  List<WordField> _remainingWords = [];
+  StreamSubscription<MnemonicVerificationState> _subscription;
 
+  List<WordField> _selectedWords = [];
+
+  List<WordField> _remainingWords = [];
   static const int _crossAxisWordCount = 3;
+
   static const double _wordAspectRatio = 2;
 
   @override
@@ -37,7 +40,7 @@ class _MnemonicVerificationSectionState
     super.initState();
     _bloc = MnemonicVerificationBloc(widget.mnemonic.split(' '));
 
-    _bloc.state.listen((MnemonicVerificationState state) {
+    _subscription = _bloc.state.listen((MnemonicVerificationState state) {
       setState(() {
         _selectedWords = state.selectedWords;
         _remainingWords = state.remainingWords;
@@ -147,5 +150,12 @@ class _MnemonicVerificationSectionState
         selected: field.selected,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription.cancel();
+    _bloc.dispose();
   }
 }

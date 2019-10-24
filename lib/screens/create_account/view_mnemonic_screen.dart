@@ -9,7 +9,7 @@ import 'package:wetonomy/screens/create_account/components/view_mnemonic_section
 import 'package:wetonomy/screens/create_account/components/create_account_scaffold.dart';
 import 'package:wetonomy/screens/create_account/loading_screen.dart';
 
-import 'confirm_mnemonic_screen.dart';
+import 'verify_mnemonic_screen.dart';
 
 class ViewMnemonicScreen extends StatelessWidget {
   @override
@@ -26,14 +26,17 @@ class ViewMnemonicScreen extends StatelessWidget {
               mnemonic: state.mnemonic,
               onNextPressed: () => Navigator.push(
                   context,
-                  slideRightTransition(ConfirmMnemonicScreen(
+                  slideRightTransition(VerifyMnemonicScreen(
                     mnemonic: state.mnemonic,
                   ))),
             ),
           );
         }
 
-        bloc.dispatch(CreateMnemonicEvent());
+        if (state is PasswordAddedState) {
+          bloc.dispatch(CreateMnemonicEvent());
+        }
+
         return LoadingScreen(title: Strings.creatingMnemonicLabel);
       },
     );
