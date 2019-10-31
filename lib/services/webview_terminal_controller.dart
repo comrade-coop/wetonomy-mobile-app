@@ -6,7 +6,7 @@ import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
-class TerminalController {
+class WebViewTerminalController {
   static const String _receiveStateUpdateMethodName =
       'StrongForce__receiveStateUpdate';
 
@@ -18,7 +18,7 @@ class TerminalController {
 
   final FlutterWebviewPlugin _webViewPlugin;
 
-  TerminalController(this._webViewPlugin) : assert(_webViewPlugin != null);
+  WebViewTerminalController(this._webViewPlugin) : assert(_webViewPlugin != null);
 
   void selectTerminal(TerminalData terminal) {
     _hideAndShowWhenLoaded();
