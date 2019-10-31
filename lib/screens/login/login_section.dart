@@ -30,23 +30,26 @@ class LoginSection extends StatelessWidget {
         bloc: bloc,
         builder: (BuildContext context, AccountsState state) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              LogoWithTitleSmall(),
-              _buildLoginMsg(context),
-              (state is ValidatingPasswordState)
-                  ? CircularProgressIndicator()
-                  : SizedBox(
-                      height: 4,
-                    ),
-              (state is WrongPasswordState)
-                  ? Text('The password is wrong!')
-                  : SizedBox.shrink(),
-              LoginForm(
-                onSuccessfulValidation:
-                    (EncryptedWallet wallet, String password) =>
-                        bloc.dispatch(UnlockAccountEvent(wallet, password)),
-                accounts: accounts,
+              Column(
+                children: <Widget>[
+                  LogoWithTitleSmall(),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  _buildLoginForm(bloc),
+                ],
+              ),
+              FlatButton(
+                child: Text(
+                  'Create or import another account',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w400),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/welcome');
+                },
               )
             ],
           );
@@ -55,11 +58,35 @@ class LoginSection extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginMsg(BuildContext context) {
-    return Text(
-      Strings.loginMsg,
-      style: Theme.of(context).textTheme.subhead,
-      textAlign: TextAlign.center,
+//  Widget _buildLoginMsg(BuildContext context) {
+//    return Text(
+//      Strings.loginMsg,
+//      style: Theme.of(context).textTheme.subhead,
+//      textAlign: TextAlign.center,
+//    );
+//  }
+//
+//  Widget _buildProgressBar(AccountsState state) {
+//    return (state is ValidatingPasswordState)
+//        ? CircularProgressIndicator()
+//        : SizedBox(
+//            height: 4,
+//          );
+//  }
+//
+//  Widget _buildWrongPasswordMsg(AccountsState state) {
+//    return (state is WrongPasswordState)
+//        ? Text('The password is wrong!')
+//        : SizedBox.shrink();
+//  }
+
+  Widget _buildLoginForm(AccountsBloc bloc) {
+    return LoginForm(
+      onSuccessfulValidation: (EncryptedWallet wallet, String password) =>
+          bloc.dispatch(UnlockAccountEvent(wallet, password)),
+      accounts: accounts,
+      validatingPassword: (bloc.currentState is ValidatingPasswordState),
+      wrongPassword: (bloc.currentState is WrongPasswordState),
     );
   }
 }

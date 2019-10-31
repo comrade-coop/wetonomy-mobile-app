@@ -1,3 +1,5 @@
+import 'package:flutter/src/widgets/framework.dart';
+
 class Strings {
   Strings._();
 
@@ -53,4 +55,6 @@ Tips on storing it safely:
   static const String loadingAccountsLabel = 'Loading Accounts…';
   static const String unlockLabel = 'Unlock';
   static const String loginMsg = 'Type in your password to unlock your account';
+  static const String loginLabel = 'Login';
+  static const String wrongPasswordError = 'Wrong Password';
 }

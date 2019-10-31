@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:wetonomy/components/waves_background.dart';
 
 class WavesBackgroundContainer extends StatelessWidget {
-  static const _waveHeightPercentage = 0.37;
+  static const double _waveHeightPercentage = 0.37;
+
+  final double waveHeightPercentage;
 
   final Widget child;
 
-  const WavesBackgroundContainer({Key key, @required this.child})
+  const WavesBackgroundContainer(
+      {Key key,
+      @required this.child,
+      this.waveHeightPercentage = _waveHeightPercentage})
       : assert(child != null),
         super(key: key);
 
@@ -18,7 +23,7 @@ class WavesBackgroundContainer extends StatelessWidget {
         Align(
             alignment: Alignment.bottomCenter,
             child: WavesBackground(
-              heightPercentage: _waveHeightPercentage,
+              heightPercentage: waveHeightPercentage,
             )),
         SafeArea(
           child: child,

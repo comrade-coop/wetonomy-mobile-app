@@ -4,7 +4,7 @@ class PasswordFormField extends StatelessWidget {
   final String Function(String) validator;
   final Function(String) onChanged;
   final String helperText;
-  final String hintText;
+  final String labelText;
   final TextInputAction inputAction;
   final ValueChanged<String> onFieldSubmitted;
   final FocusNode focusNode;
@@ -15,7 +15,7 @@ class PasswordFormField extends StatelessWidget {
       this.validator,
       this.onChanged,
       this.helperText,
-      this.hintText,
+      this.labelText,
       this.inputAction,
       this.onFieldSubmitted,
       this.focusNode,
@@ -28,18 +28,20 @@ class PasswordFormField extends StatelessWidget {
         focusNode: this.focusNode,
         validator: validator,
         onChanged: onChanged,
-        textInputAction: this.inputAction,
+        textInputAction: inputAction,
         autocorrect: false,
         autovalidate: autoValidate,
         obscureText: true,
-        onFieldSubmitted: this.onFieldSubmitted,
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
-            filled: true,
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent)),
-            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black.withAlpha(20))),
+            focusColor: Theme.of(context).accentColor,
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).accentColor)),
             helperText: helperText,
-            hintText: hintText,
+            labelStyle: Theme.of(context).textTheme.body1,
+            labelText: labelText,
             alignLabelWithHint: true));
   }
 }

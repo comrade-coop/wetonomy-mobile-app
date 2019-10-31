@@ -55,7 +55,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
           PasswordFormField(
             focusNode: _passwordNode,
             helperText: Strings.minCharsPassword(minCharsPassword),
-            hintText: Strings.passwordLabel,
+            labelText: Strings.passwordLabel,
             inputAction: TextInputAction.next,
             validator: _validatePassword,
             autoValidate: _autoValidate,
@@ -68,7 +68,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
           SizedBox(height: 24),
           PasswordFormField(
             focusNode: _repeatPasswordNode,
-            hintText: Strings.confirmPasswordLabel,
+            labelText: Strings.confirmPasswordLabel,
             validator: _validateRepeatedPassword,
             autoValidate: _autoValidate,
             helperText: Strings.confirmPasswordLabel,
