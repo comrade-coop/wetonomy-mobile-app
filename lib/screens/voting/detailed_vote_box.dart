@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:myapp/models/decision.dart';
+import 'package:myapp/vote_box.dart';
 import 'package:myapp/votes_list.dart';
-
-import 'draft.dart';
 
 class DetailScreen extends StatelessWidget {
   final int index;
-  DetailScreen(this.index);
+  final Decision decision;
+  DetailScreen(this.index, this.decision);
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -30,11 +32,10 @@ class DetailScreen extends StatelessWidget {
             child: Hero(
               tag: 'imageHero_$index',
               child: Material(
-                  child: ListView(
+                  child: Column(
                 children: <Widget>[
-                  VoteBox(),
+                  VoteBox(decision),
                   _extendedInfo(context),
-                  // VotesList(),
                   _buttonBar()
                 ],
               )),
@@ -46,20 +47,19 @@ class DetailScreen extends StatelessWidget {
   Widget _extendedInfo(BuildContext context) {
     return Column(
       children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.indeterminate_check_box),
-          title: Text("Haven't voted yet"),
-        ),
-        ListTile(
-          leading: Icon(Icons.supervisor_account),
-          title:
-              Text('40 votes', style: TextStyle(fontWeight: FontWeight.w400)),
-          trailing: Icon(Icons.more_horiz),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return VotesList();
-            }));
-          },
+        
+        Material(
+          child: ListTile(
+            leading: Icon(Icons.supervisor_account),
+            title:
+                Text('${decision.votes.length} votes', style: TextStyle(fontWeight: FontWeight.w400)),
+            trailing: Icon(Icons.more_horiz),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) {
+                return VotesList(decision);
+              }));
+            },
+          ),
         ),
         ListTile(
           leading: Icon(Icons.access_time),
@@ -73,7 +73,7 @@ class DetailScreen extends StatelessWidget {
   Widget _buttonBar() {
     return ExpansionTile(
       leading: Icon(Icons.send),
-      title: Text("Submit tour vote",
+      title: Text("Submit your vote",
           style: TextStyle(fontWeight: FontWeight.w400)),
       initiallyExpanded: false,
       children: <Widget>[

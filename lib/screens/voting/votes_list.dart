@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-
-class Vote {
-  final String user;
-  final String vote;
-  Vote(this.user, this.vote);
-}
+import 'package:myapp/models/decision.dart';
+import 'package:myapp/models/vote.dart';
 
 class VotesList extends StatefulWidget {
-  // VotesList({Key key}) : super(key: key);
+  final Decision decision;
+  VotesList(this.decision);
 
   @override
-  _VotesListState createState() => _VotesListState();
+  _VotesListState createState() => _VotesListState(decision);
 }
 
 class _VotesListState extends State<VotesList> {
@@ -18,11 +15,12 @@ class _VotesListState extends State<VotesList> {
   Map<String, IconData> icons = {};
   Map<String, Color> colors = {"yes": Colors.green, "no": Colors.red};
 
+  final Decision decision;
   Color activeColor = Colors.grey.shade300;
 
   final int filtersCount;
 
-  _VotesListState({this.filtersCount = 2}) {
+  _VotesListState(this.decision, {this.filtersCount = 2}) {
     if (filtersCount == 2) icons = {"yes": Icons.check, "no": Icons.close};
   }
 
@@ -40,26 +38,13 @@ class _VotesListState extends State<VotesList> {
   }
 
   Widget build(BuildContext context) {
-    List<Vote> entries = [
-      Vote("Ioan Stoianov", "yes"),
-      Vote("Petar Ivanov", "no"),
-      Vote("Ioan Stoianov", "yes"),
-      Vote("Ioan Stoianov", "yes"),
-      Vote("Petar Ivanov", "no"),
-      Vote("Petar Ivanov", "no"),
-      Vote("Ioan Stoianov", "yes"),
-      Vote("Ioan Stoianov", "yes"),
-      Vote("Petar Ivanov", "no"),
-      Vote("Petar Ivanov", "no"),
-      Vote("Petar Ivanov", "no"),
-    ];
 
     List<Vote> filteredEntries = [];
     if (filters.isNotEmpty)
       filteredEntries =
-          entries.where((item) => filters.contains(item.vote)).toList();
+          decision.votes.where((item) => filters.contains(item.vote)).toList();
     else
-      filteredEntries = entries;
+      filteredEntries = decision.votes;
 
     return Scaffold(
         appBar: AppBar(
