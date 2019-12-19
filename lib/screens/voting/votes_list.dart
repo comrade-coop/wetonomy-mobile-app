@@ -84,7 +84,8 @@ class _VotesListState extends State<VotesList> {
               decoration: BoxDecoration(
                   border:
                       Border(top: BorderSide(width: 2.0, color: activeColor))),
-              child: ListView.separated(
+              child: filteredEntries.length > 0 ?
+              ListView.separated(
                 itemCount: filteredEntries.length,
                 itemBuilder: (BuildContext context, int index) {
                   String vote = filteredEntries[index].vote;
@@ -94,7 +95,7 @@ class _VotesListState extends State<VotesList> {
                       height: 22,
                       decoration: BoxDecoration(
                           color:
-                              icons[vote] != null ? Colors.white : colors[vote],
+                              icons[vote] != null ? Colors.grey.shade50 : colors[vote],
                           borderRadius: BorderRadius.circular(30)),
                       child: icons[vote] != null
                           ? Icon(
@@ -110,7 +111,15 @@ class _VotesListState extends State<VotesList> {
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(),
                 padding: const EdgeInsets.all(0),
-              ),
+              ) :
+              Container(
+                padding: const EdgeInsets.only(top:200),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[Text("There are no votes.", style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400))],)
+              )
+              
             ),
           )
         ]));

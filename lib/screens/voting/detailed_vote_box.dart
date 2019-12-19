@@ -77,37 +77,36 @@ class DetailScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w400)),
       initiallyExpanded: false,
       children: <Widget>[
-        ButtonTheme.bar(
-            child: ButtonBar(
+        ButtonBar(
           // mainAxisSize: MainAxisSize.min,
           alignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              width: 160,
-              child: RaisedButton(
-                elevation: 4,
-                color: Colors.green,
-                child: Text('Yes', style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  print('Ketap');
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              width: 160,
-              child: RaisedButton(
-                elevation: 4,
-                color: Colors.red,
-                child: Text('No', style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  print('Ketap');
-                },
-              ),
-            ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          width: 160,
+          child: RaisedButton(
+            elevation: 4,
+            color: Colors.green,
+            child: Text('Yes', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              print('Ketap');
+            },
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          width: 160,
+          child: RaisedButton(
+            elevation: 4,
+            color: Colors.red,
+            child: Text('No', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              print('Ketap');
+            },
+          ),
+        ),
           ],
-        ))
+        )
       ],
     );
   }

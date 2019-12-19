@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/add_decission/action_path.dart';
 import 'package:myapp/models/contract.dart';
 import 'package:myapp/models/contract_action.dart';
 
@@ -73,12 +74,15 @@ class DynamicActionForm extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     color: Colors.blue,
                     child: Text(
-                      "Send Action",
+                      "Action Path",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () => {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return ActionPath();
+                      }))
+                    },
                   )),
-            ]
-                )));
+            ])));
   }
 }

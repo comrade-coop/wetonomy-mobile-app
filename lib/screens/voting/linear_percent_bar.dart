@@ -37,9 +37,6 @@ class LinearPercentBar extends StatelessWidget {
         Container(
             height: 12,
             margin: const EdgeInsets.fromLTRB(18, 2, 18, 0),
-            decoration: BoxDecoration(
-                color: Colors.blueGrey.shade50,
-                borderRadius: BorderRadius.circular(40.0)),
             child: Row(
               children: <Widget>[
                 if (x != 0)

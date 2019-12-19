@@ -36,10 +36,10 @@ class VoteBox extends StatelessWidget {
 class VoteBoxWrapper extends StatelessWidget {
   final Decision decision;
   final List<Color> batchColors = [
-    Colors.blue.shade400,
+    // Colors.blue.shade400,
     Colors.purple.shade400,
     Colors.orange.shade400,
-    Colors.pink.shade400,
+    // Colors.pink.shade400,
   ];
   VoteBoxWrapper(this.decision);
   @override
@@ -47,16 +47,14 @@ class VoteBoxWrapper extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // Batch('Card Heading', Colors.blue),
         Container(
           padding: const EdgeInsets.only(left: 4),
           height: 40,
           child: ListView(
-            // This next line does the trick.
             scrollDirection: Axis.horizontal,
             children: List.generate(
               decision.batches.length, 
-              (index) => Batch(decision.batches[index],batchColors[index%4]),
+              (index) => Batch(decision.batches[index],batchColors[index%batchColors.length]),
               )
           ),
         ),

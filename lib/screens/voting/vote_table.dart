@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/add_decission/new_vote.dart';
 import 'package:myapp/dummy_data.dart';
-import 'package:myapp/new_vote.dart';
 import 'package:myapp/vote_box.dart';
 
 import 'detailed_vote_box.dart';
-
-import 'dart:math';
 
 class VoteTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var decisions = dummyDecisions;
-    var rng = new Random();
-    var todos = List.generate(
-      decisions.length,
-      (i) => VoteBoxWrapper(decisions[i]),
-    );
+    var decisionsList = List.generate(
+        decisions.length,
+        (index) => GestureDetector(
+              child: Hero(
+                  transitionOnUserGestures: true,
+                  tag: 'imageHero_$index',
+                  child: VoteBoxWrapper(decisions[index])),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return DetailScreen(index, decisions[index]);
+                }));
+              },
+            ));
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey[50],
         leading: IconButton(
           icon: Icon(Icons.menu),
           tooltip: 'Navigation menu',
           onPressed: null,
         ),
-        title: Text('Decisions'),
+        title: Text('Decisions',style: TextStyle(color: Colors.black54),),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -32,21 +39,14 @@ class VoteTable extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: Hero(
-                  transitionOnUserGestures: true,
-                  tag: 'imageHero_$index',
-                  child: todos[index]),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return DetailScreen(index, decisions[index]);
-                }));
-              },
-            );
-          }),
+      body: ListView(
+        children: <Widget>[
+          ...decisionsList,
+          Container(
+            padding: const EdgeInsets.only(bottom: 20),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Add', // used by assistive technologies
         child: Icon(Icons.add),
@@ -59,6 +59,3 @@ class VoteTable extends StatelessWidget {
     );
   }
 }
-
-
-
