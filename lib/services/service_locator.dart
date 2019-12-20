@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ _registerAccountRepository() {
 }
 
 Future<void> _registerTerminalsRepository() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
   final terminalManager = SharedPreferencesTerminalsDao(sharedPrefs);
 

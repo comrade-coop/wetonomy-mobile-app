@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/add_decission/path_row.dart';
-import 'package:myapp/dummy_data.dart';
+import './path_row.dart';
+import '../dummy_data.dart';
 
 class ActionPath extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/decision.dart';
-import 'package:myapp/models/vote.dart';
+import './models/decision.dart';
+import './models/vote.dart';
 
 class VotesList extends StatefulWidget {
   final Decision decision;

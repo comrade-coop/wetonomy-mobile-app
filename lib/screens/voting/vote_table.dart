@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/add_decission/new_vote.dart';
-import 'package:myapp/dummy_data.dart';
-import 'package:myapp/vote_box.dart';
+import './add_decission/new_vote.dart';
+import './dummy_data.dart';
+import './vote_box.dart';
 
 import 'detailed_vote_box.dart';
 

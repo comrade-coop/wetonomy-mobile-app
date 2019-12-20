@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/contract.dart';
-import 'package:myapp/dummy_data.dart';
+import '../models/contract.dart';
+import '../dummy_data.dart';
 import 'action_select.dart';
 
 class NewVote extends StatelessWidget {

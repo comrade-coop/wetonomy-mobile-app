@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/add_decission/vertex_edge.dart';
-import 'package:myapp/dummy_data.dart';
+import './vertex_edge.dart';
+import '../dummy_data.dart';
 
 class PathRow extends StatefulWidget {
   final List<Node> path;

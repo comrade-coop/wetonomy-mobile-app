@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/vote_table.dart';
+import './vote_table.dart';
 
 
-void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override

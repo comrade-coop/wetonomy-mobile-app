@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:myapp/models/decision.dart';
-import 'package:myapp/vote_box.dart';
-import 'package:myapp/votes_list.dart';
+import './models/decision.dart';
+import './vote_box.dart';
+import './votes_list.dart';
 
 class DetailScreen extends StatelessWidget {
   final int index;

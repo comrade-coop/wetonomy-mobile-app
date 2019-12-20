@@ -1,6 +1,6 @@
-import 'package:myapp/models/contract.dart';
-import 'package:myapp/models/contract_action.dart';
-import 'package:myapp/models/vote.dart';
+import './models/contract.dart';
+import './models/contract_action.dart';
+import './models/vote.dart';
 
 import 'models/decision.dart';
 

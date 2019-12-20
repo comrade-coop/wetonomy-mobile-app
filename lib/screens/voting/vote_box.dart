@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/batch.dart';
-import 'package:myapp/linear_percent_bar.dart';
-import 'package:myapp/models/decision.dart';
+import './batch.dart';
+import './linear_percent_bar.dart';
+import './models/decision.dart';
 
 class VoteBox extends StatelessWidget {
   final Decision decision;

@@ -1,5 +1,5 @@
 
-import 'package:myapp/models/vote.dart';
+import './vote.dart';
 import 'contract_action.dart';
 
 class Decision {

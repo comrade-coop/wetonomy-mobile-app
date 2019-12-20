@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/contract.dart';
+import '../models/contract.dart';
 
 import 'dynamic_action_form.dart';
 
