@@ -11,17 +11,17 @@ import 'package:wetonomy/repositories/repositories.dart';
 class TerminalInteractionBloc
     extends Bloc<TerminalInteractionEvent, TerminalInteractionState> {
   final TerminalsRepository repository;
-  final TerminalsManagerBloc _terminalsManagerBloc;
+  // final TerminalsManagerBloc _terminalsManagerBloc;
   StreamSubscription<TerminalsManagerState> _terminalsManagerSubscription;
   StreamSubscription<Contract> _contractStateUpdateSubscription;
 
-  TerminalInteractionBloc(this.repository, this._terminalsManagerBloc) {
-    _terminalsManagerSubscription =
-        _terminalsManagerBloc.state.listen((TerminalsManagerState state) {
-      if (state is LoadedTerminalsManagerState) {
-        dispatch(SelectedTerminalInteractionEvent(state.currentTerminal));
-      }
-    });
+  TerminalInteractionBloc(this.repository) {
+    // _terminalsManagerSubscription =
+    //     _terminalsManagerBloc.state.listen((TerminalsManagerState state) {
+    //   if (state is LoadedTerminalsManagerState) {
+    //     dispatch(SelectedTerminalInteractionEvent(state.currentTerminal));
+    //   }
+    // });
 
     _contractStateUpdateSubscription =
         repository.contractsEventsStream.listen((Contract contract) {
@@ -45,8 +45,6 @@ class TerminalInteractionBloc
       yield await _handleReceiveActionEvent(event);
     } else if (event is ReceiveQueryFromTerminalEvent) {
       yield await _handleReceiveQueryEvent(event);
-    } else if (event is SelectedTerminalInteractionEvent) {
-      yield SelectedTerminalState(event.terminal);
     } else if (event is ContractChangedEvent) {
       yield ContractStateChangedState(event.contract);
     }

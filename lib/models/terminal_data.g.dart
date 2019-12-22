@@ -10,6 +10,7 @@ TerminalData _$TerminalDataFromJson(Map<String, dynamic> json) {
   return TerminalData(
     json['url'] as String,
     json['name'] as String,
+    nativeTerminal: json['nativeTerminal'] as bool,
   );
 }
 
@@ -17,4 +18,5 @@ Map<String, dynamic> _$TerminalDataToJson(TerminalData instance) =>
     <String, dynamic>{
       'url': instance.url,
       'name': instance.name,
+      'nativeTerminal': instance.nativeTerminal,
     };

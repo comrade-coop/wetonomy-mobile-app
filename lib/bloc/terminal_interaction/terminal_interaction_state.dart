@@ -11,12 +11,6 @@ abstract class TerminalInteractionState extends Equatable {
 
 class InitialTerminalInteractionState extends TerminalInteractionState {}
 
-class SelectedTerminalState extends TerminalInteractionState {
-  final TerminalData terminal;
-
-  SelectedTerminalState(this.terminal) : super([terminal]);
-}
-
 class ReceivedActionResultState extends TerminalInteractionState {
   final ActionResult result;
 

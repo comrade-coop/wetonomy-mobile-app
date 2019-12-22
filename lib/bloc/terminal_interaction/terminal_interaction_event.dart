@@ -23,12 +23,6 @@ class ReceiveQueryFromTerminalEvent extends TerminalInteractionEvent {
         super([serialisedQuery]);
 }
 
-class SelectedTerminalInteractionEvent extends TerminalInteractionEvent {
-  final TerminalData terminal;
-
-  SelectedTerminalInteractionEvent(this.terminal) : super([terminal]);
-}
-
 class ContractChangedEvent extends TerminalInteractionEvent {
   final Contract contract;
 

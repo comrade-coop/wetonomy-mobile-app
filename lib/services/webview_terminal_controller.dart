@@ -21,7 +21,7 @@ class WebViewTerminalController {
   WebViewTerminalController(this._webViewPlugin) : assert(_webViewPlugin != null);
 
   void selectTerminal(TerminalData terminal) {
-    _hideAndShowWhenLoaded();
+    if(!terminal.nativeTerminal) _hideAndShowWhenLoaded();
     _webViewPlugin.reloadUrl(terminal.url);
   }
 

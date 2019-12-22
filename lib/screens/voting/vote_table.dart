@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/models/terminal_data.dart';
+import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
+import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import './add_decission/new_vote.dart';
 import './dummy_data.dart';
 import './vote_box.dart';
@@ -22,23 +25,12 @@ class VoteTable extends StatelessWidget {
                 }));
               },
             ));
+
+
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[50],
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          tooltip: 'Navigation menu',
-          onPressed: null,
-        ),
-        title: Text('Decisions',style: TextStyle(color: Colors.black54),),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: null,
-          ),
-        ],
-      ),
+      drawer: TerminalDrawerContainer(),
+      appBar: buildTerminalAppBar(terminal: TerminalData("voting", "Decisions", nativeTerminal: true),),
       body: ListView(
         children: <Widget>[
           ...decisionsList,

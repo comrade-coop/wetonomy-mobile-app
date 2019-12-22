@@ -12,9 +12,14 @@ class SharedPreferencesTerminalsDao implements TerminalsDao {
 
   SharedPreferencesTerminalsDao(this.sharedPrefs) : assert(sharedPrefs != null);
 
+  final List<TerminalData> mockObligatoryTerminals = [
+    TerminalData("voting", "Decisions", nativeTerminal: true),
+  ];
+
   @override
   Future<bool> addTerminal(TerminalData terminal) async {
     List<TerminalData> terminals = await getAllTerminals();
+    
     if (terminals.contains(terminal)) {
       return false;
     }
@@ -33,6 +38,12 @@ class SharedPreferencesTerminalsDao implements TerminalsDao {
                 TerminalData.fromJson(jsonDecode(terminalJson)))
             .toList()
         : new List<TerminalData>();
+
+    if (!terminals.contains(mockObligatoryTerminals[0])) {
+      terminals.addAll(mockObligatoryTerminals);
+    }
+    
+
     return terminals;
   }
 

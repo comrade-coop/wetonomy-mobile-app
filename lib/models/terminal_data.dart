@@ -9,11 +9,13 @@ part 'terminal_data.g.dart';
 class TerminalData extends Equatable {
   final String url;
   final String name;
+  final bool nativeTerminal;
 
-  TerminalData(this.url, this.name)
+  TerminalData(this.url, this.name,{this.nativeTerminal=false})
       : assert(url != null),
         assert(name != null),
-        super([url, name]);
+        assert(nativeTerminal != null),
+        super([url, name, nativeTerminal]);
 
   factory TerminalData.fromJson(Map<String, dynamic> json) =>
       _$TerminalDataFromJson(json);

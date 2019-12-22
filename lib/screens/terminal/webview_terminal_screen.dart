@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_event.dart';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
+import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
@@ -21,10 +19,13 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
   static const String strongForceQueryChannelName = 'StrongForceQueryChannel';
 
   TerminalInteractionBloc _terminalInteractionBloc;
+  TerminalsManagerBloc _terminalManagerBloc;
 
   Set<JavascriptChannel> _channels;
   TerminalData _currentTerminal;
-  StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
+  StreamSubscription<TerminalInteractionState>
+      _terminalInteractionBlocSubscription;
+  StreamSubscription<TerminalsManagerState> _terminalsManagerBlocSubscription;
 
   final WebViewTerminalController _terminalController =
       WebViewTerminalController(FlutterWebviewPlugin());
@@ -35,13 +36,19 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
 
     _terminalInteractionBloc =
         BlocProvider.of<TerminalInteractionBloc>(context);
-    _terminalBlocSubscription =
+
+    _terminalManagerBloc = BlocProvider.of<TerminalsManagerBloc>(context);
+
+    _terminalInteractionBlocSubscription =
         _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
 
-    final TerminalInteractionState currentState =
-        _terminalInteractionBloc.currentState;
-    if (currentState is SelectedTerminalState) {
-      _currentTerminal = currentState.terminal;
+    _terminalsManagerBlocSubscription =
+        _terminalManagerBloc.state.listen(_handlleTerminalsManagerStateChange);
+
+    final TerminalsManagerState currentState =
+        _terminalManagerBloc.currentState;
+    if (currentState is SelectedTerminalsManagerState) {
+      _currentTerminal = currentState.currentTerminal;
     }
 
     this._channels = [
@@ -67,16 +74,21 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
   @override
   void dispose() {
     super.dispose();
-    _terminalBlocSubscription?.cancel();
+    _terminalInteractionBlocSubscription?.cancel();
+    _terminalsManagerBlocSubscription?.cancel();
+  }
+
+  void _handlleTerminalsManagerStateChange(TerminalsManagerState state) {
+    if (state is SelectedTerminalsManagerState) {
+      _terminalController.selectTerminal(state.currentTerminal);
+      setState(() {
+        _currentTerminal = state.currentTerminal;
+      });
+    }
   }
 
   void _handleTerminalStateChange(TerminalInteractionState state) {
-    if (state is SelectedTerminalState) {
-      setState(() {
-        _currentTerminal = state.terminal;
-      });
-      _terminalController.selectTerminal(state.terminal);
-    } else if (state is ReceivedActionResultState) {
+    if (state is ReceivedActionResultState) {
       _terminalController.handleActionResult(state.result);
     } else if (state is ReceivedQueryResultState) {
       _terminalController.handleQueryResult(state.result);

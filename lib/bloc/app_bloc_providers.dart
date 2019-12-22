@@ -24,7 +24,7 @@ List<BlocProvider> createBlocProviders() {
     ),
     BlocProvider<TerminalInteractionBloc>(
       builder: (_) =>
-          TerminalInteractionBloc(terminalsRepo, terminalsManagerBloc),
+          TerminalInteractionBloc(terminalsRepo),
     ),
     BlocProvider<AccountSetupBloc>(
       builder: (_) => AccountSetupBloc(accountRepository),
