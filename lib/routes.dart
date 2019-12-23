@@ -6,7 +6,7 @@ import 'package:wetonomy/screens/welcome/welcome_screen.dart';
 
 Map<String, Widget Function(BuildContext)> createRoutes() {
   return {
-    '/': (_) => TerminalScreen(),
+    '/': (_) => SplashScreen(),
     '/welcome': (_) => WelcomeScreen(),
     '/terminal': (_) => TerminalScreen(),
     '/add_new_terminal': (_) => AddNewTerminalScreen(),

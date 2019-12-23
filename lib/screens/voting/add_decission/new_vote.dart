@@ -4,11 +4,11 @@ import '../dummy_data.dart';
 import 'action_select.dart';
 
 class NewVote extends StatelessWidget {
-  @override
+
   Widget build(BuildContext context) {
     List<String> contractsTypes = dummyContractsTypes;
     Map<String, List<Contract>> contractsByTypes = dummyContractsByTypes;
-
+    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -20,9 +20,11 @@ class NewVote extends StatelessWidget {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(Icons.close),
               tooltip: 'Search',
-              onPressed: null,
+              onPressed: ()=>{
+                Navigator.of(context).popUntil((route) => route.isFirst)
+              },
             ),
           ],
         ),
@@ -37,7 +39,7 @@ class NewVote extends StatelessWidget {
             itemBuilder: (context, index) => ExpansionTile(
                 leading: Icon(
                   Icons.fiber_manual_record,
-                  color: Colors.blue,
+                  color: Theme.of(context).accentColor,
                 ),
                 title: Text(contractsTypes[index],
                     style: TextStyle(fontWeight: FontWeight.w400)),
@@ -59,14 +61,14 @@ class NewVote extends StatelessWidget {
             margin: const EdgeInsets.only(left: 20),
             child: Icon(
               Icons.hdr_strong,
-              color: Colors.blue,
+              color: Theme.of(context).accentColor,
               size: 22,
             )),
         title: Text(contracts[index].name),
         subtitle:
             Text(contracts[index].address, style: TextStyle(fontSize: 10)),
         onTap: () => {
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ActionSelect(contracts[index]);
           }))
         },

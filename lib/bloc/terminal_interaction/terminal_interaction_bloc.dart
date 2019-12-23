@@ -42,6 +42,7 @@ class TerminalInteractionBloc
     TerminalInteractionEvent event,
   ) async* {
     if (event is ReceiveActionFromTerminalEvent) {
+      yield ReceiveActionFromTerminalState();
       yield await _handleReceiveActionEvent(event);
     } else if (event is ReceiveQueryFromTerminalEvent) {
       yield await _handleReceiveQueryEvent(event);
@@ -68,7 +69,7 @@ class TerminalInteractionBloc
       print('Terminal sent an invalid action:' + event.action.toString());
     }
 
-    return currentState;
+    return WaitingInteractionTerminalState();
   }
 
   Future<TerminalInteractionState> _handleReceiveQueryEvent(

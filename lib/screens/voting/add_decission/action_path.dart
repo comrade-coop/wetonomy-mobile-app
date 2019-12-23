@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import './path_row.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wetonomy/bloc/bloc.dart';
+import 'package:wetonomy/screens/voting/components/path_row.dart';
+
 import '../dummy_data.dart';
+import 'package:wetonomy/models/action.dart' as contract;
 
 class ActionPath extends StatefulWidget {
   @override
@@ -73,9 +77,10 @@ class _ActionPath extends State<ActionPath> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(Icons.close),
               tooltip: 'Search',
-              onPressed: null,
+              onPressed: () =>
+                  {Navigator.of(context).popUntil((route) => route.isFirst)},
             ),
           ],
         ),
@@ -95,7 +100,7 @@ class _ActionPath extends State<ActionPath> {
                   //     height: 100,
                   //     width: 200,
                   //     child: TextField(
-                        
+
                   //   decoration: InputDecoration(
                   //       // fillColor: Colors.white,
                   //       // filled: true,
@@ -104,7 +109,6 @@ class _ActionPath extends State<ActionPath> {
                   //       // labelText: "filters"
                   //       ),
                   // ),),
-                  
                 ],
               ),
             ),
@@ -118,24 +122,27 @@ class _ActionPath extends State<ActionPath> {
               children: [
                 ...rows,
                 Container(
-                    padding:const EdgeInsets.symmetric(horizontal:  23),
+                    padding: const EdgeInsets.symmetric(horizontal: 23),
                     margin: const EdgeInsets.only(top: 30),
                     child: RaisedButton(
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      color: Colors.blue,
+                      color: Theme.of(context).accentColor,
                       child: Text(
                         "Send Action",
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () => {
-                        // Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        //   return ActionPath();
-                        // }))
-                      },
+                      onPressed: () => _sendActionAndNavigateBack(context),
                     )),
               ],
             )),
           ],
         ));
+  }
+
+  void _sendActionAndNavigateBack(BuildContext context) {
+    TerminalInteractionBloc terminalInteractionBloc =
+        BlocProvider.of<TerminalInteractionBloc>(context);
+    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 }

@@ -73,9 +73,9 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _terminalInteractionBlocSubscription?.cancel();
     _terminalsManagerBlocSubscription?.cancel();
+    super.dispose();
   }
 
   void _handlleTerminalsManagerStateChange(TerminalsManagerState state) {

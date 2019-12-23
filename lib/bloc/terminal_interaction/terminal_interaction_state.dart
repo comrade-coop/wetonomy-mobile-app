@@ -17,6 +17,10 @@ class ReceivedActionResultState extends TerminalInteractionState {
   ReceivedActionResultState(this.result) : super([result]);
 }
 
+class ReceiveActionFromTerminalState extends TerminalInteractionState {}
+
+class WaitingInteractionTerminalState extends TerminalInteractionState {}
+
 class ContractStateChangedState extends TerminalInteractionState {
   final Contract contract;
 

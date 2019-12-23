@@ -3,6 +3,7 @@ import './action_path.dart';
 import '../models/contract.dart';
 import '../models/contract_action.dart';
 
+
 class DynamicActionForm extends StatelessWidget {
   final Contract contract;
   final ContractAction action;
@@ -41,9 +42,11 @@ class DynamicActionForm extends StatelessWidget {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(Icons.close),
               tooltip: 'Search',
-              onPressed: null,
+              onPressed: ()=>{
+                Navigator.of(context).popUntil((route) => route.isFirst)
+              },
             ),
           ],
         ),
@@ -54,7 +57,7 @@ class DynamicActionForm extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 leading: Icon(
                   Icons.code,
-                  color: Colors.blue,
+                  color: Theme.of(context).accentColor,
                 ),
                 title: Text(
                   action.name,
@@ -72,7 +75,7 @@ class DynamicActionForm extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 30),
                   child: RaisedButton(
                     padding: const EdgeInsets.symmetric(vertical: 15),
-                    color: Colors.blue,
+                    color: Theme.of(context).accentColor,
                     child: Text(
                       "Action Path",
                       style: TextStyle(color: Colors.white),

@@ -5,11 +5,11 @@ import 'dynamic_action_form.dart';
 
 class ActionSelect extends StatelessWidget {
   final Contract contract;
+
   ActionSelect(this.contract);
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -22,9 +22,11 @@ class ActionSelect extends StatelessWidget {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(Icons.close),
               tooltip: 'Search',
-              onPressed: null,
+              onPressed: ()=>{
+                Navigator.of(context).popUntil((route) => route.isFirst)
+              },
             ),
           ],
         ),
@@ -42,11 +44,11 @@ class ActionSelect extends StatelessWidget {
                     //       margin: const EdgeInsets.only(right: 12),
                     //       child: Icon(
                     //         Icons.hdr_strong,
-                    //         color: Colors.blue,
+                    //         color: Theme.of(context).accentColor,
                     //       ),
                     //     ),
                     //     Text(contract.name,
-                    //         style: TextStyle(fontSize: 18, color: Colors.blue)),
+                    //         style: TextStyle(fontSize: 18, color: Theme.of(context).accentColor,)),
                     //   ],
                     // ),
                     // Container(
@@ -62,7 +64,7 @@ class ActionSelect extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 leading: Icon(
                   Icons.hdr_strong,
-                  color: Colors.blue,
+                  color: Theme.of(context).accentColor,
                 ),
                 title: Text(
                   contract.name,
@@ -98,7 +100,7 @@ class ActionSelect extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         leading: Icon(
           Icons.code,
-          color: Colors.blue,
+          color: Theme.of(context).accentColor,
         ),
         title: Text(contract.actions[index].name),
         onTap: () => {

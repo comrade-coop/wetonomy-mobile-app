@@ -90,29 +90,29 @@ List<String> dummyContractsTypes = [
 ];
 
 List<Vote> entries = [
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Petar Ivanov", "no"),
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Petar Ivanov", "no"),
-  Vote("Petar Ivanov", "no"),
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Petar Ivanov", "no"),
-  Vote("Petar Ivanov", "no"),
-  Vote("Petar Ivanov", "no"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Petar Ivanov", "", "no"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Petar Ivanov", "", "no"),
+  Vote("Petar Ivanov", "", "no"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Petar Ivanov", "", "no"),
+  Vote("Petar Ivanov", "", "no"),
+  Vote("Petar Ivanov", "", "no"),
 ];
 
 List<Vote> yes3 = [
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Ioan Stoianov", "yes"),
-  Vote("Ioan Stoianov", "yes"),
+  Vote("Ioan Stoianov", "1GHeyy4wsL8jXFASruGz7iXM6XoxQhUy1j", "yes"),
+  Vote("Ioan Stoianov", "", "yes"),
+  Vote("Ioan Stoianov", "", "yes"),
 ];
 
 List<Vote> no3 = [
-  Vote("Ioan Stoianov", "no"),
-  Vote("Ioan Stoianov", "no"),
-  Vote("Ioan Stoianov", "no"),
+  Vote("Ioan Stoianov", "1GHeyy4wsL8jXFASruGz7iXM6XoxQhUy1j", "no"),
+  Vote("Ioan Stoianov", "", "no"),
+  Vote("Ioan Stoianov", "", "no"),
 ];
 
 List<Decision> dummyDecisions = [
@@ -139,6 +139,12 @@ class Node {
   Node(this.value, this.neigs);
 }
 
+
+String json = '''{
+        "Targets": ["0x00000000000000000000"],
+        "Type": "CreateAchievement",
+        "Payload": {"Title": "test", "Description": "x"}
+      }''';
 // var graph = Node(1, [
   
 //   Node(4, [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './batch.dart';
+import 'package:wetonomy/screens/voting/components/batch.dart';
+
 import './linear_percent_bar.dart';
 import './models/decision.dart';
 
@@ -9,6 +10,7 @@ class VoteBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     double percentage = num.parse((decision.positiveVotesCount / decision.votes.length*100).toStringAsFixed(1));
     return Material(
         child: Column(
@@ -35,15 +37,16 @@ class VoteBox extends StatelessWidget {
 
 class VoteBoxWrapper extends StatelessWidget {
   final Decision decision;
-  final List<Color> batchColors = [
-    // Colors.blue.shade400,
-    Colors.purple.shade400,
-    Colors.orange.shade400,
-    // Colors.pink.shade400,
-  ];
+  
   VoteBoxWrapper(this.decision);
   @override
   Widget build(BuildContext context) {
+    final List<Color> batchColors = [
+      // Colors.blue.shade400,
+      Theme.of(context).accentColor,
+      Colors.orange.shade400,
+      // Colors.pink.shade400,
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
