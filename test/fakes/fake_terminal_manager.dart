@@ -1,7 +1,7 @@
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/services/terminals_dao.dart';
 
-class MockTerminalManager implements TerminalsDao {
+class FakeTerminalManager implements TerminalsDao {
   final _terminals = Set<TerminalData>();
 
   @override

@@ -6,7 +6,7 @@ import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/repositories/repositories.dart';
 
 import '../lib/services/fake_contracts_api_client.dart';
-import 'mocks/mock_terminal_manager.dart';
+import 'fakes/fake_terminal_manager.dart';
 
 class MockFlutterWebviewPlugin extends Mock implements FlutterWebviewPlugin {}
 
@@ -16,7 +16,7 @@ void main() {
 
     setUp(() {
       final repository =
-          TerminalsRepository(MockTerminalManager(), FakeContractsApiClient());
+          TerminalsRepository(FakeTerminalManager(), FakeContractsApiClient());
       terminalsBloc = TerminalsManagerBloc(repository);
     });
 

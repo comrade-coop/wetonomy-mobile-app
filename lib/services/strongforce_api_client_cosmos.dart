@@ -87,7 +87,7 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
       print(error);
       // error handling
     }, onDone: () {
-      throw ('Unexpected close');
+//      throw ('Unexpected close');
       // communication has been closed
     }, cancelOnError: false);
   }

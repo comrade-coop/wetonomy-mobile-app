@@ -9,14 +9,14 @@ import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.da
 import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
-import 'package:wetonomy/services/terminal_controller.dart';
+import 'package:wetonomy/services/webview_terminal_controller.dart';
 
-class LoadedTerminalScreen extends StatefulWidget {
+class WebViewTerminalScreen extends StatefulWidget {
   @override
-  _LoadedTerminalScreenState createState() => _LoadedTerminalScreenState();
+  _WebViewTerminalScreenState createState() => _WebViewTerminalScreenState();
 }
 
-class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
+class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
   static const String strongForceActionChannelName = 'StrongForceActionChannel';
   static const String strongForceQueryChannelName = 'StrongForceQueryChannel';
 
@@ -26,8 +26,8 @@ class _LoadedTerminalScreenState extends State<LoadedTerminalScreen> {
   TerminalData _currentTerminal;
   StreamSubscription<TerminalInteractionState> _terminalBlocSubscription;
 
-  final TerminalController _terminalController =
-      TerminalController(FlutterWebviewPlugin());
+  final WebViewTerminalController _terminalController =
+      WebViewTerminalController(FlutterWebviewPlugin());
 
   @override
   void initState() {

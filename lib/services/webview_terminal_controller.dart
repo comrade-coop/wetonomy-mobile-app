@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:wetonomy/models/action_result.dart';
+import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/models/terminal_data.dart';
 
-import '../bloc/terminal_interaction/terminal_interaction_state.dart';
-import '../models/contract.dart';
-
-class TerminalController {
+class WebViewTerminalController {
   static const String _receiveStateUpdateMethodName =
       'StrongForce__receiveStateUpdate';
 
@@ -20,7 +18,7 @@ class TerminalController {
 
   final FlutterWebviewPlugin _webViewPlugin;
 
-  TerminalController(this._webViewPlugin) : assert(_webViewPlugin != null);
+  WebViewTerminalController(this._webViewPlugin) : assert(_webViewPlugin != null);
 
   void selectTerminal(TerminalData terminal) {
     _hideAndShowWhenLoaded();
