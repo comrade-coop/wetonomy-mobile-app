@@ -9,6 +9,7 @@ import 'package:wetonomy/models/terminal_data.dart';
 import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
 import 'package:wetonomy/services/webview_terminal_controller.dart';
 
+
 class WebViewTerminalScreen extends StatefulWidget {
   @override
   _WebViewTerminalScreenState createState() => _WebViewTerminalScreenState();
@@ -63,6 +64,7 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return StackDrawerWebviewScaffold(
       url: _currentTerminal?.url,
       drawer: TerminalDrawerContainer(),

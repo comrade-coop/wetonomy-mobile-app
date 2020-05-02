@@ -14,6 +14,16 @@ class ActionPath extends StatefulWidget {
 class _ActionPath extends State<ActionPath> {
   List<List<Node>> queue = [new List<Node>()];
   List<Widget> rows = [];
+  int activePath = 0;
+
+  void changeActivePath(int index){
+    print(index);
+    
+    rows[activePath*2] = PathRow(queue[activePath], activePath, false, changeActivePath);
+    activePath = index;
+    rows[index*2] = PathRow(queue[index], index, true, changeActivePath);
+    setState(() {});
+  }
 
   _ActionPath() {
     var g = Node("Action", [
@@ -30,10 +40,10 @@ class _ActionPath extends State<ActionPath> {
     _dfs(g, 0);
 
     int n = queue.length;
+
     for (int i = 0; i < n; i++) {
       List<Node> path = queue[i];
-
-      rows.add(PathRow(path));
+      rows.add(PathRow(path, i, false, changeActivePath));
       rows.add(
         Divider(
           color: Colors.grey.shade300,
@@ -45,6 +55,7 @@ class _ActionPath extends State<ActionPath> {
 
     rows.removeLast();
   }
+  
 
   _dfs(Node node, int current) {
     bool check = false;

@@ -2,21 +2,30 @@ import 'package:flutter/material.dart';
 import './vertex_edge.dart';
 import '../dummy_data.dart';
 
-class PathRow extends StatefulWidget {
-  final List<Node> path;
+class PathRow extends StatelessWidget {
+//   final List<Node> path;
+//   final Function callback;
 
-  const PathRow(this.path);
-  @override
-  _PathRow createState() => _PathRow(path);
-}
+//   PathRow(this.path, this.callback){
+//     print(callback);
+//   }
+//   @override
+//   _PathRow createState() => _PathRow(path, callback);
+// }
 
-class _PathRow extends State<PathRow> {
+// class _PathRow extends State<PathRow> {
   final List<Node> path;
-  bool isActive = false;
-  _PathRow(this.path);
+  final int index;
+  final Function(int) callback;
+  
+  final bool isActive;
+  PathRow(this.path, this.index, this.isActive, this.callback){
+    print(index);
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(callback);
     List<Widget> list = [];
     path.forEach((node) => {
           list.add(Vertex(
@@ -40,9 +49,8 @@ class _PathRow extends State<PathRow> {
           children: list,
         ),
       ),
-      onTap: () => {
-        isActive = !isActive,
-        setState(() {}),
+      onTap: () {
+        callback(index);
       },
     );
   }

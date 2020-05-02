@@ -10,6 +10,7 @@ import 'mocks/wallet_storage_mock.dart';
 
 void main() {
   group('AccountRepository', () {
+    
     test('Creates a valid mnemonic', () {
       final repository = AccountRepository(WalletCrypto(), WalletStorageMock());
 
