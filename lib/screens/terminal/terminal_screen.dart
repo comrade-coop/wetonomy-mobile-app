@@ -10,7 +10,7 @@ import 'package:wetonomy/screens/voting/voting_terminal.dart';
 
 class TerminalScreen extends StatelessWidget {
 
-  final Map<String,Widget> nativeTerminals = {"voting": VotingTerminal()};
+  final Map<String,Widget> nativeTerminals = {"voting": VotingTerminal(),"groups":VotingTerminal()};
 
   @override
   Widget build(BuildContext context) {

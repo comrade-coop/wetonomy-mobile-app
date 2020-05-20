@@ -16,6 +16,7 @@ class SharedPreferencesTerminalsDao implements TerminalsDao {
   
   final List<TerminalData> mockObligatoryTerminals = [
     TerminalData("voting", "Decisions", nativeTerminal: true),
+    TerminalData("groups", "Groups", nativeTerminal: true),
     TerminalData("Achievements", "Achievements", nativeTerminal: false),
   ];
 

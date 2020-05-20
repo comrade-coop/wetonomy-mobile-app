@@ -23,7 +23,7 @@ dependencies:
   bitcoin_flutter: ^1.0.7
   bip32: ^1.0.5
   bip39: ^1.0.3
-  flutter_svg: ^0.14.1
+  flutter_svg: ^0.17.4
   wave: ^0.0.8
   page_transition: ^1.1.4
   pointycastle: ^1.0.1
