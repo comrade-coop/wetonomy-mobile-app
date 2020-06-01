@@ -1,5 +1,5 @@
-import 'package:members/models/member.dart';
-import 'package:members/models/contract_permission.dart';
+import './member.dart';
+import './contract_permissions.dart';
 
 class Group {
   final String address;

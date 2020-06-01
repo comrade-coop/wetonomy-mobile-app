@@ -1,56 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'WetonomyIconButton.dart';
+import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
+import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
+
+import '../terminal/components/terminal_drawer_container.dart';
 import 'dummy_data.dart';
-import 'group_card.dart';
-import 'member_card.dart';
+import './group/group_card.dart';
+import './members/member_card.dart';
 
-import 'sliver_appbar_delegate.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class GroupsMembersTerminal extends StatefulWidget {
+  GroupsMembersTerminal({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  GroupsMembersTerminalState createState() => GroupsMembersTerminalState();
 }
 
 enum View { group, member }
 
-class _MyHomePageState extends State<MyHomePage> {
+class GroupsMembersTerminalState extends State<GroupsMembersTerminal> {
   bool showGroup = true;
   View current = View.group;
 
@@ -61,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
   }
 
-  Widget appBar() {
+  Widget appBar(Function f) {
     return Padding(
         padding: EdgeInsets.only(top: 25),
         child: Row(
@@ -72,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.menu,
                 color: Colors.black54,
               ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
+              onPressed: f,
             )),
             WetonomyIconButton(IconButton(
               icon: Image.network(
@@ -91,25 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final memberCards =
         List<Widget>.generate(members.length, (i) => MemberCard(members[i]));
     var currentView = (this.showGroup ? groupCards : memberCards);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      // appBar: AppBar(
-      //   leading: WetonomyIconButton([IconButton(
-      //                                       icon: Icon(
-      //                                         Icons.person,
-      //                                         size: 42,
-      //                                         color: Colors.black54,
-      //                                       ),
-      //                                       onPressed: () =>
-      //                                           this.switchView(true),
-      //                                     )]),
-      //   title: Text("Ketap"),),
 
+    return Scaffold(
+      drawer: TerminalDrawerContainer(),
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(236, 236, 236, 1),
       body: NestedScrollView(
@@ -152,28 +106,32 @@ class _MyHomePageState extends State<MyHomePage> {
                             // color: Colors.lightBlue,
                             child: Stack(
                               children: <Widget>[
-                                appBar(),
+                                appBar(() => Scaffold.of(context).openDrawer()),
                                 Positioned(
-                                  right: width / 2 - 40 * persentage,
+                                  right: width / 2 - 52 * persentage,
                                   top: 43,
-                                  child: Text(
-                                    "Groups",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w600,
-                                        shadows: [
-                                          Shadow(
-                                              blurRadius: 3.5,
-                                              color: Colors.white)
-                                        ]),
-                                  ),
+                                  child: Container(
+                                      width: 105,
+                                      child: Center(
+                                        child: Text(
+                                          this.showGroup ? "Groups" : "Members",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w600,
+                                              shadows: [
+                                                Shadow(
+                                                    blurRadius: 3.5,
+                                                    color: Colors.white)
+                                              ]),
+                                        ),
+                                      )),
                                 ),
                                 Positioned(
                                     top: 22 + topMargin,
                                     right: 4,
                                     child: Opacity(
-                                      opacity: (constraints.maxHeight == 250
+                                      opacity: (constraints.maxHeight > 230
                                           ? 1
                                           : 0),
                                       child: WetonomyIconButton(
@@ -216,28 +174,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                     top: topMargin,
                                     right: rightMargin,
                                     child: Container(
-                                        width: size * 1,
-                                        height: size,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                              33 * persentage),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.white,
-                                              blurRadius: 3.0,
-                                            )
-                                          ],
-                                        ),
-                                        child: IconButton(
-                                            icon: Icon(
-                                              (!this.showGroup
-                                                  ? Icons.person
-                                                  : Icons.people),
-                                              size: size * 0.7,
-                                              color: Colors.black54,
-                                            ),
-                                            onPressed: () => {}))),
+                                      width: size * 1,
+                                      height: size,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                            33 * persentage),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.white,
+                                            blurRadius: 3.0,
+                                          )
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        (!this.showGroup
+                                            ? Icons.person
+                                            : Icons.people),
+                                        size: size * 0.7,
+                                        color: Colors.black54,
+                                      ),
+                                    )),
                               ],
                             ));
                       },

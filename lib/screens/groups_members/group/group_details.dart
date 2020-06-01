@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:members/models/group.dart';
+import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
+import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
 
-import '../WetonomyIconButton.dart';
-import '../horizontal_scroll.dart';
-import '../sliver_appbar_delegate.dart';
+
+import '../models/group.dart';
+import '../wetonomy_app_bar.dart';
+import 'horizontal_member_scroll.dart';
 import 'permission_card.dart';
 
 class GroupDetails extends StatelessWidget {
@@ -94,7 +96,7 @@ class GroupDetails extends StatelessWidget {
                                 ]),
                             child: Stack(
                               children: <Widget>[
-                                appBar(context),
+                                WetonomyAppBar("${group.name} Group"),
 
                                 if (secondStep > 0.9)
                                   Positioned(
@@ -169,7 +171,7 @@ class GroupDetails extends StatelessWidget {
                                     child: Container(
                                         padding: EdgeInsets.only(
                                             top: 100 + 120 * persentage),
-                                        child: HorizontalScroll(group.members)))
+                                        child: HorizontalMemberScroll(group.members)))
                               ],
                             ));
                       },

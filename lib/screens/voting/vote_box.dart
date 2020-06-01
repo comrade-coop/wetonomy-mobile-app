@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/voting/components/batch.dart';
 
 import './linear_percent_bar.dart';
 import './models/decision.dart';
@@ -10,20 +9,23 @@ class VoteBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    double percentage = num.parse((decision.positiveVotesCount / decision.votes.length*100).toStringAsFixed(1));
+    double percentage = num.parse(
+        (decision.positiveVotesCount / decision.votes.length * 100)
+            .toStringAsFixed(1));
     return Material(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ListTile(
-          leading: Icon(Icons.description),
-          title: Text(
-              decision.heading,
-              style: TextStyle(fontWeight: FontWeight.w400)),
+          leading: Image.asset('assets/images/vote-yes.png',scale: 1.2,),
+          title: Text(decision.heading,
+              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
         ),
+        
         Container(
-            padding: const EdgeInsets.only(bottom: 15),
+            // padding: const EdgeInsets.only(bottom: 1),
             child: Column(
               children: <Widget>[
                 LinearPercentBar(percentage),
@@ -37,37 +39,26 @@ class VoteBox extends StatelessWidget {
 
 class VoteBoxWrapper extends StatelessWidget {
   final Decision decision;
-  
+
   VoteBoxWrapper(this.decision);
   @override
   Widget build(BuildContext context) {
-    final List<Color> batchColors = [
-      // Colors.blue.shade400,
-      Theme.of(context).accentColor,
-      Colors.orange.shade400,
-      // Colors.pink.shade400,
-    ];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(left: 4),
-          height: 40,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: List.generate(
-              decision.batches.length, 
-              (index) => Batch(decision.batches[index],batchColors[index%batchColors.length]),
-              )
-          ),
-        ),
-
-        Card(
-          margin: const EdgeInsets.only(top: 3),
-          elevation: 3,
-          child: VoteBox(decision),
-        )
-      ],
+    
+    return Container(
+      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 5,
+                  offset: Offset.fromDirection(2.0),
+                  color: Colors.black54)
+            ]),
+      //     child: Card(
+      // // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      // elevation: 0,
+      child: VoteBox(decision),
     );
   }
 }

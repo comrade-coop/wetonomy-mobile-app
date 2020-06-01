@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
-import 'Group/batch.dart';
-import 'models/member.dart';
+import '../batch.dart';
+import '../models/member.dart';
 
 // main() => runApp(MaterialApp(home: MyHomePage()));
 
-class HorizontalScroll extends StatefulWidget {
+class HorizontalMemberScroll extends StatefulWidget {
   final List<Member> members;
 
-  const HorizontalScroll(this.members, {Key key}) : super(key: key);
+  const HorizontalMemberScroll(this.members, {Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _HorizontalScrollState(this.members);
+  State<StatefulWidget> createState() => _HorizontalMemberScrollState(this.members);
 }
 
-class _HorizontalScrollState extends State<HorizontalScroll> {
+class _HorizontalMemberScrollState extends State<HorizontalMemberScroll> {
   final List<Member> members;
 
-  _HorizontalScrollState(this.members);
+  int _index = 0;
+
+  _HorizontalMemberScrollState(this.members){
+    _index = (this.members.length / 2).floor();
+  }
 
   Widget memberIcon(icon) {
     return Container(
@@ -41,7 +45,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
 
   @override
   Widget build(BuildContext context) {
-    int _index = (members.length / 2).floor();
+    
     return Center(
         child: SizedBox(
       height: 200, 

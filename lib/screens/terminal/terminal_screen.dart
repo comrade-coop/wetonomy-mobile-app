@@ -6,11 +6,10 @@ import 'package:wetonomy/components/transparent_status_bar.dart';
 import 'package:wetonomy/screens/empty_terminals/empty_terminals_screen.dart';
 import 'package:wetonomy/screens/loading_terminal/loading_terminals_screen.dart';
 import 'package:wetonomy/screens/terminal/webview_terminal_screen.dart';
-import 'package:wetonomy/screens/voting/voting_terminal.dart';
+
+import '../../routes.dart';
 
 class TerminalScreen extends StatelessWidget {
-
-  final Map<String,Widget> nativeTerminals = {"voting": VotingTerminal(),"groups":VotingTerminal()};
 
   @override
   Widget build(BuildContext context) {

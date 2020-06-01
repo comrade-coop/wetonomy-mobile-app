@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'Group/batch.dart';
-import 'Group/group_details.dart';
-import 'models/group.dart';
+import '../batch.dart';
+import 'group_details.dart';
+import '../models/group.dart';
 
 class GroupCard extends StatelessWidget {
   final Group group;
@@ -14,7 +14,7 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final memberIcons = List<Widget>.generate(
-        (group.members.length < 3 ? group.members.length : 3),
+        (group.members.length < 6 ? group.members.length : 6),
         (i) => memberIcon(group.members[i].iconAddress));
 
     final permissions = List<Widget>.generate(
@@ -102,7 +102,7 @@ class GroupCard extends StatelessWidget {
       margin: EdgeInsets.only(left: 6),
       decoration: new BoxDecoration(
           border:
-              Border.all(color: Color.fromRGBO(118, 56, 251, 1), width: 1.5),
+              Border.all(color: Color.fromRGBO(118, 56, 251, 1), width: 0.5),
           shape: BoxShape.circle,
           image: new DecorationImage(
               fit: BoxFit.fill, image: new NetworkImage(icon))),

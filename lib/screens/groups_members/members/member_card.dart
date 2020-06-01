@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'Group/batch.dart';
-import 'models/member.dart';
+import '../batch.dart';
+import '../models/member.dart';
+import 'members_detail.dart';
 
 class MemberCard extends StatelessWidget {
   final Member member;
@@ -15,7 +16,14 @@ class MemberCard extends StatelessWidget {
     final groups = List<Widget>.generate(
         (member.groups.length < 2 ? member.groups.length : 2),
         (i) => Batch(member.groups[i]));
-    return Container(
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MemberDetails(this.member)));
+        },
+        child:  Container(
       margin: cardMargin,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -126,7 +134,7 @@ class MemberCard extends StatelessWidget {
               ))
         ],
       ),
-    );
+    ));
   }
 
   Widget memberIcon(icon) {
