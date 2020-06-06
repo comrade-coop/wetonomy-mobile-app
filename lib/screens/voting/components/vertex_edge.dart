@@ -15,7 +15,7 @@ class Vertex extends StatelessWidget {
         height: 30,
         // width: 40,
         decoration: BoxDecoration(
-          color: this.active ? Theme.of(context).accentColor : Colors.grey.shade50,
+          color: this.active ? Theme.of(context).primaryColor : Colors.grey.shade50,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Center(
@@ -38,7 +38,7 @@ class Edge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = Theme.of(context).accentColor;
+    final Color color = Theme.of(context).primaryColor;
     double epsilon = 0;
     if (active) epsilon = 2;
     return Container(

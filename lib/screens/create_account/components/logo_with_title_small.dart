@@ -10,19 +10,19 @@ class LogoWithTitleSmall extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        SvgPicture.asset(
-          'assets/images/logo_purple.svg',
-          width: 32,
-        ),
+        // SvgPicture.asset(
+        //   'assets/images/logo_purple.svg',
+        //   width: 32,
+        // ),
         SizedBox(
           width: 12,
         ),
         Text(
           Strings.appName.toUpperCase(),
           style: TextStyle(
-              color: Theme.of(context).accentColor,
+              color: Colors.white,
               fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w700),
+              fontWeight: FontWeight.w600),
         ),
       ],
     );

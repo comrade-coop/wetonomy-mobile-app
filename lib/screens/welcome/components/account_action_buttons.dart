@@ -24,7 +24,7 @@ class AccountActionButtons extends StatelessWidget {
     return _buildButton(
       label: Strings.createAccountLabel,
       color: Theme.of(context).primaryColor,
-      textColor: Theme.of(context).accentColor,
+      textColor: Colors.white,
       onPressed: () => Navigator.push(
         context,
         slideRightTransition(CreateAccountScreen()),

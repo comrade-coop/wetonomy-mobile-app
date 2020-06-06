@@ -1,32 +1,32 @@
 import 'dart:async';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
 
 import 'package:flutter/material.dart';
-import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
-import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/screens/terminal/components/terminal_app_bar.dart';
-import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
-import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
-import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
-import './add_decission/new_vote.dart';
-import './dummy_data.dart';
-import './vote_box.dart';
-
-import 'detailed_vote_box.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/accounts/accounts_bloc.dart';
 import 'package:wetonomy/bloc/accounts/accounts_state.dart';
+import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
+import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_state.dart';
+import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
+import 'package:wetonomy/screens/shared/terminal_interaction.dart';
+import 'package:wetonomy/screens/shared/wetonomy_app_bar.dart';
+import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
+import 'package:wetonomy/screens/terminal/components/terminal_drawer_container.dart';
+
+import './add_decission/new_vote.dart';
+import './dummy_data.dart';
+import './vote_box.dart';
+import 'detailed_vote_box.dart';
 
 //Highly possible to extract parent class for native terminals in the future
 //leaving it for now because of no use case yet
 
-class VotingTerminal extends StatefulWidget {
+class VotingTerminal extends StatefulWidget{
   @override
   _VotingTerminalState createState() => _VotingTerminalState();
 }
 
-class _VotingTerminalState extends State<VotingTerminal> {
+class _VotingTerminalState extends State<VotingTerminal> with TerminalInteraction {
+
   TerminalInteractionBloc _terminalInteractionBloc;
   StreamSubscription<TerminalInteractionState>
       _terminalInteractionBlocSubscription;
@@ -50,40 +50,17 @@ class _VotingTerminalState extends State<VotingTerminal> {
 
   void _handleTerminalStateChange(TerminalInteractionState state) {
     if (state is ReceiveActionFromTerminalState) {
-      _showSnackBar("Sending Action");
+      showSnackBar("Sending Action", snackBarColor);
     }
     // else if (state is ...) {}
   }
 
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  Widget appBar(Function f) {
-    return Padding(
-        padding: EdgeInsets.only(top: 25),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            WetonomyIconButton(IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black54,
-              ),
-              onPressed: f,
-            )),
-            WetonomyIconButton(IconButton(
-              icon: Image.network(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOS7KNcMLI-A9ab3kc9r83EQSpMJWjjTeNkAf1h9ebXIXlwpc6&usqp=CAU',
-              ),
-              onPressed: () => {},
-            ))
-          ],
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
-    final accountsBlock = BlocProvider.of<AccountsBloc>(context);
+    super.snackBarColor = Theme.of(context).primaryColor;
 
+
+    final accountsBlock = BlocProvider.of<AccountsBloc>(context);
     final AccountsState state = accountsBlock.currentState;
     String currentUserAddress;
     if (state is LoggedInState) {
@@ -101,20 +78,17 @@ class _VotingTerminalState extends State<VotingTerminal> {
                   child: VoteBoxWrapper(decisions[index])),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return DetailScreen(index, decisions[index],
-                      currentUserAddress);
+                  return DetailScreen(
+                      index, decisions[index], currentUserAddress);
                 }));
               },
             ));
 
     return Scaffold(
-
       backgroundColor: Color.fromRGBO(236, 236, 236, 1),
-      key: scaffoldKey,
+      key: super.scaffoldKey,
       drawer: TerminalDrawerContainer(),
-      body: 
-      
-      NestedScrollView(
+      body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverPersistentHeader(
@@ -138,8 +112,8 @@ class _VotingTerminalState extends State<VotingTerminal> {
                                     begin: Alignment.centerLeft,
                                     end: Alignment(0.0, 3.0),
                                     colors: <Color>[
-                                      Color.fromRGBO(118, 56, 251, 1),
-                                      Color.fromRGBO(243, 144, 176, 1),
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).accentColor,
                                     ]),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -153,26 +127,40 @@ class _VotingTerminalState extends State<VotingTerminal> {
                                 ]),
                             child: Stack(
                               children: <Widget>[
-                                appBar(() => Scaffold.of(context).openDrawer()),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 25),
+                                  child: WetonomyAppBar(
+                                    "",
+                                    currentUser,
+                                    leading: WetonomyIconButton(IconButton(
+                                      icon: Icon(
+                                        Icons.menu,
+                                        color: Colors.black54,
+                                      ),
+                                      onPressed: () =>
+                                          Scaffold.of(context).openDrawer(),
+                                    )),
+                                  ),
+                                ),
                                 Positioned(
                                   right: width / 2 - 55 * persentage,
                                   top: 43,
                                   child: Container(
-                                    width: 110,
-                                    child:
-                                    Center( child: Text(
-                                      "Decisions",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600,
-                                          shadows: [
-                                            Shadow(
-                                                blurRadius: 3.5,
-                                                color: Colors.white)
-                                          ]),
-                                    ),)
-                                  ),
+                                      width: 110,
+                                      child: Center(
+                                        child: Text(
+                                          "Decisions",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w600,
+                                              shadows: [
+                                                Shadow(
+                                                    blurRadius: 3.5,
+                                                    color: Colors.white)
+                                              ]),
+                                        ),
+                                      )),
                                 ),
                                 Positioned(
                                     top: 25,
@@ -210,27 +198,30 @@ class _VotingTerminalState extends State<VotingTerminal> {
                                           ],
                                         ),
                                         child: IconButton(
-                                            icon:
-                                            Opacity(opacity: 0.55,child: Image.asset('assets/images/clipart1140799.png', width: 70,),),
+                                            icon: Opacity(
+                                              opacity: 0.55,
+                                              child: Image.asset(
+                                                'assets/images/clipart1140799.png',
+                                                width: 70,
+                                              ),
+                                            ),
                                             onPressed: () => {}))),
                               ],
                             ));
                       },
                     ))),
           ];
-        },body: ListView(
-        children: <Widget>[
-          ...decisionsList,
-        ],
+        },
+        body: ListView(
+          children: <Widget>[
+            ...decisionsList,
+          ],
+        ),
       ),
-      ),
-      
-      
-      
-      
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Add', // used by assistive technologies
-        child: Icon(Icons.add),
+        tooltip: 'Add', 
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Icon(Icons.add,color: Colors.white,),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
             return NewVote();
@@ -240,9 +231,5 @@ class _VotingTerminalState extends State<VotingTerminal> {
     );
   }
 
-  void _showSnackBar(String message) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(
-        backgroundColor: Color.fromARGB(255, 131, 111, 254),
-        content: new Text(message)));
-  }
+  
 }

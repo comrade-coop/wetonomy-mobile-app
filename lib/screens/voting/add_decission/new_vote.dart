@@ -39,7 +39,7 @@ class NewVote extends StatelessWidget {
             itemBuilder: (context, index) => ExpansionTile(
                 leading: Icon(
                   Icons.fiber_manual_record,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 title: Text(contractsTypes[index],
                     style: TextStyle(fontWeight: FontWeight.w400)),
@@ -61,7 +61,7 @@ class NewVote extends StatelessWidget {
             margin: const EdgeInsets.only(left: 20),
             child: Icon(
               Icons.hdr_strong,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
               size: 22,
             )),
         title: Text(contracts[index].name),

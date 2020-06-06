@@ -57,7 +57,7 @@ class DynamicActionForm extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 leading: Icon(
                   Icons.code,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   action.name,
@@ -75,7 +75,7 @@ class DynamicActionForm extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 30),
                   child: RaisedButton(
                     padding: const EdgeInsets.symmetric(vertical: 15),
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).primaryColor,
                     child: Text(
                       "Action Path",
                       style: TextStyle(color: Colors.white),

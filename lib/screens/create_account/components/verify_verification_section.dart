@@ -128,9 +128,9 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
   }
 
   Widget _buildDebugSkipBtn() {
-    if (!kDebugMode) {
-      return SizedBox.shrink();
-    }
+    // if (!kDebugMode) {
+    //   return SizedBox.shrink();
+    // }
 
     return FlatButton(
         child: Text(

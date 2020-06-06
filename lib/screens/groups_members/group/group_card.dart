@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/screens/groups_members/components/batch.dart';
 
-import '../batch.dart';
 import 'group_details.dart';
 import '../models/group.dart';
 
@@ -92,7 +92,7 @@ class GroupCard extends StatelessWidget {
                     ],
                   ),
                 )),
-            cardHeader(group.name, group.members.length.toString()),
+            cardHeader(context, group.name, group.members.length),
           ],
         ));
   }
@@ -111,7 +111,7 @@ class GroupCard extends StatelessWidget {
     );
   }
 
-  Widget cardHeader(groupName, memberCount) {
+  Widget cardHeader(BuildContext context,String groupName,int memberCount) {
     return Container(
         margin: EdgeInsets.fromLTRB(cardMargin.left, cardMargin.top - 15,
             cardMargin.right, cardMargin.bottom),
@@ -126,8 +126,8 @@ class GroupCard extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment(0.0, 6.0),
                         colors: <Color>[
-                          Color.fromRGBO(118, 56, 251, 1),
-                          Color.fromRGBO(243, 144, 176, 1),
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).accentColor,
                         ]),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
@@ -159,8 +159,8 @@ class GroupCard extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment(0.0, 2.0),
                       colors: <Color>[
-                        Color.fromRGBO(243, 144, 176, 1),
-                        Color.fromRGBO(118, 56, 251, 1),
+                          Theme.of(context).accentColor,
+                          Theme.of(context).primaryColor,
                       ]),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
@@ -179,7 +179,7 @@ class GroupCard extends StatelessWidget {
                         color: Colors.white,
                         size: 26,
                       )),
-                  Text(memberCount,
+                  Text(memberCount.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

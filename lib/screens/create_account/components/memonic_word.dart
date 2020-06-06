@@ -20,13 +20,13 @@ class MnemonicWord extends StatelessWidget {
       return OutlineButton(
         color: Colors.transparent,
         onPressed: null,
-        disabledBorderColor: Theme.of(context).accentColor.withAlpha(30),
-        child: Text(word, style: TextStyle(color: Colors.transparent)),
+        disabledBorderColor: Theme.of(context).primaryColor.withAlpha(30),
+        child: Text(word, style: TextStyle(color: Theme.of(context).primaryColorLight)),
       );
     }
 
     return FlatButton(
-      color: Theme.of(context).accentColor.withAlpha(30),
+      color: Theme.of(context).primaryColor.withAlpha(30),
       onPressed: onSelected,
       child: Text(
         word,

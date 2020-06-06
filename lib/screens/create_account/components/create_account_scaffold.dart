@@ -19,7 +19,6 @@ class CreateAccountScaffold extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: LogoWithTitleSmall(),
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
       body: _buildBody(context),
     );

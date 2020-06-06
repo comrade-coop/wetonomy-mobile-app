@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/screens/groups_members/components/batch.dart';
 
-import '../batch.dart';
 import '../models/member.dart';
 import 'members_detail.dart';
 
@@ -46,8 +46,8 @@ class MemberCard extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment(0.0, 3.0),
                         colors: <Color>[
-                          Color.fromRGBO(118, 56, 251, 1),
-                          Color.fromRGBO(243, 144, 176, 1),
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).accentColor,
                         ]),
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [

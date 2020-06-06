@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wetonomy/constants/strings.dart';
 
 class LogoWithTitle extends StatelessWidget {
-  static const Color _logoColor = Color.fromARGB(255, 131, 111, 254);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +12,8 @@ class LogoWithTitle extends StatelessWidget {
         SizedBox(height: 32),
         Text(
           Strings.appName.toUpperCase(),
-          style: Theme.of(context).textTheme.display1.apply(
-              color: _logoColor,
+          style: Theme.of(context).textTheme.headline4.apply(
+              color: Theme.of(context).primaryColor,
               fontFamily: 'Montserrat',
               fontWeightDelta: 700),
         )

@@ -137,7 +137,7 @@ class _ActionPath extends State<ActionPath> {
                     margin: const EdgeInsets.only(top: 30),
                     child: RaisedButton(
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).primaryColor,
                       child: Text(
                         "Send Action",
                         style: TextStyle(color: Colors.white),

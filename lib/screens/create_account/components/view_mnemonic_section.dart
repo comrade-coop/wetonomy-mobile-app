@@ -54,7 +54,7 @@ class ViewMnemonicSection extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Text(
             mnemonic,
-            style: Theme.of(context).textTheme.headline,
+            style: Theme.of(context).textTheme.headline5,
             textAlign: TextAlign.center,
           )),
     );

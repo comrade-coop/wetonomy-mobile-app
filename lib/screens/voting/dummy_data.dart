@@ -1,8 +1,17 @@
+import 'package:wetonomy/screens/groups_members/models/member.dart';
+
 import './models/contract.dart';
 import './models/contract_action.dart';
 import './models/vote.dart';
 
 import 'models/decision.dart';
+
+var currentUser = Member(
+    "Your Profile",
+    "0xASDASDLASDKL",
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOS7KNcMLI-A9ab3kc9r83EQSpMJWjjTeNkAf1h9ebXIXlwpc6&usqp=CAU',
+    [],
+    []);
 
 Map<String, List<Contract>> dummyContractsByTypes = {
   "TokenManager Contracts": [

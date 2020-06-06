@@ -30,7 +30,7 @@ class WelcomeSection extends StatelessWidget {
         Text(
           Strings.welcomeMsg,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline.apply(
+          style: Theme.of(context).textTheme.headline5.apply(
               fontFamily: 'Montserrat',
               fontWeightDelta: 1,
               color: Colors.white),

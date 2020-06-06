@@ -44,11 +44,11 @@ class ActionSelect extends StatelessWidget {
                     //       margin: const EdgeInsets.only(right: 12),
                     //       child: Icon(
                     //         Icons.hdr_strong,
-                    //         color: Theme.of(context).accentColor,
+                    //         color: Theme.of(context).primaryColor,
                     //       ),
                     //     ),
                     //     Text(contract.name,
-                    //         style: TextStyle(fontSize: 18, color: Theme.of(context).accentColor,)),
+                    //         style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor,)),
                     //   ],
                     // ),
                     // Container(
@@ -64,7 +64,7 @@ class ActionSelect extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(0),
                 leading: Icon(
                   Icons.hdr_strong,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   contract.name,
@@ -100,7 +100,7 @@ class ActionSelect extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         leading: Icon(
           Icons.code,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(contract.actions[index].name),
         onTap: () => {

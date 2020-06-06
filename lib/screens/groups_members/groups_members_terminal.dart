@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wetonomy/bloc/accounts/accounts_bloc.dart';
+import 'package:wetonomy/bloc/bloc.dart';
 
 import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
+import 'package:wetonomy/screens/shared/wetonomy_app_bar.dart';
 import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
 
 import '../terminal/components/terminal_drawer_container.dart';
 import 'dummy_data.dart';
 import './group/group_card.dart';
 import './members/member_card.dart';
-
 class GroupsMembersTerminal extends StatefulWidget {
   GroupsMembersTerminal({Key key, this.title}) : super(key: key);
 
@@ -31,31 +34,15 @@ class GroupsMembersTerminalState extends State<GroupsMembersTerminal> {
       });
   }
 
-  Widget appBar(Function f) {
-    return Padding(
-        padding: EdgeInsets.only(top: 25),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            WetonomyIconButton(IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black54,
-              ),
-              onPressed: f,
-            )),
-            WetonomyIconButton(IconButton(
-              icon: Image.network(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOS7KNcMLI-A9ab3kc9r83EQSpMJWjjTeNkAf1h9ebXIXlwpc6&usqp=CAU',
-              ),
-              onPressed: () => {},
-            ))
-          ],
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
+    // final accountsBlock = BlocProvider.of<AccountsBloc>(context);
+    // final AccountsState state = accountsBlock.currentState;
+    // String currentUserAddress;
+    // if (state is LoggedInState) {
+    //   currentUserAddress = state.wallet.address;
+    // }
+
     final groupCards =
         List<Widget>.generate(groups.length, (i) => GroupCard(groups[i]));
     final memberCards =
@@ -90,8 +77,8 @@ class GroupsMembersTerminalState extends State<GroupsMembersTerminal> {
                                     begin: Alignment.centerLeft,
                                     end: Alignment(0.0, 3.0),
                                     colors: <Color>[
-                                      Color.fromRGBO(118, 56, 251, 1),
-                                      Color.fromRGBO(243, 144, 176, 1),
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).accentColor,
                                     ]),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -106,7 +93,21 @@ class GroupsMembersTerminalState extends State<GroupsMembersTerminal> {
                             // color: Colors.lightBlue,
                             child: Stack(
                               children: <Widget>[
-                                appBar(() => Scaffold.of(context).openDrawer()),
+                                // AppBar(),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 25),
+                                  child: WetonomyAppBar(
+                                  "",
+                                  currentUserMetaData,
+                                  leading: WetonomyIconButton(IconButton(
+                                    icon: Icon(
+                                      Icons.menu,
+                                      color: Colors.black54,
+                                    ),
+                                    onPressed: () =>
+                                        Scaffold.of(context).openDrawer(),
+                                  )),
+                                )),
                                 Positioned(
                                   right: width / 2 - 52 * persentage,
                                   top: 43,
@@ -131,9 +132,8 @@ class GroupsMembersTerminalState extends State<GroupsMembersTerminal> {
                                     top: 22 + topMargin,
                                     right: 4,
                                     child: Opacity(
-                                      opacity: (constraints.maxHeight > 230
-                                          ? 1
-                                          : 0),
+                                      opacity:
+                                          (constraints.maxHeight > 230 ? 1 : 0),
                                       child: WetonomyIconButton(
                                         IconButton(
                                             icon: Icon(

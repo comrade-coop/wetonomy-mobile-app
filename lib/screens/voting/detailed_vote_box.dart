@@ -40,7 +40,7 @@ class DetailScreen extends StatelessWidget {
               child: Material(
                   child: Column(
                 children: <Widget>[
-                  VoteBox(decision),
+                  VoteBox(decision, inCard: false),
                   _extendedInfo(context),
                   _buttonBar(context),
                   

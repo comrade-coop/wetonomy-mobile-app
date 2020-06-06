@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wetonomy/screens/groups_members/components/batch.dart';
+import 'package:wetonomy/screens/groups_members/group/group_details.dart';
 
-import '../batch.dart';
 import '../models/group.dart';
 
 // main() => runApp(MaterialApp(home: MyHomePage()));
@@ -37,22 +38,27 @@ class _HorizontalGroupScrollState extends State<HorizontalGroupScroll> {
       height: 55,
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     List<List<Widget>> memberIcons = new List<List<Widget>>();
     List<List<Widget>> permissions = new List<List<Widget>>();
-    
+
     groups.forEach((group) {
       final icons = List<Widget>.generate(
-        (group.members.length < 3 ? group.members.length : 3),
-        (i) => memberIcon(group.members[i].iconAddress));
+          (group.members.length < 3 ? group.members.length : 3),
+          (i) => memberIcon(group.members[i].iconAddress));
       memberIcons.add(icons);
 
-      final perm = [Batch(group.permissions[0].contractName.substring(0, 3)), Batch(group.permissions[0].contractName[0], size: 1,)];
+      final perm = [
+        Batch(group.permissions[0].contractName.substring(0, 3)),
+        Batch(
+          group.permissions[0].contractName[0],
+          size: 1,
+        )
+      ];
       permissions.add(perm);
     });
-    
 
     return Center(
         child: SizedBox(
@@ -66,85 +72,95 @@ class _HorizontalGroupScrollState extends State<HorizontalGroupScroll> {
             return Transform.scale(
                 scale: i == _index ? 1 : 0.8,
                 child: Opacity(
-                  opacity: i == _index ? 1 : 0.8,
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1.0),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 5, color: Colors.white)
-                          ]),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              height: 55,
-                              width: 171,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment(0.0, 4.0),
-                                      colors: <Color>[
-                                        Color.fromRGBO(118, 56, 251, 1),
-                                        Color.fromRGBO(243, 144, 176, 1),
+                    opacity: i == _index ? 1 : 0.8,
+                    child: InkWell(
+                      onTap: () {
+                        if (i == _index)
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      GroupDetails(groups[i])));
+                      },
+                      child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 6),
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.white, width: 1.0),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: [
+                                BoxShadow(blurRadius: 5, color: Colors.white)
+                              ]),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  height: 55,
+                                  width: 171,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment(0.0, 4.0),
+                                          colors: <Color>[
+                                            Theme.of(context).primaryColor,
+                                            Theme.of(context).accentColor,
+                                          ]),
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25),
+                                        bottom: Radius.circular(15),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            blurRadius: 1,
+                                            offset: Offset(0, 1),
+                                            color: Colors.black54)
                                       ]),
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(25),
-                                    bottom: Radius.circular(15),
+                                  child: Center(
+                                    child: Text("${groups[i].name}",
+                                        overflow: TextOverflow.clip,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          shadows: [
+                                            Shadow(
+                                                blurRadius: 1.5,
+                                                color: Colors.white)
+                                          ],
+                                        )),
+                                  )),
+                              if (constraints.maxHeight > 120)
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 15),
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text("Members:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.0,
+                                          )),
+                                      ...memberIcons[i]
+                                    ],
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 1,
-                                        offset: Offset(0, 1),
-                                        color: Colors.black54)
-                                  ]),
-                              child: Center(
-                                child: Text("${groups[i].name}",
-                                    overflow: TextOverflow.clip,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      shadows: [
-                                        Shadow(
-                                            blurRadius: 1.5,
-                                            color: Colors.white)
-                                      ],
-                                    )),
-                              )),
-                          if (constraints.maxHeight > 120)
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 15),
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                children: <Widget>[
-                                  Text("Members:",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14.0,
-                                      )),
-                                  ...memberIcons[i]
-                                ],
-                              ),
-                            ),
-                          if (constraints.maxHeight > 145)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                              children: <Widget>[
-                                Text("Permissions:",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.0,
-                                    )),
-                                ...permissions[i]
-                              ],
-                            ),)
-                            
-                        ],
-                      )),
-                ));
+                                ),
+                              if (constraints.maxHeight > 145)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text("Permissions:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.0,
+                                          )),
+                                      ...permissions[i]
+                                    ],
+                                  ),
+                                )
+                            ],
+                          )),
+                    )));
           });
         },
       ),

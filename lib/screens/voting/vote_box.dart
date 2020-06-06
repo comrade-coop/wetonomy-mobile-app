@@ -5,7 +5,8 @@ import './models/decision.dart';
 
 class VoteBox extends StatelessWidget {
   final Decision decision;
-  VoteBox(this.decision);
+  final bool inCard;
+  VoteBox(this.decision,{this.inCard = true});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class VoteBox extends StatelessWidget {
             // padding: const EdgeInsets.only(bottom: 1),
             child: Column(
               children: <Widget>[
-                LinearPercentBar(percentage),
+                LinearPercentBar(percentage, inCard: inCard),
                 // LinearPercentBar(100 - percentage, Colors.red, 'No'),
               ],
             )),

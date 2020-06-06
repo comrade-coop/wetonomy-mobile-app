@@ -11,13 +11,13 @@ class WavesBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color primaryDark = Theme.of(context).primaryColorDark;
-    final Color primaryLight = Theme.of(context).primaryColorLight;
+    final Color accentColor = Theme.of(context).accentColor;
 
     return WaveWidget(
       config: CustomConfig(
           gradients: [
-            [primaryDark.withAlpha(180), primaryLight.withAlpha(110)],
-            [primaryDark.withAlpha(150), primaryLight.withAlpha(90)],
+            [primaryDark.withAlpha(180), accentColor.withAlpha(110)],
+            [primaryDark.withAlpha(150), accentColor.withAlpha(90)],
           ],
           durations: [
             40000,

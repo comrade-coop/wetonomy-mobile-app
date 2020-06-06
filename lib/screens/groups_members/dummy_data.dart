@@ -4,33 +4,26 @@ import './models/contract_permissions.dart';
 import './models/group.dart';
 import './models/member.dart';
 
-var mint = Permission("Mint", "0x71C7656EC7ab88b098defB75151", [
-  "Kevin Garsia",
-  "Loren Ipsum",
-  "Gloria Sanchez"
-]);
-var burn = Permission("Burn", "0x71C7656EC7ab88b098defB75151", [
-  "Kevin Garsia",
-  "Loren Ipsum",
-  "Gloria Sanchez"
-]);
-var transfer = Permission("Transfer", "0x71C7656EC7ab88b098defB75151", [
-  "Kevin Garsia",
-  "Loren Ipsum",
-  "Gloria Sanchez"
-]);
+var currentUserMetaData = Member(
+    "Your Profile",
+    "0xASDASDLASDKL",
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOS7KNcMLI-A9ab3kc9r83EQSpMJWjjTeNkAf1h9ebXIXlwpc6&usqp=CAU',
+    [],
+    []);
 
-var vote = Permission("Vote", "0x71C7656EC7ab88b098defB75151", [
-  "Kevin Garsia",
-  "Loren Ipsum",
-  "Gloria Sanchez"
-]);
-var initiateNewVote =
-    Permission("InitiateNewVote", "0x71C7656EC7ab88b098defB75151", [
-      "Kevin Garsia",
-      "Loren Ipsum",
-      "Gloria Sanchez"
-    ]);
+var mint = Permission("Mint", "0x71C7656EC7ab88b098defB75151",
+    ["Kevin Garsia", "Loren Ipsum", "Gloria Sanchez"]);
+var burn = Permission("Burn", "0x71C7656EC7ab88b098defB75152",
+    ["Kevin Garsia", "Loren Ipsum", "Gloria Sanchez"]);
+var transfer = Permission("Transfer", "0x71C7656EC7ab88b098defB75153",
+    ["Kevin Garsia", "Loren Ipsum", "Gloria Sanchez"]);
+
+var vote = Permission("Vote", "0x71C7656EC7ab88b098defB75154",
+    ["Kevin Garsia", "Loren Ipsum", "Gloria Sanchez"]);
+var initiateNewVote = Permission(
+    "InitiateNewVote",
+    "0x71C7656EC7ab88b098defB75151",
+    ["Kevin Garsia", "Loren Ipsum", "Gloria Sanchez"]);
 var changeState =
     Permission("InitiateNewVote", "0x71C7656EC7ab88b098defB75151", []);
 
@@ -55,7 +48,7 @@ List<Member> members = [
   Member(
       "Peter QuickQuick",
       "0x71C7656EC7ab88b098defB75151",
-      "https://thumbs.dreamstime.com/z/beautiful-woman-s-face-side-profile-sexy-109059081.jpg",
+      "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg",
       ["Dev", "Coop"],
       contractPermissions2),
   Member(
@@ -67,7 +60,7 @@ List<Member> members = [
   Member(
       "Leonardo Di Caprio",
       "0x71C7656EC7ab88b098defB75153",
-      "https://thumbs.dreamstime.com/z/beautiful-woman-s-face-side-profile-sexy-109059081.jpg",
+      "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg",
       ["Dev", "Coop"],
       contractPermissions2),
   Member(
