@@ -18,7 +18,9 @@ class ReceiveActionFromTerminalEvent extends TerminalInteractionEvent {
 class ReceiveQueryFromTerminalEvent extends TerminalInteractionEvent {
   final Query query;
 
-  ReceiveQueryFromTerminalEvent(String serialisedQuery)
+  ReceiveQueryFromTerminalEvent(this.query);
+
+  ReceiveQueryFromTerminalEvent.fromSerialisedQuery(String serialisedQuery)
       : query = Query.fromJsonString(serialisedQuery),
         super([serialisedQuery]);
 }

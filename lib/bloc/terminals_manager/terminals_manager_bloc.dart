@@ -47,12 +47,12 @@ class TerminalsManagerBloc
       return AddedTerminalsManagerState(terminals, terminal);
     }
 
-    return currentState;
+    return state;
   }
 
   Future<TerminalsManagerState> _handleRemoveTerminal(
       TerminalData terminal) async {
-    if (!(currentState is LoadedTerminalsManagerState)) {
+    if (!(state is LoadedTerminalsManagerState)) {
       throw Exception(
           'Can\'t remove a terminal if there are no loaded terminals.');
     }
@@ -70,12 +70,12 @@ class TerminalsManagerBloc
       return RemovedTerminalsManagerState(terminals, terminals[0]);
     }
 
-    return currentState;
+    return state;
   }
 
   Future<TerminalsManagerState> _handleSelectTerminal(
       TerminalData selected) async {
-    TerminalsManagerState previousState = currentState;
+    TerminalsManagerState previousState = state;
 
     if (previousState is LoadedTerminalsManagerState) {
       List<TerminalData> terminals = previousState.terminals;

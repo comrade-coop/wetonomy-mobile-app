@@ -8,10 +8,10 @@ part of 'query.dart';
 
 Query _$QueryFromJson(Map<String, dynamic> json) {
   return Query(
-    json['Url'] as String,
+    json['contractAddress'] as String,
   );
 }
 
 Map<String, dynamic> _$QueryToJson(Query instance) => <String, dynamic>{
-      'Url': instance.url,
+      'contractAddress': instance.contractAddress,
     };

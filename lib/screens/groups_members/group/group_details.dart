@@ -5,15 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/accounts/accounts_bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/screens/groups_members/components/add_member.dart';
-import 'package:wetonomy/screens/groups_members/components/permission_card.dart';
-import 'package:wetonomy/screens/groups_members/components/permissions_count.dart';
+import 'package:wetonomy/screens/groups_members/components/permissions/permission_card.dart';
+import 'package:wetonomy/screens/groups_members/components/permissions/permissions_count.dart';
 import 'package:wetonomy/screens/groups_members/models/member.dart';
 import 'package:wetonomy/screens/shared/sliver_appbar_delegate.dart';
 import 'package:wetonomy/screens/shared/terminal_interaction.dart';
 import 'package:wetonomy/screens/shared/wetonomy_app_bar.dart';
 import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
 
-import '../dummy_data.dart';
 import '../models/group.dart';
 import 'group_members.dart';
 import 'horizontal_member_scroll.dart';
@@ -30,128 +29,140 @@ class GroupDetails extends StatefulWidget {
 class _GroupDetailsState extends State<GroupDetails> with TerminalInteraction {
   String currentUserAddress;
 
-  TerminalInteractionBloc _terminalInteractionBloc;
-  StreamSubscription<TerminalInteractionState>
-      _terminalInteractionBlocSubscription;
+  //temporary
+  Member currentUserMetaData;
 
   @override
   void initState() {
     super.initState();
-    final accountsBlock = BlocProvider.of<AccountsBloc>(context);
-    final AccountsState state = accountsBlock.currentState;
+    final AccountsState state = BlocProvider.of<AccountsBloc>(context).state;
     if (state is LoggedInState) {
       this.currentUserAddress = state.wallet.address;
     }
 
-    _terminalInteractionBloc =
+    super.terminalInteractionBloc =
         BlocProvider.of<TerminalInteractionBloc>(context);
 
-    _terminalInteractionBlocSubscription =
-        _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
+    super.terminalInteractionBlocSubscription =
+        super.terminalInteractionBloc.listen(_handleTerminalStateChange);
   }
 
   void _handleTerminalStateChange(TerminalInteractionState state) {
     if (state is ReceiveActionFromTerminalState) {
       showSnackBar("Sending Action", snackBarColor);
     }
+    if(state is ReceivedQueryResultState && state.result.query.contractAddress == "GroupsAndMembersFactory"){
+      currentUserMetaData = state.result.data["currentUserMetaData"];
+    }
     // else if (state is ...) {}
   }
 
   @override
+  void dispose() {
+    super.terminalInteractionBlocSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(Object context) {
+    double minHeight = 160.0;
+    double maxHeight = 380.0;
+
     super.snackBarColor = Theme.of(context).primaryColor;
 
-    Member mockCurrentUser = Member(
-        currentUserMetaData.name,
-        currentUserAddress,
-        currentUserMetaData.iconAddress,
-        currentUserMetaData.groups,
-        currentUserMetaData.permissions);
+    Member mockCurrentUser = currentUserMetaData;
 
     var permissions = List<PermissionCard>.generate(
         this.widget.group.permissions.length,
-        (i) => PermissionCard(
-            this.widget.group.permissions[i], this.widget.group.address));
+        (i) => PermissionCard(this.widget.group.permissions[i],
+            this.widget.group.address, false));
 
     return Scaffold(
-      key: super.scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(236, 236, 236, 1),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverPersistentHeader(
-                pinned: true,
-                delegate: SliverAppBarDelegate(
-                    minHeight: 160.0,
-                    maxHeight: 380.0,
-                    child: LayoutBuilder(
-                      builder: (context, BoxConstraints constraints) {
-                        double persentage = constraints.maxHeight > 210
-                            ? (constraints.maxHeight - 210) / 170
-                            : 0;
+        key: super.scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color.fromRGBO(236, 236, 236, 1),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverPersistentHeader(
+                      pinned: true,
+                      delegate: SliverAppBarDelegate(
+                          minHeight: minHeight,
+                          maxHeight: maxHeight,
+                          child: LayoutBuilder(
+                            builder: (context, BoxConstraints constraints) {
+                              double persentage = constraints.maxHeight > 210
+                                  ? (constraints.maxHeight - 210) / 170
+                                  : 0;
 
-                        double width = MediaQuery.of(context).size.width;
+                              double width = MediaQuery.of(context).size.width;
 
-                        double secondStep = constraints.maxHeight < 220
-                            ? (constraints.maxHeight - 160) / 60
-                            : 1;
+                              double secondStep = constraints.maxHeight < 220
+                                  ? (constraints.maxHeight - 160) / 60
+                                  : 1;
 
-                        return Container(
-                            decoration: ShapeDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment(0.0, 3.0),
-                                    colors: <Color>[
-                                      Theme.of(context).primaryColor,
-                                      Theme.of(context).accentColor,
-                                    ]),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        bottom: Radius.elliptical(
-                                            200, 20 + 30 * persentage))),
-                                shadows: [
-                                  BoxShadow(
-                                      blurRadius: 5,
-                                      offset: Offset.fromDirection(2.0),
-                                      color: Colors.black54)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(top: 25),
-                                  child: WetonomyAppBar(
-                                      "${widget.group.name} Group",
-                                      mockCurrentUser),
-                                ),
-                                if (secondStep > 0.9)
-                                  Positioned(
-                                      top: 85, child: _description(width)),
-                                Positioned(
-                                    top: 80 + 65.0 * secondStep, //* persentage,
-                                    child: _memberTale(
-                                        secondStep, mockCurrentUser)),
-                                Opacity(
-                                    opacity: persentage,
-                                    child: Container(
-                                        padding: EdgeInsets.only(
-                                            top: 100 + 120 * persentage),
-                                        child: HorizontalMemberScroll(
-                                            widget.group.members)))
-                              ],
-                            ));
-                      },
-                    ))),
-          ];
-        },
-        body: ListView(
-          children: <Widget>[
-            PermissionsCount(widget.group.permissions.length),
-            ...permissions,
-          ],
-        ),
-      ),
-    );
+                              return Container(
+                                  decoration: ShapeDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment(0.0, 3.0),
+                                          colors: <Color>[
+                                            Theme.of(context).primaryColor,
+                                            Theme.of(context).accentColor,
+                                          ]),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                              bottom: Radius.elliptical(
+                                                  200, 20 + 30 * persentage))),
+                                      shadows: [
+                                        BoxShadow(
+                                            blurRadius: 5,
+                                            offset: Offset.fromDirection(2.0),
+                                            color: Colors.black54)
+                                      ]),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 25),
+                                        child: WetonomyAppBar(
+                                            "${widget.group.name} Group",
+                                            mockCurrentUser),
+                                      ),
+                                      if (secondStep > 0.9)
+                                        Positioned(
+                                            top: 85,
+                                            child: _description(width)),
+                                      Positioned(
+                                          top: 80 +
+                                              65.0 * secondStep, //* persentage,
+                                          child: _memberTale(
+                                              secondStep, mockCurrentUser)),
+                                      Opacity(
+                                          opacity: persentage,
+                                          child: Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 100 + 120 * persentage),
+                                              child: HorizontalMemberScroll(
+                                                  widget.group.members)))
+                                    ],
+                                  ));
+                            },
+                          )))),
+            ];
+          },
+          body: Container(
+            padding: EdgeInsets.only(top: minHeight),
+            child: ListView(
+              children: <Widget>[
+                PermissionsCount(widget.group.permissions.length),
+                ...permissions,
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _description(double width) {

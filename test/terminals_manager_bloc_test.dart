@@ -4,8 +4,8 @@ import 'package:mockito/mockito.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/models/models.dart';
 import 'package:wetonomy/repositories/repositories.dart';
+import 'package:wetonomy/services/clients/fake_contracts_api_client.dart';
 
-import '../lib/services/fake_contracts_api_client.dart';
 import 'fakes/fake_terminal_manager.dart';
 
 class MockFlutterWebviewPlugin extends Mock implements FlutterWebviewPlugin {}

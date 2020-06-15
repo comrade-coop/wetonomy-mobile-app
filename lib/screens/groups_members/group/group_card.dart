@@ -19,7 +19,7 @@ class GroupCard extends StatelessWidget {
 
     final permissions = List<Widget>.generate(
         (group.permissions.length < 2 ? group.permissions.length : 2),
-        (i) => Batch(group.permissions[i].contractName.substring(0, 5)));
+        (i) => Batch(group.permissions[i].contractName));
 
     return InkWell(
         onTap: () {

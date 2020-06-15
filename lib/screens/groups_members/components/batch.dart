@@ -8,6 +8,8 @@ class Batch extends StatelessWidget {
   const Batch(this.text, {this.size = 5,Key key}) : super(key: key);
   @override
   Widget build(Object context) {
+    String _text = text;
+    if(text.length>5) _text = text.substring(0, 5);
     return Container(
       margin: EdgeInsets.only(left: 5),
       padding: EdgeInsets.symmetric(horizontal: 3+size),
@@ -19,7 +21,7 @@ class Batch extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       child: Center(
-          child: Text(this.text,
+          child: Text(_text,
               style: TextStyle(
                 fontWeight: FontWeight.w800,
                 color: Colors.white,

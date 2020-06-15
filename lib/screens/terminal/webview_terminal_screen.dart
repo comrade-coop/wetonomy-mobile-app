@@ -41,13 +41,13 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
     _terminalManagerBloc = BlocProvider.of<TerminalsManagerBloc>(context);
 
     _terminalInteractionBlocSubscription =
-        _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
+        _terminalInteractionBloc.listen(_handleTerminalStateChange);
 
     _terminalsManagerBlocSubscription =
-        _terminalManagerBloc.state.listen(_handlleTerminalsManagerStateChange);
+        _terminalManagerBloc.listen(_handlleTerminalsManagerStateChange);
 
     final TerminalsManagerState currentState =
-        _terminalManagerBloc.currentState;
+        _terminalManagerBloc.state;
     if (currentState is SelectedTerminalsManagerState) {
       _currentTerminal = currentState.currentTerminal;
     }
@@ -101,11 +101,11 @@ class _WebViewTerminalScreenState extends State<WebViewTerminalScreen> {
 
   void _onActionReceivedFromWebView(JavascriptMessage message) {
     _terminalInteractionBloc
-        .dispatch(ReceiveActionFromTerminalEvent(message.message));
+        .add(ReceiveActionFromTerminalEvent(message.message));
   }
 
   void _onQueryReceivedFromWebView(JavascriptMessage message) {
     _terminalInteractionBloc
-        .dispatch(ReceiveQueryFromTerminalEvent(message.message));
+        .add(ReceiveQueryFromTerminalEvent.fromSerialisedQuery(message.message));
   }
 }

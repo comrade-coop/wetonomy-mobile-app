@@ -2,67 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 
-class SharedPermission extends StatelessWidget {
-  final String name;
-
-  final Function setActive;
-
-  final bool isActive;
-
-  final int index;
-
-  const SharedPermission(this.name, this.setActive, this.isActive, this.index,
-      {Key key})
-      : super(key: key);
-
-  @override
-  Widget build(Object context) {
-    Widget _trailing = Text("");
-    if (this.isActive)
-      _trailing = IconButton(
-          icon: Icon(
-            Icons.delete,
-            color: Theme.of(context).accentColor,
-          ),
-          onPressed: () => _showModalSheetAddMember(
-              context) // _sendActionAndNavigateBack(context),
-          );
-    return Material(
-        color: Colors.white,
-        child: ListTile(
-          leading: Container(
-              margin: const EdgeInsets.only(left: 20),
-              child: Icon(
-                Icons.person,
-                color: Theme.of(context).primaryColor,
-                size: 22,
-              )),
-          title: Text(
-            this.name,
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          trailing: _trailing,
-          onTap: () => setActive(index),
-        ));
-  }
-
+class ShowModal {
   final String json = '''{
         "Targets": ["0x00000000000000000000"],
         "Type": "CreateAchievement",
         "Payload": {"Title": "test", "Description": "x"}
       }''';
 
-  void _sendActionAndNavigateBack(BuildContext context) {
-    TerminalInteractionBloc terminalInteractionBloc =
-        BlocProvider.of<TerminalInteractionBloc>(context);
-    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
-  }
-
-  void _showModalSheetAddMember(BuildContext context) {
-    TerminalInteractionBloc terminalInteractionBloc =
-        BlocProvider.of<TerminalInteractionBloc>(context);
+  void showModalSheetConfirmation(BuildContext context) {
     showModalBottomSheet(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
@@ -92,8 +39,8 @@ class SharedPermission extends StatelessWidget {
                         child:
                             Text('Yes', style: TextStyle(color: Colors.white)),
                         onPressed: () {
-                          terminalInteractionBloc
-                              .dispatch(ReceiveActionFromTerminalEvent(json));
+                          BlocProvider.of<TerminalInteractionBloc>(context)
+                              .add(ReceiveActionFromTerminalEvent(json));
                           Navigator.pop(context);
                         },
                       ),
@@ -107,8 +54,8 @@ class SharedPermission extends StatelessWidget {
                         child:
                             Text('No', style: TextStyle(color: Colors.white)),
                         onPressed: () {
-                          terminalInteractionBloc
-                              .dispatch(ReceiveActionFromTerminalEvent(json));
+                          BlocProvider.of<TerminalInteractionBloc>(context)
+                              .add(ReceiveActionFromTerminalEvent(json));
                           Navigator.pop(context);
                         },
                       ),

@@ -6,7 +6,7 @@ import 'package:wetonomy/models/action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/query_result.dart';
 import 'package:wetonomy/models/terminal_data.dart';
-import 'package:wetonomy/services/contracts_api_client.dart';
+import 'package:wetonomy/services/clients/contracts_api_client.dart';
 import 'package:wetonomy/services/terminals_dao.dart';
 
 class TerminalsRepository {

@@ -1,7 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:wetonomy/bloc/bloc.dart';
 
 class TerminalInteraction {
   Color snackBarColor;
+  
+  TerminalInteractionBloc terminalInteractionBloc;
+  StreamSubscription<TerminalInteractionState>
+      terminalInteractionBlocSubscription;
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 

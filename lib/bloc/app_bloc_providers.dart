@@ -16,21 +16,20 @@ List<BlocProvider> createBlocProviders() {
 
   final terminalsRepo = locator.get<TerminalsRepository>();
   final accountRepository = locator.get<AccountRepository>();
-  final terminalsManagerBloc = TerminalsManagerBloc(terminalsRepo);
 
   return [
     BlocProvider<TerminalsManagerBloc>(
-      builder: (_) => terminalsManagerBloc,
+      create: (_) => TerminalsManagerBloc(terminalsRepo),
     ),
     BlocProvider<TerminalInteractionBloc>(
-      builder: (_) =>
+      create: (_) =>
           TerminalInteractionBloc(terminalsRepo),
     ),
     BlocProvider<AccountSetupBloc>(
-      builder: (_) => AccountSetupBloc(accountRepository),
+      create: (_) => AccountSetupBloc(accountRepository),
     ),
     BlocProvider<AccountsBloc>(
-      builder: (_) => AccountsBloc(accountRepository),
+      create: (_) => AccountsBloc(accountRepository),
     )
   ];
 }

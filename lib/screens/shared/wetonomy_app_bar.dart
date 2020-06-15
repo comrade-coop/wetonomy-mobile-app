@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wetonomy/screens/groups_members/members/members_detail.dart';
+import 'package:wetonomy/screens/groups_members/members/members_details.dart';
 import 'package:wetonomy/screens/groups_members/models/member.dart';
 import 'package:wetonomy/screens/shared/wetonomy_icon_button.dart';
 
@@ -54,7 +54,7 @@ class WetonomyAppBar extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MemberDetails(currentUser)))
+                          builder: (context) => MemberDetails(currentUser, isPersonalPage: true,)))
                 },
               ))
           ],

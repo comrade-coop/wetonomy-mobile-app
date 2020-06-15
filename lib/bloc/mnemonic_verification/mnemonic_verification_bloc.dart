@@ -24,15 +24,15 @@ class MnemonicVerificationBloc
     } else if (event is ResetEvent) {
       yield initialState;
     } else if (event is VerifyMnemonicEvent) {
-      yield currentState;
+      yield state;
     }
   }
 
   MnemonicVerificationState _handleSelectWordEvent(SelectWordEvent event) {
     final List<WordField> selectedWords = []
-      ..addAll(currentState.selectedWords);
+      ..addAll(state.selectedWords);
     final List<WordField> remainingWords = []
-      ..addAll(currentState.remainingWords);
+      ..addAll(state.remainingWords);
     final index = event.wordIndex;
 
     if (index < 0 || index >= remainingWords.length) {
@@ -53,9 +53,9 @@ class MnemonicVerificationBloc
 
   MnemonicVerificationState _handleUnSelectWordEvent(UnSelectWordEvent event) {
     final List<WordField> selectedWords = []
-      ..addAll(currentState.selectedWords);
+      ..addAll(state.selectedWords);
     final List<WordField> remainingWords = []
-      ..addAll(currentState.remainingWords);
+      ..addAll(state.remainingWords);
     final index = event.wordIndex;
 
     if (index < 0 || index >= selectedWords.length) {
@@ -63,7 +63,7 @@ class MnemonicVerificationBloc
     }
 
     if (selectedWords[index].selected) {
-      return currentState;
+      return state;
     }
 
     _unSelect(remainingWords, selectedWords[index].word);

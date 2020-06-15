@@ -8,13 +8,13 @@ part of 'query_result.dart';
 
 QueryResult _$QueryResultFromJson(Map<String, dynamic> json) {
   return QueryResult(
-    json['result'] as Map<String, dynamic>,
+    json['data'] as Map<String, dynamic>,
     Query.fromJson(json['query'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$QueryResultToJson(QueryResult instance) =>
     <String, dynamic>{
-      'result': instance.result,
+      'data': instance.data,
       'query': instance.query,
     };

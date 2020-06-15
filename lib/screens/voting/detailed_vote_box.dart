@@ -99,7 +99,7 @@ class DetailScreen extends StatelessWidget {
                   color: Colors.green,
                   child: Text('Yes', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
+                    terminalInteractionBloc.add(ReceiveActionFromTerminalEvent(json));
                     Navigator.pop(context);
                   },
                 ),
@@ -112,7 +112,7 @@ class DetailScreen extends StatelessWidget {
                   color: Colors.red,
                   child: Text('No', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
+                    terminalInteractionBloc.add(ReceiveActionFromTerminalEvent(json));
                     Navigator.pop(context);
                   },
                 ),

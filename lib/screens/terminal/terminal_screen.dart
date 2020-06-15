@@ -10,16 +10,14 @@ import 'package:wetonomy/screens/terminal/webview_terminal_screen.dart';
 import '../../routes.dart';
 
 class TerminalScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TerminalsManagerBloc>(context);
-
     return TransparentStatusBar(
-      child: BlocBuilder<TerminalsManagerEvent, TerminalsManagerState>(
+      child: BlocBuilder<TerminalsManagerBloc, TerminalsManagerState>(
         builder: (BuildContext context, TerminalsManagerState state) {
           if (state is InitialTerminalsManagerState) {
-            bloc.dispatch(LoadTerminalsManagerEvent());
+            BlocProvider.of<TerminalsManagerBloc>(context)
+                .add(LoadTerminalsManagerEvent());
             return LoadingTerminalsScreen();
           }
 
@@ -32,16 +30,15 @@ class TerminalScreen extends StatelessWidget {
           }
 
           if (state is LoadedTerminalsManagerState) {
-            if(state.currentTerminal.nativeTerminal){
-              if(nativeTerminals.containsKey(state.currentTerminal.url)) 
+            if (state.currentTerminal.nativeTerminal) {
+              if (nativeTerminals.containsKey(state.currentTerminal.url))
                 return nativeTerminals[state.currentTerminal.url];
-            }
-            else return WebViewTerminalScreen();
+            } else
+              return WebViewTerminalScreen();
           }
 
           return EmptyTerminalsScreen();
         },
-        bloc: bloc,
       ),
     );
   }

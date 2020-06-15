@@ -14,10 +14,9 @@ import 'verify_mnemonic_screen.dart';
 class ViewMnemonicScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<AccountSetupBloc>(context);
+    
 
-    return BlocBuilder<AccountSetupEvent, AccountSetupState>(
-      bloc: bloc,
+    return BlocBuilder<AccountSetupBloc, AccountSetupState>(
       builder: (BuildContext context, AccountSetupState state) {
         if (state is MnemonicCreatedState) {
           return CreateAccountScaffold(
@@ -34,7 +33,7 @@ class ViewMnemonicScreen extends StatelessWidget {
         }
 
         if (state is PasswordAddedState) {
-          bloc.dispatch(CreateMnemonicEvent());
+          BlocProvider.of<AccountSetupBloc>(context).add(CreateMnemonicEvent());
         }
 
         return LoadingScreen(title: Strings.creatingMnemonicLabel);

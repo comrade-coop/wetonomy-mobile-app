@@ -15,7 +15,7 @@ class CreatePasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountSetupBloc>(context);
 
-    return BlocListener<AccountSetupEvent, AccountSetupState>(
+    return BlocListener<AccountSetupBloc, AccountSetupState>(
         bloc: bloc,
         listener: (BuildContext context, AccountSetupState state) {
           if (state is PasswordAddedState) {
@@ -26,7 +26,7 @@ class CreatePasswordScreen extends StatelessWidget {
           title: Strings.createPasswordLabel,
           body: CreatePasswordForm(
             onSuccessfulValidation: (String password) {
-              bloc.dispatch(AddPasswordEvent(password));
+              bloc.add(AddPasswordEvent(password));
             },
           ),
         ));

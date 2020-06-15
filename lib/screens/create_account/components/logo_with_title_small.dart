@@ -20,7 +20,7 @@ class LogoWithTitleSmall extends StatelessWidget {
         Text(
           Strings.appName.toUpperCase(),
           style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).primaryColor,
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w600),
         ),

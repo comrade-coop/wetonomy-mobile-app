@@ -5,9 +5,11 @@ import 'package:wetonomy/models/contract.dart';
 import 'package:wetonomy/models/action.dart';
 import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/query_result.dart';
-import 'package:wetonomy/services/contracts_api_client.dart';
+import 'package:wetonomy/services/clients/contracts_api_client.dart';
 
-class FakeContractsApiClient implements ContractsApiClient {
+import 'dummy_data.dart';
+
+class ApocryphApiClient implements ContractsApiClient {
   static int count = 0;
 
   @override
@@ -18,8 +20,12 @@ class FakeContractsApiClient implements ContractsApiClient {
 
   @override
   Future<QueryResult> sendQuery(Query query) async {
-    await Future.delayed(Duration(milliseconds: 500));
-    return QueryResult({'count': count++}, query);
+    if (query.contractAddress == "GroupsAndMembersFactory")
+      return QueryResult({
+        'groups': groups,
+        'members': members,
+        'currentUserMetaData': currentUserMetaData
+      }, query);
   }
 
   @override

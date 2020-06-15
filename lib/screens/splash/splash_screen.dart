@@ -7,12 +7,14 @@ import 'package:wetonomy/bloc/accounts/accounts_state.dart';
 import 'package:wetonomy/screens/login/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountsBloc>(context);
-    bloc.dispatch(LoadAccountsEvent());
+    bloc.add(LoadAccountsEvent());
+    
 
-    return BlocListener<AccountsEvent, AccountsState>(
+    return BlocListener<AccountsBloc, AccountsState>(
       bloc: bloc,
       listener: (BuildContext context, AccountsState state) {
         if (state is AccountsLoadedState) {

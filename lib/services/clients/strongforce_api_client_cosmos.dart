@@ -6,7 +6,7 @@ import 'package:wetonomy/models/query.dart';
 import 'package:wetonomy/models/cosmos_integration/action_request.dart';
 import 'package:wetonomy/models/cosmos_integration/base_request.dart';
 import 'package:wetonomy/models/query_result.dart';
-import 'package:wetonomy/services/contracts_api_client.dart';
+import 'package:wetonomy/services/clients/contracts_api_client.dart';
 import 'package:wetonomy/services/mock_env.dart';
 import 'package:http/http.dart' as http;
 import 'package:wetonomy/models/contract.dart';
@@ -56,7 +56,7 @@ class StrongForceApiClientCosmos implements ContractsApiClient {
 
   @override
   Future<QueryResult> sendQuery(Query query) async {
-    final String url = _baseURL + query.url;
+    final String url = _baseURL + query.contractAddress;
     final http.Response response = await http.get(url);
     final dynamic body = jsonDecode(response.body);
     return QueryResult(body['result'], query);

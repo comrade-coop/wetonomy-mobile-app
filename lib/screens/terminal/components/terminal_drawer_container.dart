@@ -6,7 +6,7 @@ import 'package:wetonomy/screens/terminal/components/terminal_drawer.dart';
 class TerminalDrawerContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TerminalsManagerEvent, TerminalsManagerState>(
+    return BlocListener<TerminalsManagerBloc, TerminalsManagerState>(
       bloc: BlocProvider.of<TerminalsManagerBloc>(context),
       listener: (BuildContext context, TerminalsManagerState state) {
         if (state is SelectedTerminalsManagerState) {

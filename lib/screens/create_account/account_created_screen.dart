@@ -11,7 +11,7 @@ import 'package:wetonomy/screens/create_account/loading_screen.dart';
 class AccountCreatedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountSetupEvent, AccountSetupState>(
+    return BlocBuilder<AccountSetupBloc, AccountSetupState>(
       bloc: BlocProvider.of<AccountSetupBloc>(context),
       builder: (BuildContext context, AccountSetupState state) {
         if (state is AccountSavedState) {

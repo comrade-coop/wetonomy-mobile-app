@@ -7,10 +7,10 @@ part 'query.g.dart';
 @immutable
 @JsonSerializable(nullable: false)
 class Query {
-  @JsonKey(name: 'Url')
-  final String url;
+  @JsonKey(name: 'contractAddress')
+  final String contractAddress;
 
-  Query(this.url);
+  Query(this.contractAddress);
 
   factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
 

@@ -19,14 +19,14 @@ class LoginSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountsBloc>(context);
-    return BlocListener<AccountsEvent, AccountsState>(
+    return BlocListener<AccountsBloc, AccountsState>(
       bloc: bloc,
       listener: (BuildContext context, AccountsState state) {
         if (state is LoggedInState) {
           Navigator.of(context).pushReplacementNamed('/terminal');
         }
       },
-      child: BlocBuilder<AccountsEvent, AccountsState>(
+      child: BlocBuilder<AccountsBloc, AccountsState>(
         bloc: bloc,
         builder: (BuildContext context, AccountsState state) {
           return Column(
@@ -83,10 +83,10 @@ class LoginSection extends StatelessWidget {
   Widget _buildLoginForm(AccountsBloc bloc) {
     return LoginForm(
       onSuccessfulValidation: (EncryptedWallet wallet, String password) =>
-          bloc.dispatch(UnlockAccountEvent(wallet, password)),
+          bloc.add(UnlockAccountEvent(wallet, password)),
       accounts: accounts,
-      validatingPassword: (bloc.currentState is ValidatingPasswordState),
-      wrongPassword: (bloc.currentState is WrongPasswordState),
+      validatingPassword: (bloc.state is ValidatingPasswordState),
+      wrongPassword: (bloc.state is WrongPasswordState),
     );
   }
 }

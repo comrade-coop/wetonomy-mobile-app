@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/screens/groups_members/components/batch.dart';
+import 'package:wetonomy/screens/groups_members/members/members_details.dart';
 
 import '../models/member.dart';
-import 'members_detail.dart';
 
 class MemberCard extends StatelessWidget {
   final Member member;

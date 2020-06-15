@@ -19,11 +19,11 @@ class VerifyMnemonicScreen extends StatelessWidget {
         title: Strings.confirmMnemonic,
         body: VerifyMnemonicSection(
           onSuccessfulVerification: () {
-            final bloc = BlocProvider.of<AccountSetupBloc>(context);
+            
             // Push and Remove all bottom views, including WelcomeScreen
             Navigator.pushAndRemoveUntil(context,
                 slideRightTransition(AccountCreatedScreen()), (_) => false);
-            bloc.dispatch(SaveAccountEvent());
+            BlocProvider.of<AccountSetupBloc>(context).add(SaveAccountEvent());
           },
           mnemonic: mnemonic,
         ));

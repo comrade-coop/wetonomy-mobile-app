@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wetonomy/bloc/bloc.dart';
 import 'package:wetonomy/bloc/terminal_interaction/terminal_interaction_bloc.dart';
-import 'package:wetonomy/screens/groups_members/members/members_detail.dart';
+import 'package:wetonomy/screens/groups_members/members/members_details.dart';
 import 'package:wetonomy/screens/groups_members/models/member.dart';
 
 class MemberSelectCard extends StatelessWidget {
@@ -99,9 +99,7 @@ class MemberSelectCard extends StatelessWidget {
       }''';
 
   void _sendActionAndNavigateBack(BuildContext context) {
-    TerminalInteractionBloc terminalInteractionBloc =
-        BlocProvider.of<TerminalInteractionBloc>(context);
-    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
+    BlocProvider.of<TerminalInteractionBloc>(context).add(ReceiveActionFromTerminalEvent(json));
     Navigator.pop(context);
   }
 }

@@ -151,9 +151,7 @@ class _ActionPath extends State<ActionPath> {
   }
 
   void _sendActionAndNavigateBack(BuildContext context) {
-    TerminalInteractionBloc terminalInteractionBloc =
-        BlocProvider.of<TerminalInteractionBloc>(context);
-    terminalInteractionBloc.dispatch(ReceiveActionFromTerminalEvent(json));
+    BlocProvider.of<TerminalInteractionBloc>(context).add(ReceiveActionFromTerminalEvent(json));
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wetonomy/screens/groups_members/components/batch.dart';
-import 'package:wetonomy/screens/groups_members/members/members_detail.dart';
+import 'package:wetonomy/screens/groups_members/members/members_details.dart';
 
 import '../models/member.dart';
 

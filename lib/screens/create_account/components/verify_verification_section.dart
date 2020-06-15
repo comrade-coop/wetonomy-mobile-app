@@ -40,7 +40,7 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
     super.initState();
     _bloc = MnemonicVerificationBloc(widget.mnemonic.split(' '));
 
-    _subscription = _bloc.state.listen((MnemonicVerificationState state) {
+    _subscription = _bloc.listen((MnemonicVerificationState state) {
       setState(() {
         _selectedWords = state.selectedWords;
         _remainingWords = state.remainingWords;
@@ -94,7 +94,7 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
           child: MnemonicWord(
             word: field.word,
             onSelected: () {
-              _bloc.dispatch(UnSelectWordEvent(_selectedWords.indexOf(field)));
+              _bloc.add(UnSelectWordEvent(_selectedWords.indexOf(field)));
             },
             selected: field.selected,
           ),
@@ -119,7 +119,7 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
   }
 
   void _verifyMnemonic() {
-    if (_bloc.currentState.isValidSequence) {
+    if (_bloc.state.isValidSequence) {
       widget.onSuccessfulVerification();
     } else {
       final snackBar = SnackBar(content: Text(Strings.wrongMnemonicMsg));
@@ -145,7 +145,7 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
       child: MnemonicWord(
         word: field.word,
         onSelected: () {
-          _bloc.dispatch(SelectWordEvent(_remainingWords.indexOf(field)));
+          _bloc.add(SelectWordEvent(_remainingWords.indexOf(field)));
         },
         selected: field.selected,
       ),
@@ -156,6 +156,6 @@ class _VerifyMnemonicSectionState extends State<VerifyMnemonicSection> {
   void dispose() {
     super.dispose();
     _subscription.cancel();
-    _bloc.dispose();
+    _bloc.close();
   }
 }

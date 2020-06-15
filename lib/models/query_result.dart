@@ -9,13 +9,13 @@ part 'query_result.g.dart';
 
 @JsonSerializable(nullable: false)
 class QueryResult extends Equatable {
-  final Map<String, dynamic> result;
+  final Map<String, dynamic> data;
   final Query query;
 
-  QueryResult(this.result, this.query)
-      : assert(result != null),
+  QueryResult(this.data, this.query)
+      : assert(data != null),
         assert(query != null),
-        super([result, Query]);
+        super([data, Query]);
 
   factory QueryResult.fromJson(Map<String, dynamic> json) =>
       _$QueryResultFromJson(json);

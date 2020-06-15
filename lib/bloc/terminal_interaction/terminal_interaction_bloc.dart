@@ -25,7 +25,7 @@ class TerminalInteractionBloc
 
     _contractStateUpdateSubscription =
         repository.contractsEventsStream.listen((Contract contract) {
-      dispatch(ContractChangedEvent(contract));
+      add(ContractChangedEvent(contract));
     }, onDone: () {
       print('Task Done');
     }, onError: (error) {
@@ -51,9 +51,7 @@ class TerminalInteractionBloc
     }
   }
 
-  @override
   void dispose() {
-    super.dispose();
     _terminalsManagerSubscription.cancel();
     _contractStateUpdateSubscription.cancel();
   }
@@ -84,6 +82,6 @@ class TerminalInteractionBloc
       print('Terminal sent an invalid query:' + event.query.toString());
     }
 
-    return currentState;
+    return state;
   }
 }

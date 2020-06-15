@@ -27,24 +27,21 @@ class VotingTerminal extends StatefulWidget{
 
 class _VotingTerminalState extends State<VotingTerminal> with TerminalInteraction {
 
-  TerminalInteractionBloc _terminalInteractionBloc;
-  StreamSubscription<TerminalInteractionState>
-      _terminalInteractionBlocSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _terminalInteractionBloc =
+    super.terminalInteractionBloc =
         BlocProvider.of<TerminalInteractionBloc>(context);
 
-    _terminalInteractionBlocSubscription =
-        _terminalInteractionBloc.state.listen(_handleTerminalStateChange);
+    super.terminalInteractionBlocSubscription =
+        terminalInteractionBloc.listen(_handleTerminalStateChange);
   }
 
   @override
   void dispose() {
-    _terminalInteractionBlocSubscription?.cancel();
+    terminalInteractionBlocSubscription?.cancel();
     super.dispose();
   }
 
@@ -57,11 +54,12 @@ class _VotingTerminalState extends State<VotingTerminal> with TerminalInteractio
 
   @override
   Widget build(BuildContext context) {
+    double minHeight = 100.0;
+    double maxHeight = 250.0;
+
     super.snackBarColor = Theme.of(context).primaryColor;
 
-
-    final accountsBlock = BlocProvider.of<AccountsBloc>(context);
-    final AccountsState state = accountsBlock.currentState;
+    final AccountsState state = BlocProvider.of<AccountsBloc>(context).state;
     String currentUserAddress;
     if (state is LoggedInState) {
       currentUserAddress = state.wallet.address;
@@ -91,11 +89,16 @@ class _VotingTerminalState extends State<VotingTerminal> with TerminalInteractio
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
+
+              SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                      sliver:
             SliverPersistentHeader(
                 pinned: true,
                 delegate: SliverAppBarDelegate(
-                    minHeight: 100.0,
-                    maxHeight: 250.0,
+                    minHeight: minHeight,
+                    maxHeight: maxHeight,
                     child: LayoutBuilder(
                       builder: (context, BoxConstraints constraints) {
                         double persentage = (constraints.maxHeight - 100) / 150;
@@ -209,13 +212,16 @@ class _VotingTerminalState extends State<VotingTerminal> with TerminalInteractio
                               ],
                             ));
                       },
-                    ))),
+                    )))),
           ];
         },
-        body: ListView(
+        body:Container(
+            padding: EdgeInsets.only(top: minHeight),
+            child:  ListView(
           children: <Widget>[
             ...decisionsList,
           ],
+            )
         ),
       ),
       floatingActionButton: FloatingActionButton(
